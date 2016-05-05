@@ -1,0 +1,16 @@
+﻿@model List<Gite.WebSite.Models.Date>
+
+@foreach (var date in Model)
+{
+    <div class="week">
+        <span class="period">Du @date.BeginDate au @date.EndDate</span>
+        @if (date.Reserved)
+        {
+            <span class="status">Réservé</span>
+        }
+        else
+        {
+            <span class="status">@Html.ActionLink(date.Price + date.Currency, "CheckIn", "Reservation", new { date.Year, date.DayOfYear}, null)</span>
+        }
+    </div>
+}

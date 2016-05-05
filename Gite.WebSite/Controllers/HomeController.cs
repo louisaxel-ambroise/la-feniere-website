@@ -26,5 +26,15 @@ namespace Gite.WebSite.Controllers
 
             return View();
         }
+
+        public ActionResult Activites()
+        {
+            return View();
+        }
+
+        public ActionResult Description()
+        {
+            return View();
+        }
     }
 }

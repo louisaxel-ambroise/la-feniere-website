@@ -13,13 +13,20 @@
         map = new google.maps.Map(mapDiv, {
             center: gitePosition,
             mapTypeId: google.maps.MapTypeId.HYBRID,
-            zoom: 17
+            zoom: 16
+        });
+
+        var infowindow = new google.maps.InfoWindow({
+            content: "<h4>Gîte La Fenière</h4>Hameau de Veyrières<br />07380 Chirols<br />France"
         });
 
         var marker = new google.maps.Marker({
             position: gitePosition,
             map: map,
-            title: 'La Fenière'
+            title: 'Gîte La Fenière'
+        });
+        marker.addListener('click', function () {
+            infowindow.open(map, marker);
         });
 
         direction = new google.maps.DirectionsRenderer({
@@ -35,7 +42,8 @@
             var request = {
                 origin: destination,
                 destination: { lat: 44.690441, lng: 4.281118 },
-                travelMode: google.maps.DirectionsTravelMode.DRIVING
+                travelMode: google.maps.DirectionsTravelMode.DRIVING,
+                provideRouteAlternatives: true
             }
             var directionsService = new google.maps.DirectionsService(); 
             directionsService.route(request, function (response, status) {
@@ -61,7 +69,7 @@
     </div>
     <div class="col-md-4">
         <h3>Réservation</h3>
-        <p>Merci de privilégier les réservations par la @Html.ActionLink("page réservée", "reservation", "home")</p>
+        <p>Merci de privilégier les réservations par la @Html.ActionLink("page réservée", "index", "reservation") aux réservations</p>
     </div>    
     <div class="col-md-4">
         <h3>Plus de renseignements</h3>
