@@ -18,14 +18,14 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("La Fenière", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                <a href="/Home/Index" class="navbar-brand"><i class="fa fa-home"></i> La Fenière</a>
             </div>
             <div class="navbar-collapse collapse navbar-right">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Photos et description", "About", "Home")</li>
-                    <li>@Html.ActionLink("Activités aux alentours", "About", "Home")</li>
-                    <li>@Html.ActionLink("Tarifs et réservation", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact et accès", "Contact", "Home")</li>
+                    <li><a href="/Home/Description"><span class="fa fa-camera"></span> Photos et description</a></li>
+                    <li><a href="/Home/Activites"><span class="fa fa-child"></span> Activités aux alentours</a></li>
+                    <li><a href="/Home/Reservation"><span class="fa fa-calendar"></span> Tarifs et réservation</a></li>
+                    <li><a href="/Home/Contact"><span class="fa fa-map"></span> Contact et accès</a></li>
                 </ul>
             </div>
         </div>
