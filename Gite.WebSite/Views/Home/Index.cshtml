@@ -13,10 +13,17 @@
             zoom: 17
         });
 
+        var infowindow = new google.maps.InfoWindow({
+            content: "<h4>Gîte La Fenière</h4>Hameau de Veyrières<br />07380 Chirols<br />France"
+        });
+
         var marker = new google.maps.Marker({
             position: gitePosition,
             map: map,
-            title: 'La Fenière'
+            title: 'Gîte La Fenière'
+        });
+        marker.addListener('click', function () {
+            window.location = "/home/contact#plan";
         });
     }
 </script>
