@@ -18,8 +18,7 @@ namespace Gite.WebSite.Controllers
 
         public ActionResult ListWeekForMonth(int year, int month)
         {
-            var dates = new List<Date>{ };
-            Date currentDate;
+            var dates = new List<Date>();
 
             var beginDate = new DateTime(year, month, 1);
 
@@ -27,8 +26,8 @@ namespace Gite.WebSite.Controllers
             {
                 if(date.DayOfWeek == DayOfWeek.Saturday)
                 {
-                   currentDate = new Date(date);
-                   dates.Add(currentDate);
+                    var currentDate = new Date(date);
+                    dates.Add(currentDate);
                 }
             }
 

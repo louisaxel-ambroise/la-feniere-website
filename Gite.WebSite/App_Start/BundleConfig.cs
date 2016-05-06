@@ -25,6 +25,7 @@ namespace Gite.WebSite
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
+                      "~/Content/App/bootstrap.ext.css",
                       "~/Content/site.css",
                       "~/Content/font-awesome.css"));
 

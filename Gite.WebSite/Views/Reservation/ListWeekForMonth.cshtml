@@ -1,16 +1,31 @@
 ﻿@model List<Gite.WebSite.Models.Date>
 
+@{
+    string baseClass = "col-md-15";
+
+    if (Model.Count == 4)
+    {
+        baseClass = "col-md-3";
+    }
+    else if (Model.Count == 3)
+    {
+        baseClass = "col-md-4";
+    }
+}
+
 @foreach (var date in Model)
 {
-    <div class="week">
-        <span class="period">Du @date.BeginDate au @date.EndDate</span>
-        @if (date.Reserved)
-        {
-            <span class="status">Réservé</span>
-        }
-        else
-        {
-            <span class="status">@Html.ActionLink(date.Price + date.Currency, "CheckIn", "Reservation", new { date.Year, date.DayOfYear}, null)</span>
-        }
+    <div class="@baseClass">
+        <div class="well well-large">
+            <h5 class="period">Du @date.BeginDate<br/>Au @date.EndDate</h5>
+            @if (date.Reserved)
+            {
+                <span class="btn btn-default" disabled>Réservé</span>
+            }
+            else
+            {
+                <a href="/Reservation/CheckIn?year=@date.Year&dayOfYear=@date.DayOfYear" class="btn btn-success btn-right">Réserver (@(date.Price + date.Currency))</a>
+            }
+        </div>
     </div>
 }

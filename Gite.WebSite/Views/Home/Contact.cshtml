@@ -39,18 +39,24 @@
         destination = document.getElementById('destination').value;
 
         if (destination) {
+            $("#destinationGroup").removeClass("has-error");
+
             var request = {
                 origin: destination,
                 destination: { lat: 44.690441, lng: 4.281118 },
                 travelMode: google.maps.DirectionsTravelMode.DRIVING,
                 provideRouteAlternatives: true
             }
-            var directionsService = new google.maps.DirectionsService(); 
-            directionsService.route(request, function (response, status) {
+            var directionsService = new google.maps.DirectionsService();
+            directionsService.route(request, function(response, status) {
                 if (status == google.maps.DirectionsStatus.OK) {
                     direction.setDirections(response);
+                } else {
+                    $("#destinationGroup").addClass("has-error");
                 }
             });
+        } else {
+            $("#destinationGroup").addClass("has-error");
         }
     };
 </script>
@@ -86,5 +92,11 @@
 </div>
 <div class="row">
     <h3>Calculez votre itinéraire:</h3>
-    Votre adresse: <input type="text" name="destination" id="destination"> <input type="button" class="btn btn-default" value="Calculer l'itinéraire" onclick="javascript:calculate()">
+    <form role="form">
+        <div class="form-group" id="destinationGroup">
+            <label for="destination">Votre adresse:</label>
+            <input class="form-control" id="destination" type="text">
+        </div>
+<input type="button" class="btn btn-primary" value="Calculer l'itinéraire" onclick=" javascript:calculate() ">
+    </form>
 </div>

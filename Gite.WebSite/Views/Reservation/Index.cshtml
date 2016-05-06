@@ -6,24 +6,60 @@
 <h2>Tarifs et réservations</h2>
 
 <div class="calendar">
-    <div class="text-center" id="year">2016</div>
-    <div class="text-center" id="month">Mai</div>
-    <div class="row text-center" id="weeks">
-        <div class="week">
-            <span class="period">01/05/2016 -> 07/05/2016</span>
-            <span class="status">Réservé</span>
-        </div>
-        <div class="week">
-            <span class="period">08/05/2016 -> 14/05/2016</span>
-            <span class="status">Réservé</span>
-        </div>
-        <div class="week">
-            <span class="period">15/05/2016 -> 21/05/2016</span>
-            <span class="status">Réservé</span>
-        </div>
-        <div class="week">
-            <span class="period">22/05/2016 -> 28/05/2016</span>
-            <span class="status">@Html.ActionLink("400€", "checkin", "reservation", new { week = 28 }, null)</span>
+    <div class="row">
+        <div class="well">
+            <h3 class="text-center noselect"><span class="hand" id="year-prev">&lt;</span>&nbsp;&nbsp;<span class="fixedWidth" id="year"></span>&nbsp;&nbsp;<span class="hand" id="year-next">&gt;</span></h3>
+            <h4 class="text-center noselect"><span class="hand" id="month-prev">&lt;</span>&nbsp;&nbsp;<span class="fixedWidth" id="month">Mai</span>&nbsp;&nbsp;<span class="hand" id="month-next">&gt;</span></h4>
         </div>
     </div>
+    <div class="row text-center" id="weeksOfMonth">
+
+    </div>
 </div>
+
+<script type="text/javascript">
+    var months = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
+    var currentMonth = new Date().getMonth();
+    var currentYear = new Date().getFullYear();
+
+    function updateUi() {
+        $("#year").html(currentYear);
+        $("#month").html(months[currentMonth]);
+
+        refreshWeeks();
+    }
+
+    function refreshWeeks() {
+        $("#weeksOfMonth").html("Chargement...");
+        $("#weeksOfMonth").load('/Reservation/ListWeekForMonth?year=' + currentYear + '&month=' + (currentMonth + 1));
+    }
+
+    function updateYear(val) {
+        currentYear += val;
+        updateUi();
+    }
+
+    function updateMonth(val) {
+        currentMonth += val;
+        if (currentMonth === 12) {
+            currentMonth = 0;
+            currentYear += 1;
+        }
+        if (currentMonth < 0) {
+            currentMonth = 11;
+            currentYear -= 1;
+        }
+
+        updateUi();
+    }
+
+    $(document).ready(function () {
+        updateUi();
+
+        $("#month-prev").click(function (){ updateMonth(-1); });
+        $("#month-next").click(function () { updateMonth(1); });
+
+        $("#year-prev").click(function () { updateYear(-1); });
+        $("#year-next").click(function () { updateYear(1); });
+    });
+</script>
