@@ -1,8 +1,72 @@
-﻿@{
+﻿@model Gite.Model.Reservation
+
+@{
     ViewBag.Title = "Réserver le gîte";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var montantTotal = Model.Price*2;
 }
 
-<h2>Réserver le gîte</h2>
+<h2>Réserver du @Model.StartingOn.ToString("dd/MM/yyyy") au @Model.EndingOn.ToString("dd/MM/yyyy")</h2>
 
-<p>Blablabla.</p>
+<div class="well row">
+    <h4>Le montant à payer sera de <strong>@montantTotal€</strong>.</h4>
+    <div class="col-md-6">
+        <p>
+            Détails:
+            <ul>
+                <li>Caution: @Model.Price€</li>
+                <li>Prix du gîte: @Model.Price€</li>
+            </ul>
+        </p>
+    </div>
+    <div class="col-md-6">
+        <p>Vous serez prévenus par e-mail lorsque votre virement aura été accepté.</p>
+        <p><strong>Les chèques ne sont pas acceptés.<br/>Les paiements se font uniquement par virement bancaire.</strong></p>
+    </div>
+</div>
+<form>
+    <div class="row">
+        <div class="col-md-6">
+            <h4>Vos coordonnées:</h4>
+            <div class="form-group">
+                <label for="name">Votre nom:</label>
+                <input class="form-control" id="name" type="text" placeholder="Nom">
+            </div>
+            <div class="form-group">
+                <label for="email">Votre adresse e-mail:</label>
+                <input class="form-control" id="email" type="text" placeholder="E-mail">
+            </div>
+            <div class="form-group">
+                <label for="phone">Votre numéro de téléphone:</label>
+                <input class="form-control" id="phone" type="text" placeholder="Téléphone">
+            </div>
+        </div>
+        <div class="col-md-6">
+            <h4>Votre adresse:</h4>
+            <div class="form-group">
+                <label for="address">Rue:</label>
+                <input class="form-control" id="address" type="text" placeholder="Rue">
+            </div>
+            <div class="form-group">
+                <label for="city">Ville:</label>
+                <input class="form-control" id="city" type="text" placeholder="Ville">
+            </div>
+            <div class="form-group">
+                <label for="zipcode">Code postal:</label>
+                <input class="form-control" id="zipcode" type="text" placeholder="Code postal">
+            </div>
+        </div>
+    </div>
+    <div class="row well">
+        <p>Une fois votre réservation validée, vous aurez 15 jours pour effectuer votre virement. Au delà de ce délai, la semaine sera à nouveau disponible à la réservation.</p>
+    </div>
+    <div class="row">
+        <div class="col-sm-11">
+            <div class="pull-right">
+                <input type="submit" class="btn btn-primary" value="Valider ma réservation" />
+                <input type="reset" class="btn btn-danger" value="Annuler" />
+            </div>
+        </div>
+    </div>
+</form>

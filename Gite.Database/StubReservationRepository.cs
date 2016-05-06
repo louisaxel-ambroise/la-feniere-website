@@ -1,35 +1,26 @@
-﻿using Gite.Model;
-using System.Linq;
 using System;
-using NHibernate;
-using NHibernate.Linq;
+using System.Linq;
+using Gite.Model;
 
 namespace Gite.Database
 {
-    public class ReservationRepository : IReservationRepository
+    public class StubReservationRepository : IReservationRepository
     {
-        private readonly ISession _session;
-
-        public ReservationRepository(ISession session)
-        {
-            _session = session;
-        }
-
         public Reservation Load(string id)
         {
-            return _session.Load<Reservation>(id);
+            return new Reservation();
         }
 
         public IQueryable<Reservation> Query()
         {
-            return _session.Query<Reservation>();
+            return new EnumerableQuery<Reservation>(new []{ new Reservation() });
         }
 
         public Reservation CreateReservation(int year, int dayOfYear, int price)
         {
             var startingOn = new DateTime(year, 1, 1).AddDays(dayOfYear - 1);
 
-            var reservation = new Reservation
+            return new Reservation
             {
                 Id = string.Format("{0}{1:D3}", year, dayOfYear),
                 CreatedOn = DateTime.Now,
@@ -39,15 +30,6 @@ namespace Gite.Database
                 Validated = false,
                 Price = price
             };
-
-            using (var transaction = _session.BeginTransaction())
-            {
-                _session.Save(reservation);
-
-                transaction.Commit();
-            }
-
-            return reservation;
         }
     }
 }

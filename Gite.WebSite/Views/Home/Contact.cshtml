@@ -51,6 +51,7 @@
             directionsService.route(request, function(response, status) {
                 if (status == google.maps.DirectionsStatus.OK) {
                     direction.setDirections(response);
+                    scrollToAnchor('plan');
                 } else {
                     $("#destinationGroup").addClass("has-error");
                 }
@@ -59,6 +60,12 @@
             $("#destinationGroup").addClass("has-error");
         }
     };
+
+    function scrollToAnchor(aid) {
+        var aTag = $("#" + aid);
+        $('html,body').animate({ scrollTop: aTag.offset().top }, 'slow');
+    }
+
 </script>
 
 <div class="row">

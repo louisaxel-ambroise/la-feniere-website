@@ -7,5 +7,6 @@ namespace Gite.Database
     {
         Reservation Load(string id);
         IQueryable<Reservation> Query();
+        Reservation CreateReservation(int year, int dayOfYear, int price);
     }
 }

@@ -34,6 +34,15 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Business\Strategies\DiscountStrategy.cs" />
+    <Compile Include="Business\Strategies\SummerPriceStrategy.cs" />
+    <Compile Include="Business\IPriceCalculator.cs" />
+    <Compile Include="Business\Strategies\IPriceStrategy.cs" />
+    <Compile Include="Business\Strategies\NormalPriceStrategy.cs" />
+    <Compile Include="Business\PriceCalculator.cs" />
+    <Compile Include="Business\Strategies\PriceResponse.cs" />
+    <Compile Include="Business\Strategies\WinterPriceStrategy.cs" />
+    <Compile Include="Contact.cs" />
     <Compile Include="Reservation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

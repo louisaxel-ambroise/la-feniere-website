@@ -15,6 +15,7 @@
 
 @foreach (var date in Model)
 {
+    var text = date.Price.HasDiscount ? "Dernière minute !" : "Réserver";
     <div class="@baseClass">
         <div class="well well-large">
             <h5 class="period">Du @date.BeginDate<br/>Au @date.EndDate</h5>
@@ -24,7 +25,7 @@
             }
             else
             {
-                <a href="/Reservation/CheckIn?year=@date.Year&dayOfYear=@date.DayOfYear" class="btn btn-success btn-right">Réserver (@(date.Price + date.Currency))</a>
+                <a href="/Reservation/CheckIn?year=@date.Year&dayOfYear=@date.DayOfYear" class="btn btn-success btn-right">@text (@date.Price.Amount €)</a>
             }
         </div>
     </div>

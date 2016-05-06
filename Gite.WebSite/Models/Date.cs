@@ -1,4 +1,5 @@
 ﻿using System;
+using Gite.Model.Business;
 
 namespace Gite.WebSite.Models
 {
@@ -9,7 +10,7 @@ namespace Gite.WebSite.Models
         public int Year { get; set; }
         public int DayOfYear { get; set; }
         public bool Reserved { get; set; }
-        public double Price { get; set; }
+        public PriceResponse Price { get; set; }
         public string Currency { get; set; }
 
         public Date()
@@ -23,8 +24,6 @@ namespace Gite.WebSite.Models
             Year = beginDate.Year;
             DayOfYear = beginDate.DayOfYear;
             Reserved = beginDate < DateTime.Now.Date;
-            Price = 400;
-            Currency = "€";
         }
     }
 }
