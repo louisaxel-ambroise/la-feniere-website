@@ -2,6 +2,7 @@
 
 namespace Gite.Database.Migrations
 {
+    [Migration(1)]
     public class M001_Create_Reservation_Table : AutoReversingMigration
     {
         public override void Up()

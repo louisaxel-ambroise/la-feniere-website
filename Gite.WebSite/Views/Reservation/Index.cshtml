@@ -27,10 +27,10 @@
         $("#month").html(months[currentMonth]);
 
         refreshWeeks();
+        return false;
     }
 
     function refreshWeeks() {
-        $("#weeksOfMonth").html("Chargement...");
         $("#weeksOfMonth").load('/Reservation/ListWeekForMonth?year=' + currentYear + '&month=' + (currentMonth + 1));
     }
 

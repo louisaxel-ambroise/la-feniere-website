@@ -5,8 +5,8 @@ namespace Gite.Database
 {
     public interface IReservationRepository
     {
-        Reservation Load(string id);
+        void Insert(Reservation reservation);
         IQueryable<Reservation> Query();
-        Reservation CreateReservation(int year, int dayOfYear, int price);
+        bool IsWeekReserved(int year, int dayOfYear);
     }
 }

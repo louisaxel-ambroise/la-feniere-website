@@ -1,0 +1,2 @@
+..\packages\FluentMigrator.1.6.1\tools\migrate --conn "server=.\SQLEXPRESS;database=lafeniere;Integrated Security=true;" --provider sqlserver2008 --assembly "bin\Debug\Gite.Database.Migrations.dll" --task migrate
+pause;

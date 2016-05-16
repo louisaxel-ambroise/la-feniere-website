@@ -18,14 +18,14 @@
     var text = date.Price.HasDiscount ? "Dernière minute !" : "Réserver";
     <div class="@baseClass">
         <div class="well well-large">
-            <h5 class="period">Du @date.BeginDate<br/>Au @date.EndDate</h5>
+            <h5 class="period">Du @date.BeginDate.ToString("dd/MM/yyyy")<br/>Au @date.EndDate.ToString("dd/MM/yyyy")</h5>
             @if (date.Reserved)
             {
-                <span class="btn btn-default" disabled>Réservé</span>
+                <span class="btn btn-default" disabled>Indisponible</span>
             }
             else
             {
-                <a href="/Reservation/CheckIn?year=@date.Year&dayOfYear=@date.DayOfYear" class="btn btn-success btn-right">@text (@date.Price.Amount €)</a>
+                <a href="/Reservation/CheckIn/@date.Year@date.DayOfYear" class="btn btn-success btn-right">@text (@date.Price.Amount €)</a>
             }
         </div>
     </div>

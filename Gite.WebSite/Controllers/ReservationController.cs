@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
 using Gite.Model.Business;
+using Gite.Model;
 
 namespace Gite.WebSite.Controllers
 {
@@ -12,11 +13,10 @@ namespace Gite.WebSite.Controllers
         private readonly IReservationRepository _reservationRepository;
         private readonly IPriceCalculator _priceCalculator;
         
-        // TODO: inject properties
-        public ReservationController()
+        public ReservationController(IReservationRepository reservationRepository, IPriceCalculator priceCalculator)
         {
-            _reservationRepository = new StubReservationRepository(); 
-            _priceCalculator = new PriceCalculator();
+            _reservationRepository = reservationRepository; 
+            _priceCalculator = priceCalculator;
         }
 
         // GET: Reservation
@@ -36,7 +36,11 @@ namespace Gite.WebSite.Controllers
                 if(date.DayOfWeek == DayOfWeek.Saturday)
                 {
                     var currentDate = new Date(date);
+                    var isReserved = _reservationRepository.IsWeekReserved(year, currentDate.DayOfYear);
+
+                    currentDate.Reserved = currentDate.Reserved || isReserved;
                     currentDate.Price = _priceCalculator.CalculatePrice(year, currentDate.DayOfYear);
+
                     dates.Add(currentDate);
                 }
             }
@@ -44,15 +48,67 @@ namespace Gite.WebSite.Controllers
             return PartialView(dates);
         }
 
-        public ActionResult CheckIn(int year, int dayOfYear)
+        public ActionResult CheckIn(string id)
         {
-            var date = new DateTime(year, 1, 1).AddDays(dayOfYear - 1);
-            if(date.DayOfWeek != DayOfWeek.Saturday) return Redirect("/reservation");
-            
-            var price = _priceCalculator.CalculatePrice(year, dayOfYear);
-            var reservation = _reservationRepository.CreateReservation(year, dayOfYear, price.Amount);
+            try {
+                var date = Date.Parse(id);
+                var calculatedPrice = _priceCalculator.CalculatePrice(date.BeginDate);
 
-            return View(reservation);
+                ViewBag.ReservationId = id;
+                ViewBag.StartingOn = date.BeginDate.ToString("dd/MM/yyyy");
+                ViewBag.EndingOn = date.BeginDate.ToString("dd/MM/yyyy");
+                ViewBag.Price = calculatedPrice;
+
+                return View(new ReservationModel { Price = calculatedPrice.Amount });
+            }
+            catch (InvalidOperationException)
+            {
+                return RedirectToAction("/");
+            }
+        }
+
+        [HttpPost]
+        public ActionResult ValidateBooking(string id, ReservationModel model)
+        {
+            // TODO: validate the model.
+            //ValidateModel(model);
+
+            try
+            {
+                var date = Date.Parse(id);
+                var calculatedPrice = _priceCalculator.CalculatePrice(date.BeginDate).Amount;
+
+                if (model.Price != calculatedPrice)
+                {
+                    return RedirectToAction("/");
+                }
+
+                var reservation = new Reservation
+                {
+                    Id = id,
+                    StartingOn = date.BeginDate,
+                    EndingOn = date.EndDate,
+                    Price = calculatedPrice,
+                    Confirmed = true,
+                    Validated = true,
+                    CreatedOn = DateTime.Now,
+                    Contact = new Contact
+                    {
+                        Mail = model.Email,
+                        Address = model.FormatAddress(),
+                        Name = model.Name,
+                        Phone = model.Phone
+                    }
+                };
+
+                _reservationRepository.Insert(reservation);
+
+                return View(model);
+            }
+            catch (InvalidOperationException)
+            {
+                return RedirectToAction("/");
+            }
         }
     }
 }

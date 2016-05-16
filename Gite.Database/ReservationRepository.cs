@@ -25,29 +25,25 @@ namespace Gite.Database
             return _session.Query<Reservation>();
         }
 
-        public Reservation CreateReservation(int year, int dayOfYear, int price)
+        public bool IsWeekReserved(int year, int dayOfYear)
         {
-            var startingOn = new DateTime(year, 1, 1).AddDays(dayOfYear - 1);
+            var resa = _session.Query<Reservation>()
+                .SingleOrDefault(x => 
+                    x.Id == string.Format("{0}{1:D3}", year, dayOfYear) 
+                    && (x.Validated || x.CreatedOn >= DateTime.Now.AddMinutes(-30))
+                );
 
-            var reservation = new Reservation
-            {
-                Id = string.Format("{0}{1:D3}", year, dayOfYear),
-                CreatedOn = DateTime.Now,
-                StartingOn = startingOn,
-                EndingOn = startingOn.AddDays(6),
-                Confirmed = false,
-                Validated = false,
-                Price = price
-            };
+            return resa != null;
+        }
 
+        public void Insert(Reservation reservation)
+        {
             using (var transaction = _session.BeginTransaction())
             {
                 _session.Save(reservation);
 
                 transaction.Commit();
             }
-
-            return reservation;
         }
     }
 }

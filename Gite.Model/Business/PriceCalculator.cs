@@ -18,9 +18,15 @@ namespace Gite.Model.Business
         public PriceResponse CalculatePrice(int year, int dayOfYear)
         {
             var date = new DateTime(year, 1, 1).AddDays(dayOfYear -1);
+
+            return CalculatePrice(date);
+        }
+
+        public PriceResponse CalculatePrice(DateTime beginDate)
+        {
             var response = new PriceResponse();
 
-            response = _strategies.Aggregate(response, (current, strategy) => strategy.Calculate(current, date));
+            response = _strategies.Aggregate(response, (current, strategy) => strategy.Calculate(current, beginDate));
 
             return response;
         }
