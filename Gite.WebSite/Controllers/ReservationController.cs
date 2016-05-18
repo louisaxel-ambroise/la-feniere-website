@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Web.Mvc;
 using Gite.Model.Business;
+using Gite.Model.Business.Strategies;
 using Gite.Model.Model;
 using Gite.Model.Repositories;
 using Gite.Model.Services;
@@ -55,14 +56,12 @@ namespace Gite.WebSite.Controllers
 
         public ActionResult CheckIn(string id)
         {
-            try {
+            try
+            {
                 var date = Date.Parse(id);
                 var calculatedPrice = _priceCalculator.CalculatePrice(date.BeginDate);
-
-                ViewBag.ReservationId = id;
-                ViewBag.StartingOn = date.BeginDate.ToString("dd/MM/yyyy");
-                ViewBag.EndingOn = date.BeginDate.ToString("dd/MM/yyyy");
-                ViewBag.Price = calculatedPrice;
+                
+                PrepareViewbag(id, date, calculatedPrice);
 
                 return View(new ReservationModel { Price = calculatedPrice.Amount });
             }
@@ -72,25 +71,36 @@ namespace Gite.WebSite.Controllers
             }
         }
 
-        [HttpPost]
-        public ActionResult ValidateBooking(string id, ReservationModel model) // TODO: validate model.
+        private void PrepareViewbag(string id, Date date, PriceResponse price)
         {
-            try
-            {
-                var date = Date.Parse(id);
-                var calculatedPrice = _priceCalculator.CalculatePrice(date.BeginDate).Amount;
+            ViewBag.ReservationId = id;
+            ViewBag.StartingOn = date.BeginDate.ToString("dd/MM/yyyy");
+            ViewBag.EndingOn = date.BeginDate.ToString("dd/MM/yyyy");
+            ViewBag.Price = price;
+        }
 
-                if (model.Price != calculatedPrice)
+        [HttpPost]
+        public ActionResult CheckIn(string id, ReservationModel model) // TODO: validate model.
+        {
+             try
+            {
+                var  date = Date.Parse(id);
+                var calculatedPrice = _priceCalculator.CalculatePrice(date.BeginDate);
+
+                if (!ModelState.IsValid)
                 {
-                    return RedirectToAction("/");
+                    PrepareViewbag(id, date, calculatedPrice);
+                    return View(model);
                 }
+
+                if (model.Price != calculatedPrice.Amount) return RedirectToAction("/"); // TODO: redirect to error
 
                 _reservationPersister.Persist(new Reservation
                 {
                     Id = id,
                     StartingOn = date.BeginDate,
                     EndingOn = date.EndDate,
-                    Price = calculatedPrice,
+                    Price = calculatedPrice.Amount,
                     Confirmed = true,
                     Validated = true,
                     CreatedOn = DateTime.Now,
@@ -102,13 +112,12 @@ namespace Gite.WebSite.Controllers
                         Phone = model.Phone
                     }
                 });
-
-                return View(model);
             }
             catch (InvalidOperationException)
             {
                 return RedirectToAction("/");
             }
+            return View("ValidateBooking");
         }
     }
 }

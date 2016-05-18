@@ -29,8 +29,9 @@
         <p><strong>Les chèques ne sont pas acceptés.<br/>Les paiements se font uniquement par virement bancaire.</strong></p>
     </div>
 </div>
-@using (Html.BeginForm("ValidateBooking", "Reservation", new { Id = ViewBag.ReservationId }, FormMethod.Post, null))
+@using (Html.BeginForm("CheckIn", "Reservation", new { Id = ViewBag.ReservationId }, FormMethod.Post, null))
 {
+    @Html.ValidationSummary(true)
     @Html.HiddenFor(x => x.Price, new { id = ViewBag.Price })
     <div class="row">
         <div class="col-md-6">
