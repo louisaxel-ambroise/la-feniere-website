@@ -1,7 +1,30 @@
-﻿@{
+﻿@model Gite.WebSite.Models.ReservationModel
+@{
     ViewBag.Title = "ValidateBooking";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>OK</h2>
+<div class="row">
+    <h2>Réservation effectuée.</h2>
 
+    <p class="well">Votre réservation a été validée avec succès. Nous pouvons être amenés à vous contacter pour plus de détails ou pour vous prévenir d'éventuels détails.</p>
+</div>
+<div class="row">
+    <h2>Prochaines étapes</h2>
+    <div class="col-md-4 col-sm-6">
+        <h3>Effectuer le virement</h3>
+        <p>
+            Plus vite la location est payée, mieux c'est !
+        </p>
+    </div>
+    <div class="col-md-4 col-sm-6">
+        <h3>Rappel de réservation</h3>
+        <p>Vous recevrez un mail 2 semaines avant votre séjour pour vous rappeler de vos dates ainsi que des modalités d'arrivée.</p>
+        <p><a class="btn btn-default" href="#">Voir les modalités &raquo;</a></p>
+    </div>
+    <div class="col-md-4 col-sm-6">
+        <h3>Profiter !</h3>
+        <p>Découvrez notre page récapitulant les principales activités près du gîte</p>
+        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301867">Voir &raquo;</a></p>
+    </div>
+</div>

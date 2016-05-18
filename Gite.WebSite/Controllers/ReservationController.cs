@@ -75,12 +75,12 @@ namespace Gite.WebSite.Controllers
         {
             ViewBag.ReservationId = id;
             ViewBag.StartingOn = date.BeginDate.ToString("dd/MM/yyyy");
-            ViewBag.EndingOn = date.BeginDate.ToString("dd/MM/yyyy");
+            ViewBag.EndingOn = date.EndDate.ToString("dd/MM/yyyy");
             ViewBag.Price = price;
         }
 
         [HttpPost]
-        public ActionResult CheckIn(string id, ReservationModel model) // TODO: validate model.
+        public ActionResult CheckIn(string id, ReservationModel model)
         {
              try
             {
@@ -117,7 +117,7 @@ namespace Gite.WebSite.Controllers
             {
                 return RedirectToAction("/");
             }
-            return View("ValidateBooking");
+            return View("ValidateBooking", model);
         }
     }
 }

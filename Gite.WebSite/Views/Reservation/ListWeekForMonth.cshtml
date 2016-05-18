@@ -16,9 +16,9 @@
 @foreach (var date in Model)
 {
     var text = date.Price.HasDiscount ? "Dernière minute !" : "Réserver";
-    <div class="@baseClass">
+    <div class="col-sm-6 @baseClass">
         <div class="well well-large">
-            <h5 class="period">Du @date.BeginDate.ToString("dd/MM/yyyy")<br/>Au @date.EndDate.ToString("dd/MM/yyyy")</h5>
+            <h5 class="period">Du @date.BeginDate.ToString("dd/MM/yyyy")<br />Au @date.EndDate.ToString("dd/MM/yyyy")</h5>
             @if (date.Reserved)
             {
                 <span class="btn btn-default" disabled>Indisponible</span>
