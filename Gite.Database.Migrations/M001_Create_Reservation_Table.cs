@@ -8,7 +8,7 @@ namespace Gite.Database.Migrations
         public override void Up()
         {
             Create.Table("Reservation")
-                .WithColumn("Id").AsString(7) // year (yyyy) + day of year (0-365)
+                .WithColumn("Id").AsString(7).PrimaryKey() // year (yyyy) + day of year (0-365)
                 .WithColumn("StartingOn").AsDateTime().NotNullable()
                 .WithColumn("EndingOn").AsDateTime().NotNullable()
                 .WithColumn("CreatedOn").AsDateTime().NotNullable()
