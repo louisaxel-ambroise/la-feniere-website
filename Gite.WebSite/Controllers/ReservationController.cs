@@ -1,10 +1,11 @@
-﻿using Gite.Database;
-using Gite.WebSite.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
 using Gite.Model.Business;
-using Gite.Model;
+using Gite.Model.Model;
+using Gite.Model.Repositories;
+using Gite.Model.Services;
+using Gite.WebSite.Models;
 
 namespace Gite.WebSite.Controllers
 {
@@ -12,14 +13,19 @@ namespace Gite.WebSite.Controllers
     {
         private readonly IReservationRepository _reservationRepository;
         private readonly IPriceCalculator _priceCalculator;
-        
-        public ReservationController(IReservationRepository reservationRepository, IPriceCalculator priceCalculator)
+        private readonly IReservationPersister _reservationPersister;
+
+        public ReservationController(IReservationRepository reservationRepository, IPriceCalculator priceCalculator, IReservationPersister reservationPersister)
         {
+            if (reservationRepository == null) throw new ArgumentNullException("reservationRepository");
+            if (priceCalculator == null) throw new ArgumentNullException("priceCalculator");
+            if (reservationPersister == null) throw new ArgumentNullException("reservationPersister");
+
             _reservationRepository = reservationRepository; 
             _priceCalculator = priceCalculator;
+            _reservationPersister = reservationPersister;
         }
 
-        // GET: Reservation
         public ActionResult Index()
         {
             return View();
@@ -33,16 +39,15 @@ namespace Gite.WebSite.Controllers
 
             for (var date = beginDate; date.Month == month; date = date.AddDays(1))
             {
-                if(date.DayOfWeek == DayOfWeek.Saturday)
-                {
-                    var currentDate = new Date(date);
-                    var isReserved = _reservationRepository.IsWeekReserved(year, currentDate.DayOfYear);
+                if (date.DayOfWeek != DayOfWeek.Saturday) continue;
 
-                    currentDate.Reserved = currentDate.Reserved || isReserved;
-                    currentDate.Price = _priceCalculator.CalculatePrice(year, currentDate.DayOfYear);
+                var currentDate = new Date(date);
+                var isReserved = _reservationRepository.IsWeekReserved(year, currentDate.DayOfYear);
 
-                    dates.Add(currentDate);
-                }
+                currentDate.Reserved = currentDate.Reserved || isReserved;
+                currentDate.Price = _priceCalculator.CalculatePrice(year, currentDate.DayOfYear);
+
+                dates.Add(currentDate);
             }
 
             return PartialView(dates);
@@ -68,11 +73,8 @@ namespace Gite.WebSite.Controllers
         }
 
         [HttpPost]
-        public ActionResult ValidateBooking(string id, ReservationModel model)
+        public ActionResult ValidateBooking(string id, ReservationModel model) // TODO: validate model.
         {
-            // TODO: validate the model.
-            //ValidateModel(model);
-
             try
             {
                 var date = Date.Parse(id);
@@ -83,7 +85,7 @@ namespace Gite.WebSite.Controllers
                     return RedirectToAction("/");
                 }
 
-                var reservation = new Reservation
+                _reservationPersister.Persist(new Reservation
                 {
                     Id = id,
                     StartingOn = date.BeginDate,
@@ -99,9 +101,7 @@ namespace Gite.WebSite.Controllers
                         Name = model.Name,
                         Phone = model.Phone
                     }
-                };
-
-                _reservationRepository.Insert(reservation);
+                });
 
                 return View(model);
             }

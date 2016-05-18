@@ -1,5 +1,6 @@
 ﻿using System;
 using Gite.Model.Business;
+using Gite.Model.Business.Strategies;
 
 namespace Gite.WebSite.Models
 {
