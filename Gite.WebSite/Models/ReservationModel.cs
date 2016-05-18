@@ -5,6 +5,7 @@ namespace Gite.WebSite.Models
     public class ReservationModel
     {
         public int Price { get; set; }
+        public string Ip { get; set; }
         [Required]
         public string Email { get; set; }
         [Required]
@@ -20,7 +21,6 @@ namespace Gite.WebSite.Models
         public string City { get; set; }
         [Required]
         public string Country { get; set; }
-
 
         public string FormatAddress()
         {

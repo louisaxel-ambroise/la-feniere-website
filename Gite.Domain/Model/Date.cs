@@ -1,8 +1,7 @@
 ﻿using System;
-using Gite.Model.Business;
-using Gite.Model.Business.Strategies;
+using Gite.Model.Services.PriceCalculation.Strategies;
 
-namespace Gite.WebSite.Models
+namespace Gite.Model.Model
 {
     public class Date
     {
@@ -26,15 +25,6 @@ namespace Gite.WebSite.Models
             Year = beginDate.Year;
             DayOfYear = beginDate.DayOfYear;
             Reserved = beginDate < DateTime.Now.Date;
-        }
-
-        public static Date Parse(string id)
-        {
-            var year = int.Parse(id.Substring(0, 4));
-            var dayOfYear = int.Parse(id.Substring(4, 3));
-
-            var beginDate = new DateTime(year, 1, 1).AddDays(dayOfYear - 1);
-            return new Date(beginDate);
         }
     }
 }

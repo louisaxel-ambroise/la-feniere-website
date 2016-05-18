@@ -1,30 +1,24 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Web.Mvc;
-using Gite.Model.Business;
-using Gite.Model.Business.Strategies;
 using Gite.Model.Model;
-using Gite.Model.Repositories;
-using Gite.Model.Services;
+using Gite.Model.Services.Calendar;
+using Gite.Model.Services.ReservationPersister;
 using Gite.WebSite.Models;
 
 namespace Gite.WebSite.Controllers
 {
     public class ReservationController : Controller
     {
-        private readonly IReservationRepository _reservationRepository;
-        private readonly IPriceCalculator _priceCalculator;
         private readonly IReservationPersister _reservationPersister;
+        private readonly ReservationCalendar _calendar;
 
-        public ReservationController(IReservationRepository reservationRepository, IPriceCalculator priceCalculator, IReservationPersister reservationPersister)
+        public ReservationController(IReservationPersister reservationPersister, ReservationCalendar calendar)
         {
-            if (reservationRepository == null) throw new ArgumentNullException("reservationRepository");
-            if (priceCalculator == null) throw new ArgumentNullException("priceCalculator");
             if (reservationPersister == null) throw new ArgumentNullException("reservationPersister");
+            if (calendar == null) throw new ArgumentNullException("calendar");
 
-            _reservationRepository = reservationRepository; 
-            _priceCalculator = priceCalculator;
             _reservationPersister = reservationPersister;
+            _calendar = calendar;
         }
 
         public ActionResult Index()
@@ -34,90 +28,50 @@ namespace Gite.WebSite.Controllers
 
         public ActionResult ListWeekForMonth(int year, int month)
         {
-            var dates = new List<Date>();
-
-            var beginDate = new DateTime(year, month, 1);
-
-            for (var date = beginDate; date.Month == month; date = date.AddDays(1))
-            {
-                if (date.DayOfWeek != DayOfWeek.Saturday) continue;
-
-                var currentDate = new Date(date);
-                var isReserved = _reservationRepository.IsWeekReserved(year, currentDate.DayOfYear);
-
-                currentDate.Reserved = currentDate.Reserved || isReserved;
-                currentDate.Price = _priceCalculator.CalculatePrice(year, currentDate.DayOfYear);
-
-                dates.Add(currentDate);
-            }
+            var dates = _calendar.ListSaturdaysForMonth(year, month);
 
             return PartialView(dates);
         }
 
         public ActionResult CheckIn(string id)
         {
-            try
-            {
-                var date = Date.Parse(id);
-                var calculatedPrice = _priceCalculator.CalculatePrice(date.BeginDate);
+            var date = _calendar.GetSpecificDate(id);
                 
-                PrepareViewbag(id, date, calculatedPrice);
+            PrepareViewbag(id, date);
 
-                return View(new ReservationModel { Price = calculatedPrice.Amount });
-            }
-            catch (InvalidOperationException)
-            {
-                return RedirectToAction("/");
-            }
-        }
-
-        private void PrepareViewbag(string id, Date date, PriceResponse price)
-        {
-            ViewBag.ReservationId = id;
-            ViewBag.StartingOn = date.BeginDate.ToString("dd/MM/yyyy");
-            ViewBag.EndingOn = date.EndDate.ToString("dd/MM/yyyy");
-            ViewBag.Price = price;
+            return View(new ReservationModel { Price = date.Price.Amount });
         }
 
         [HttpPost]
         public ActionResult CheckIn(string id, ReservationModel model)
         {
-             try
+            var date = _calendar.GetSpecificDate(id);
+                
+            if (model.Price != date.Price.Amount)
             {
-                var  date = Date.Parse(id);
-                var calculatedPrice = _priceCalculator.CalculatePrice(date.BeginDate);
-
-                if (!ModelState.IsValid)
-                {
-                    PrepareViewbag(id, date, calculatedPrice);
-                    return View(model);
-                }
-
-                if (model.Price != calculatedPrice.Amount) return RedirectToAction("/"); // TODO: redirect to error
-
-                _reservationPersister.Persist(new Reservation
-                {
-                    Id = id,
-                    StartingOn = date.BeginDate,
-                    EndingOn = date.EndDate,
-                    Price = calculatedPrice.Amount,
-                    Confirmed = true,
-                    Validated = true,
-                    CreatedOn = DateTime.Now,
-                    Contact = new Contact
-                    {
-                        Mail = model.Email,
-                        Address = model.FormatAddress(),
-                        Name = model.Name,
-                        Phone = model.Phone
-                    }
-                });
+                PrepareViewbag(id, date);
+                return View(model); // TODO: redirect to error?
             }
-            catch (InvalidOperationException)
+            if (!ModelState.IsValid)
             {
-                return RedirectToAction("/");
+                PrepareViewbag(id, date);
+                return View(model);
             }
+
+            var ipAddress = HttpContext.Request.UserHostAddress;
+            var reservation = model.MapToReservation(id, ipAddress, date);
+
+            _reservationPersister.Persist(reservation);
+           
             return View("ValidateBooking", model);
+        }
+
+        private void PrepareViewbag(string id, Date date)
+        {
+            ViewBag.ReservationId = id;
+            ViewBag.StartingOn = date.BeginDate.ToString("dd/MM/yyyy");
+            ViewBag.EndingOn = date.EndDate.ToString("dd/MM/yyyy");
+            ViewBag.Price = date.Price;
         }
     }
 }

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
-using Gite.Model.Business.Strategies;
+using Gite.Model.Services.PriceCalculation.Strategies;
 
-namespace Gite.Model.Business
+namespace Gite.Model.Services.PriceCalculation
 {
     public class PriceCalculator : IPriceCalculator
     {

@@ -1,13 +1,13 @@
-﻿@model List<Gite.WebSite.Models.Date>
+﻿@model IEnumerable<Gite.Model.Model.Date>
 
 @{
-    string baseClass = "col-md-15";
+    var baseClass = "col-md-15";
 
-    if (Model.Count == 4)
+    if (Model.Count() == 4)
     {
         baseClass = "col-md-3";
     }
-    else if (Model.Count == 3)
+    else if (Model.Count() == 3)
     {
         baseClass = "col-md-4";
     }

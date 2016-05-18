@@ -1,4 +1,4 @@
-﻿namespace Gite.Model.Business.Strategies
+﻿namespace Gite.Model.Services.PriceCalculation.Strategies
 {
     public class PriceResponse
     {

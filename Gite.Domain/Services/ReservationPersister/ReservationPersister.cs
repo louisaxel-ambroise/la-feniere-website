@@ -3,7 +3,7 @@ using Gite.Model.Interceptors;
 using Gite.Model.Model;
 using Gite.Model.Repositories;
 
-namespace Gite.Model.Services
+namespace Gite.Model.Services.ReservationPersister
 {
     public class ReservationPersister : IReservationPersister
     {

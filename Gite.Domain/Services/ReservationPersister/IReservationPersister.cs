@@ -1,6 +1,6 @@
 ﻿using Gite.Model.Model;
 
-namespace Gite.Model.Services
+namespace Gite.Model.Services.ReservationPersister
 {
     public interface IReservationPersister
     {

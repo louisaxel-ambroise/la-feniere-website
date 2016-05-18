@@ -1,7 +1,7 @@
 ﻿using System;
-using Gite.Model.Business.Strategies;
+using Gite.Model.Services.PriceCalculation.Strategies;
 
-namespace Gite.Model.Business
+namespace Gite.Model.Services.PriceCalculation
 {
     public interface IPriceCalculator
     {
