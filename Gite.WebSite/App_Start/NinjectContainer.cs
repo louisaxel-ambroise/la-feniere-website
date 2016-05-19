@@ -7,24 +7,24 @@ namespace Gite.WebSite
 {
     public class NinjectContainer
     {
-        private static NinjectResolver _resolver;
+        public static NinjectResolver Resolver;
 
         public static void RegisterModules(NinjectModule[] modules)
         {
-            _resolver = new NinjectResolver(modules);
-            DependencyResolver.SetResolver(_resolver);
+            Resolver = new NinjectResolver(modules);
+            DependencyResolver.SetResolver(Resolver);
         }
 
         public static void RegisterAssembly()
         {
-            _resolver = new NinjectResolver(Assembly.GetExecutingAssembly());
+            Resolver = new NinjectResolver(Assembly.GetExecutingAssembly());
 
-            DependencyResolver.SetResolver(_resolver);
+            DependencyResolver.SetResolver(Resolver);
         }
 
         public static T Resolve<T>()
         {
-            return _resolver.Kernel.Get<T>();
+            return Resolver.Kernel.Get<T>();
         }
     }
 }

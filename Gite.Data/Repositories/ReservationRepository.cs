@@ -29,7 +29,7 @@ namespace Gite.Database.Repositories
         public bool IsWeekReserved(int year, int dayOfYear)
         {
             var id = string.Format("{0}{1:D3}", year, dayOfYear);
-            var resa = _session.Query<Reservation>().FirstOrDefault(x => x.Id == id && (x.Validated || x.CreatedOn >= DateTime.Now.AddMinutes(-30)));
+            var resa = _session.Query<Reservation>().FirstOrDefault(x => x.Id == id);
 
             return resa != null;
         }
