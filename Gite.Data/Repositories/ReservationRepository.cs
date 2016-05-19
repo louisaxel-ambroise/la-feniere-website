@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using Gite.Model.Model;
 using Gite.Model.Repositories;
 using NHibernate;
