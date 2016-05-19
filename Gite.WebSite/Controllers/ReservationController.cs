@@ -69,6 +69,7 @@ namespace Gite.WebSite.Controllers
         private void PrepareViewbag(string id, Date date)
         {
             ViewBag.ReservationId = id;
+            ViewBag.Date = date.BeginDate;
             ViewBag.StartingOn = date.BeginDate.ToString("dd/MM/yyyy");
             ViewBag.EndingOn = date.EndDate.ToString("dd/MM/yyyy");
             ViewBag.Price = date.Price;

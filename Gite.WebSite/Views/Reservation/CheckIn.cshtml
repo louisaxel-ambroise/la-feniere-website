@@ -26,12 +26,19 @@
     </div>
     <div class="col-md-6">
         <p>Vous serez prévenus par e-mail lorsque votre virement aura été accepté.</p>
-        <p><strong>Les chèques ne sont pas acceptés.<br/>Les paiements se font uniquement par virement bancaire.</strong></p>
+        <p><strong>Les chèques ne sont pas acceptés.<br/>Les paiements se font uniquement par virement bancaire.</strong>
+        </p>
     </div>
 </div>
+@if (ViewBag.Date >= DateTime.Now.AddYears(2))
+{
+    <div class="alert alert-warning">
+        <p>Vous vous apprêtez à réserver pour une date lointaine (plus de 2 ans). Êtes-vous sûr d'avoir choisi la bonne date ?</p>
+    </div>
+}
 @using (Html.BeginForm("CheckIn", "Reservation", new { Id = ViewBag.ReservationId }, FormMethod.Post, null))
 {
-    @Html.ValidationSummary(true)
+    @Html.ValidationSummary()
     @Html.HiddenFor(x => x.Price, new { id = ViewBag.Price })
     <div class="row">
         <div class="col-md-6">

@@ -8,6 +8,7 @@ namespace Gite.Database.Mappings
         public ReservationMap()
         {
             Id(x => x.Id).Column("Id").Not.Nullable();
+            Map(x => x.Ip).Column("Ip").Nullable();
             Map(x => x.CreatedOn).Column("CreatedOn").Not.Nullable();
             Map(x => x.StartingOn).Column("StartingOn").Not.Nullable();
             Map(x => x.EndingOn).Column("EndingOn").Not.Nullable();
