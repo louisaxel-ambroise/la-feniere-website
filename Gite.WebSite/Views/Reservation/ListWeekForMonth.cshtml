@@ -25,7 +25,7 @@
             }
             else
             {
-                <a href="/Reservation/CheckIn/@date.Year@date.DayOfYear" class="btn btn-success btn-right">@text (@date.Price.Amount €)</a>
+                <a href="/Reservation/CheckIn/@date.Year.ToString("D4")@date.DayOfYear.ToString("D3")" class="btn btn-success btn-right">@text (@date.Price.Amount €)</a>
             }
         </div>
     </div>

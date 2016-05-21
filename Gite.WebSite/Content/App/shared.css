@@ -72,19 +72,20 @@ h2{
     padding: 0;
     font-size:17px;
 }
+@media (min-width: 768px) {
+    .navbar .nav {
+        margin: 0;
+        display: table;
+        width: 100%;
+    }
 
-.navbar .nav {
-    margin: 0;
-    display: table;
-    width: 100%;
-}
+    .navbar .nav li {
+        width: 20%;
+    }
 
-.navbar .nav li {
-    width:20%;
-}
-
-.navbar .nav li a {
-    text-align: center;
+    .navbar .nav li a {
+        text-align: center;
+    }
 }
 
 .navbar{ border-radius:0;margin-bottom:0;padding-bottom:0; min-height:42px !important;}
