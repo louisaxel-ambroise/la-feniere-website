@@ -3,14 +3,16 @@
     ViewBag.Color = "#b74506";
 }
 
-<script src="https://maps.googleapis.com/maps/api/js?callback=initMap" async defer>
+<script src="https://maps.googleapis.com/maps/api/js?callback=initMap" async defer></script>
+<script type="text/javascript">
     function initMap() {
-        var gitePosition = { lat: 44.690441, lng: 4.281118 };
+        var gitePosition = { lat: 45, lng: 4 };
         var mapDiv = document.getElementById('map');
         var map = new google.maps.Map(mapDiv, {
-            center: gitePosition,
+            scrollwheel: false,
+            center: { lat: 44.690441, lng: 4.781118 },
             mapTypeId: google.maps.MapTypeId.HYBRID,
-            zoom: 17
+            zoom: 7
         });
 
         var infowindow = new google.maps.InfoWindow({
