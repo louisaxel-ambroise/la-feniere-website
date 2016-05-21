@@ -1,6 +1,7 @@
 ﻿@model Gite.WebSite.Models.ReservationModel
 @{
-    ViewBag.Title = "ValidateBooking";
+    ViewBag.Title = "Réservation validée";
+    ViewBag.Color = "#0391ce";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -37,16 +38,9 @@
         directionsService.route(request, function (response, status) {
             if (status == google.maps.DirectionsStatus.OK) {
                 direction.setDirections(response);
-                scrollToAnchor('plan');
             }
         });
     }
-
-    function scrollToAnchor(aid) {
-        var aTag = $("#" + aid);
-        $('html,body').animate({ scrollTop: aTag.offset().top }, 'slow');
-    }
-
 </script>
 
 <div class="row">

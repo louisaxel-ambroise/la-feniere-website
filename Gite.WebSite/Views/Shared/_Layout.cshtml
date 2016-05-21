@@ -1,4 +1,11 @@
-﻿<!DOCTYPE html>
+﻿@{
+    if (ViewBag.Color == null || !ViewBag.Color.StartsWith("#"))
+    {
+        ViewBag.Color = "#b74506";
+    }
+}
+
+<!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -14,7 +21,11 @@
     @Scripts.Render("~/bundles/bootstrap")
 </head>
 <body>
-    <div class="navbar navbar-default navbar-fixed-top">
+    <header class="container">
+        <div class="logo">
+            <p>Gîte de caractère en Ardèche</p></div>
+    </header>
+    <div class="navbar navbar-inverse">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -22,22 +33,23 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a href="/" class="navbar-brand"><i class="fa fa-home"></i> La Fenière</a>
+                <a href="/" class="navbar-brand"><i class="fa fa-home"></i></a>
             </div>
-            <div class="navbar-collapse collapse navbar-right">
+            <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a href="/Home/Description"><span class="fa fa-camera"></span> Découvrir</a></li>
-                    <li><a href="/Home/Activites"><span class="fa fa-child"></span> Activités</a></li>
-                    <li><a href="/Reservation"><span class="fa fa-calendar"></span> Réservations</a></li>
-                    <li><a href="/Home/Contact"><span class="fa fa-map"></span> Contact</a></li>
+                    <li class="decouvrir"><a href="/Home/Description"><span class="fa fa-camera"></span> Découvrir</a></li>
+                    <li class="activites"><a href="/Home/Activites"><span class="fa fa-child"></span> Activités</a></li>
+                    <li class="reservation"><a href="/Reservation"><span class="fa fa-calendar"></span> Réservations</a></li>
+                    <li class="contact"><a href="/Home/Contact"><span class="fa fa-map"></span> Contact</a></li>
                 </ul>
             </div>
         </div>
     </div>
-    <div class="jumbotron">&nbsp;</div>
+    <div class="navbar-bottom" style="background-color:@ViewBag.Color">
+    </div>
     <div class="container body-content">
         @RenderBody()
-        <hr/>
+        <hr />
         <footer>
             <p class="text-center">&copy; @DateTime.Now.Year - La Fenière &bull; <span class="social-icon"><i class="fa fa-facebook"></i>acebook</span></p>
         </footer>

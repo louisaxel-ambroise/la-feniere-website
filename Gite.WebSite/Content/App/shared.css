@@ -1,17 +1,44 @@
-﻿.jumbotron {
-    margin-bottom: 0px;
-    background-image: url(/Content/images/12590_8.jpg);
-    background-size: cover;
-    background-repeat: no-repeat;
-    color: white;
-    height:275px;
-}
-.jumbotron h1{
-    text-shadow: black 0.3em 0.3em 0.3em;
+﻿header{
+    height:100px;
 }
 
 body{
+    padding-top:15px;
+    background:#eaeaea;
 }
+
+.body-content{ padding-top:20px; }
+
+h2{
+    padding-left:60px;
+    min-height:30px;
+    background:url("~/Content/Images/foin.png");
+}
+
+.logo {
+    margin-bottom: 0px;
+    margin-top: 0px;
+    padding-top: 0px;
+    background-image: url(/Content/images/logo.png);
+    background-position: left center;
+    background-repeat: no-repeat;
+    height:90px;
+}
+.logo p{
+    padding-top:55px;
+    height:15px;
+    font-size:15px;
+    line-height:15px;
+    margin-left:350px;
+}
+
+.navbar{ border-radius:0;margin-bottom:0;padding-bottom:0; min-height:42px !important;}
+.navbar-nav > li > a, .navbar-brand {
+    padding-top:12px !important; 
+    padding-bottom:0 !important;
+    height: 42px;
+}
+.navbar-bottom{ height:40px;width:100%;}
 
 .social-icon {
     opacity: .6;

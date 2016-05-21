@@ -1,9 +1,9 @@
 ﻿@{
     ViewBag.Title = "Accueil";
+    ViewBag.Color = "#b74506";
 }
 
-<script src="https://maps.googleapis.com/maps/api/js?callback=initMap" async defer></script>
-<script>
+<script src="https://maps.googleapis.com/maps/api/js?callback=initMap" async defer>
     function initMap() {
         var gitePosition = { lat: 44.690441, lng: 4.281118 };
         var mapDiv = document.getElementById('map');
@@ -29,7 +29,10 @@
 </script>
 
 <div class="row">
-    <h2>Description</h2>
+    <div class="text-center">
+        <img src="~/Content/Images/12590_8.jpg" class="img-thumbnail" alt="Chirols">
+    </div>
+    <h2>Bienvenue à La Fenière</h2>
     <p>Description rapide du gîte.</p>
 </div>
 <div class="row">
