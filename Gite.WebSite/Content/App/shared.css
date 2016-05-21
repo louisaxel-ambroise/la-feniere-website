@@ -19,7 +19,7 @@ body{
 h2{
     padding-left:60px;
     min-height:30px;
-    background:url("~/Content/Images/foin.png");
+    background:url("/Content/Images/foin.png") center left no-repeat;
 }
 
 .logo {
