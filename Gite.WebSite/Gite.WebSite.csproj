@@ -218,6 +218,9 @@
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\Images\12590_8.jpg" />
+    <Content Include="Content\Images\flags\de.jpg" />
+    <Content Include="Content\Images\flags\en.jpg" />
+    <Content Include="Content\Images\flags\fr.jpg" />
     <Content Include="Content\Images\foin.png" />
     <Content Include="Content\Images\logo.png" />
     <Content Include="favicon.ico" />

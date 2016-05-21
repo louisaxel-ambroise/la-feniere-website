@@ -15,13 +15,17 @@
     @Styles.Render("~/Content/css")
     @Styles.Render("~/Content/laFeniere")
 
-    @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/bootstrap")
 </head>
 <body>
     <header class="container">
+        <div id="header-flags" class="pull-right">
+            <a class="flag" href="#?lang=fr"><img src="~/Content/Images/flags/fr.jpg" /></a>
+            <a class="flag" href="#?lang=en"><img src="~/Content/Images/flags/en.jpg" /></a>
+            <a class="flag" href="#?lang=de"><img src="~/Content/Images/flags/de.jpg" /></a>
+        </div>
         <div class="logo">
             <p>Gîte de caractère en Ardèche</p></div>
     </header>
@@ -33,10 +37,10 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a href="/" class="navbar-brand"><i class="fa fa-home"></i></a>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
+                    <li class="accueil"><a href="/"><span class="fa fa-home"></span> Accueil</a></li>
                     <li class="decouvrir"><a href="/Home/Description"><span class="fa fa-camera"></span> Découvrir</a></li>
                     <li class="activites"><a href="/Home/Activites"><span class="fa fa-child"></span> Activités</a></li>
                     <li class="reservation"><a href="/Reservation"><span class="fa fa-calendar"></span> Réservations</a></li>
