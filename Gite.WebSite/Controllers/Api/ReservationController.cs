@@ -14,11 +14,20 @@ namespace Gite.WebSite.Controllers.Api
             _reservationRepository = reservationRepository;
         }
 
-        public IHttpActionResult Get()
+        [HttpGet]
+        public IHttpActionResult Incoming()
         {
             var now = DateTime.Now;
 
-            return Ok(_reservationRepository.Query().Where(x => x.StartingOn > now).ToList());
+            return Ok(_reservationRepository.Query().Where(x => x.StartingOn > now && x.StartingOn < now.AddMonths(2)).ToList());
+        }
+
+        [HttpGet]
+        public IHttpActionResult Past()
+        {
+            var now = DateTime.Now;
+
+            return Ok(_reservationRepository.Query().Where(x => x.StartingOn > now.AddMonths(-2) && x.StartingOn < now).ToList());
         }
     }
 }
