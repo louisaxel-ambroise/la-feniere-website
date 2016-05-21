@@ -12,8 +12,8 @@ namespace Gite.Database.Mappings
             Map(x => x.CreatedOn).Column("CreatedOn").Not.Nullable();
             Map(x => x.StartingOn).Column("StartingOn").Not.Nullable();
             Map(x => x.EndingOn).Column("EndingOn").Not.Nullable();
-            Map(x => x.Validated).Column("Validated").Not.Nullable();
-            Map(x => x.Confirmed).Column("Confirmed").Nullable();
+            Map(x => x.PaymentReceived).Column("Validated").Not.Nullable();
+            Map(x => x.CautionRefunded).Column("Confirmed").Nullable();
             Component(x => x.Contact).ColumnPrefix("Contact");
         }
     }

@@ -45,6 +45,10 @@
     <Compile Include="Model\Date.cs" />
     <Compile Include="Services\Calendar\IReservationCalendar.cs" />
     <Compile Include="Services\Calendar\ReservationCalendar.cs" />
+    <Compile Include="Services\DepositRefundProcessor\RefundProcessor.cs" />
+    <Compile Include="Services\DepositRefundProcessor\IRefundProcessor.cs" />
+    <Compile Include="Services\PaymentProcessor\IPaymentProcessor.cs" />
+    <Compile Include="Services\PaymentProcessor\PaymentProcessor.cs" />
     <Compile Include="Services\PriceCalculation\Strategies\DiscountStrategy.cs" />
     <Compile Include="Services\PriceCalculation\Strategies\SummerPriceStrategy.cs" />
     <Compile Include="Services\PriceCalculation\IPriceCalculator.cs" />

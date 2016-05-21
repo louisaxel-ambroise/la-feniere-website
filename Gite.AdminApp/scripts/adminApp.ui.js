@@ -11,17 +11,13 @@ var updateIncomingPage = function (data) {
     var list = "";
 
     for (var i = 0; i < data.length ; i++) {
-        var mail = "";
-        var name = "";
-        if (data[i].Contact !== null) {
-            mail = data[i].Contact.Mail;
-            name = data[i].Contact.Name;
-        }
-
         list += "<div data-role=\"collapsible\">";
         list += "<h3>" + data[i].StartingOn.substr(0, 10) + " - " + data[i].EndingOn.substr(0, 10) + "</h3>";
-        list += "<p>" + name + "(" + mail + ")</p>";
-        list += "<p>Paiement reçu (" + data[i].Price + "€)</p>";
+        list += "<p>" + data[i].Name + "(" + data[i].Mail + ")</p>";
+        if (data[i].PaymentReceived)
+            list += "<p>Paiement reçu (" + data[i].Price + "€)</p>";
+        else
+            list += "<p style='color:red'>Paiement non reçu (" + data[i].Price + "€)</p>";
         list += "</div>";
     }
 
@@ -32,18 +28,13 @@ var updatePastPage = function (data) {
     var list = "";
 
     for (var i = 0; i < data.length ; i++) {
-        var mail = "";
-        var name = "";
-        if (data[i].Contact !== null) {
-            mail = data[i].Contact.Mail;
-            name = data[i].Contact.Name;
-        }
-
         list += "<div data-role=\"collapsible\">";
         list += "<h3>" + data[i].StartingOn.substr(0, 10) + " - " + data[i].EndingOn.substr(0, 10) + "</h3>";
-        list += "<p>" + name + "</p>";
-        list += "<p>" + mail + "</p>";
-        list += "<p>Caution rendue (" + data[i].Price + "€)</p>";
+        list += "<p>" + data[i].Name + "(" + data[i].Mail + ")</p>";
+        if (data[i].CautionRefunded)
+            list += "<p>Caution rendue.</p>";
+        else
+            list += "<p style='color:red'>Caution non rendue (" + data[i].Price + "€)</p>";
         list += "</div>";
     }
 

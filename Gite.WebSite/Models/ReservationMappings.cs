@@ -1,5 +1,6 @@
 ﻿using System;
 using Gite.Model.Model;
+using Gite.WebSite.Models.Api;
 
 namespace Gite.WebSite.Models
 {
@@ -14,8 +15,8 @@ namespace Gite.WebSite.Models
                 StartingOn = date.BeginDate,
                 EndingOn = date.EndDate,
                 Price = model.Price,
-                Confirmed = true,
-                Validated = false,
+                CautionRefunded = true,
+                PaymentReceived = false,
                 CreatedOn = DateTime.Now,
                 Contact = new Contact
                 {
@@ -24,6 +25,21 @@ namespace Gite.WebSite.Models
                     Name = model.Name,
                     Phone = model.Phone
                 }
+            };
+        }
+
+        public static ApiReservation MapToApiReservation(this Reservation reservation)
+        {
+            return new ApiReservation
+            {
+                Id = reservation.Id,
+                StartingOn = reservation.StartingOn.ToString("yyyy-MM-dd"),
+                EndingOn = reservation.EndingOn.ToString("yyyy-MM-dd"),
+                Mail = reservation.Contact.Mail,
+                Name = reservation.Contact.Name,
+                PaymentReceived = reservation.PaymentReceived,
+                CautionRefunded = reservation.CautionRefunded,
+                Price = reservation.Price
             };
         }
     }

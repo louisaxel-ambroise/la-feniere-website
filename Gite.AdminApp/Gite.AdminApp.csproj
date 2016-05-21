@@ -46,7 +46,6 @@
     <Content Include="index.html" />
     <Content Include="packages.config" />
     <Content Include="scripts\adminApp.ui.js" />
-    <Content Include="scripts\adminApp.model.js" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
