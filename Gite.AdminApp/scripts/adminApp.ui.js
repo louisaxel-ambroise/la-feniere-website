@@ -4,7 +4,7 @@ if (typeof window.Comptes === 'undefined') window.Comptes = {};
 
 window.HomePage = (function ($) {
     var refresh = function () {
-        alert("toto");
+        // TODO: load alerts.
     }
 
     return {
