@@ -10,9 +10,15 @@ namespace Gite.WebSite
         {
             get
             {
+                var mailAddress = ConfigurationManager.AppSettings["Mail.Configuration.Address"];
+                var password = ConfigurationManager.AppSettings["Mail.Configuration.Password"];
+                var baseUrl = ConfigurationManager.AppSettings["Website.BaseUrl"];
                 var connectionString = ConfigurationManager.ConnectionStrings["GiteDatabase"].ConnectionString;
 
-                return new NinjectModule[] { new DomainModule(), new DatabaseModule(connectionString) };
+                return new NinjectModule[] {
+                    new DomainModule(mailAddress, password, baseUrl),
+                    new DatabaseModule(connectionString)
+                };
             }
         }
     }

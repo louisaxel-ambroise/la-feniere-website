@@ -11,12 +11,13 @@ namespace Gite.WebSite.Models
             return new Reservation
             {
                 CustomId = id,
+                IsCancelled = false,
                 Ip = ip,
                 StartingOn = date.BeginDate,
                 EndingOn = date.EndDate,
                 Price = model.Price,
                 Caution = model.Caution,
-                CautionRefunded = true,
+                CautionRefunded = false,
                 PaymentReceived = false,
                 CreatedOn = DateTime.Now,
                 Contact = new Contact
@@ -26,6 +27,19 @@ namespace Gite.WebSite.Models
                     Name = model.Name,
                     Phone = model.Phone
                 }
+            };
+        }
+
+        public static ReservationOverview MapToOverview(this Reservation reservation)
+        {
+            return new ReservationOverview
+            {
+                StartingOn = reservation.StartingOn,
+                EndingOn = reservation.EndingOn,
+                Caution = reservation.Caution,
+                Price = reservation.Price,
+                CautionRefunded = reservation.CautionRefunded,
+                PaymentReceived = reservation.PaymentReceived
             };
         }
 

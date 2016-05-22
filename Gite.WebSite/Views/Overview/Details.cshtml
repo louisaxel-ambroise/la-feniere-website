@@ -1,0 +1,62 @@
+﻿@model Gite.WebSite.Models.ReservationOverview
+@{
+    ViewBag.Title = "Details de la réservation";
+    ViewBag.Color = "#0391ce";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details de la réservation</h2>
+
+@if (DateTime.Now >= Model.EndingOn)
+{
+    if (!Model.CautionRefunded)
+    {
+        <p>La caution d'un montant de @Model.Caution vous sera reversée d'ici quelques jours.</p>
+    }
+    else
+    {
+        <p>La caution d'un montant de @Model.Caution vous a été reversée.</p>
+    }
+}
+else {
+    <p class="well">
+        Réservation du @Model.StartingOn.ToString("yyyy-MM-dd") au @Model.EndingOn.ToString("yyyy-MM-dd").
+    </p>
+
+    if (!Model.PaymentReceived)
+    {
+        <p>Le paiement de la réservation n'a toujours pas été reçu.</p>
+        <div class="row">
+            <ul class="list-group col-md-6">
+                <li class="list-group-item active">Détails du prix:</li>
+                <li class="list-group-item"><strong>Montant total à payer: @(Model.Price + Model.Caution)€</strong></li>
+                <li class="list-group-item">Prix du gîte: @Model.Price€</li>
+                <li class="list-group-item">Caution: @Model.Caution€</li>
+            </ul>
+            <ul class="list-group col-md-6">
+                <li class="list-group-item active">Coordonnées bancaires:</li>
+                <li class="list-group-item">N&deg; de compte: xxxxx-xxx-xxxx-xxxxx</li>
+                <li class="list-group-item">BIC: xxxxxxx</li>
+                <li class="list-group-item">IBAN: xxxx-xxxxxxx-xxx</li>
+            </ul>
+        </div>
+        using (Html.BeginForm("Details", "Overview", new { Id = ViewBag.ReservationId }, FormMethod.Post, null))
+        {
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="pull-right">
+                        <input type="submit" class="btn btn-primary" value="J'ai payé !" />
+                        <input type="reset" class="btn btn-danger" value="Annuler ma réservation" />
+                    </div>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        < p > Le paiement a bien été reçu.</ p >
+
+
+           < p > Nous vous remercions et vous souhaitons un agréable séjour au gite de La Fenière !</ p >
+    }
+}

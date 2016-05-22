@@ -47,6 +47,10 @@
     <Compile Include="Services\Calendar\ReservationCalendar.cs" />
     <Compile Include="Services\DepositRefundProcessor\RefundProcessor.cs" />
     <Compile Include="Services\DepositRefundProcessor\IRefundProcessor.cs" />
+    <Compile Include="Services\MailSender\BaseMailSender.cs" />
+    <Compile Include="Services\MailSender\IReservationConfirmationMailSender.cs" />
+    <Compile Include="Model\Mail.cs" />
+    <Compile Include="Services\MailSender\ReservationConfirmationMailSender.cs" />
     <Compile Include="Services\PaymentProcessor\IPaymentProcessor.cs" />
     <Compile Include="Services\PaymentProcessor\PaymentProcessor.cs" />
     <Compile Include="Services\PriceCalculation\Strategies\DiscountStrategy.cs" />

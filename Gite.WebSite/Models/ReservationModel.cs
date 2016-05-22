@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Gite.WebSite.Models
 {
@@ -6,8 +7,9 @@ namespace Gite.WebSite.Models
     {
         public float Price { get; set; }
         public float Caution { get; set; }
-
+        public Guid ReservationId { get; set; }
         public string Ip { get; set; }
+
         [Required(AllowEmptyStrings = false, ErrorMessage = "Veuillez entrer votre adresse mail")]
         public string Email { get; set; }
         [Required(AllowEmptyStrings = false, ErrorMessage = "Veuillez entrer votre nom complet")]

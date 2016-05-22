@@ -55,18 +55,17 @@
         <p>
             Plus vite la location est payée, mieux c'est !
         </p>
+        <p>@Html.ActionLink("Payer", "Details", "Overview", new { id = Model.ReservationId }, new { @class = "btn btn-default" })</p>
     </div>
     <div class="col-md-4 col-sm-6">
         <h3>Rappel de réservation</h3>
         <p>Vous recevrez un mail 2 semaines avant votre séjour pour vous rappeler de vos dates ainsi que des modalités d'arrivée.</p>
-        <p><a class="btn btn-default" href="#">Voir les modalités &raquo;</a>
-        </p>
+        <p><a class="btn btn-default" href="#">Voir les modalités &raquo;</a></p>
     </div>
     <div class="col-md-4 col-sm-6">
         <h3>Profiter !</h3>
         <p>Découvrez notre page récapitulant les principales activités près du gîte</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301867">Voir &raquo;</a>
-        </p>
+        <p><a class="btn btn-default" href="/Home/Activites">Voir &raquo;</a></p>
     </div>
 </div>
 <div class="row">

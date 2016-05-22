@@ -62,6 +62,7 @@ namespace Gite.WebSite.Controllers
             var reservation = model.MapToReservation(id, ipAddress, date);
 
             _reservationPersister.Persist(reservation);
+            model.ReservationId = reservation.Id;
            
             return View("ValidateBooking", model);
         }
