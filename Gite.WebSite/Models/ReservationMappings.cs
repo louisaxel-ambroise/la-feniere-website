@@ -33,11 +33,15 @@ namespace Gite.WebSite.Models
         {
             return new ReservationOverview
             {
+                Id = reservation.Id,
+                CustomId = reservation.CustomId,
                 StartingOn = reservation.StartingOn,
                 EndingOn = reservation.EndingOn,
                 Caution = reservation.Caution,
                 Price = reservation.Price,
+                Cancelled = reservation.IsCancelled(),
                 CautionRefunded = reservation.CautionRefunded,
+                PaymentDeclared = reservation.PaymentDeclared,
                 PaymentReceived = reservation.PaymentReceived
             };
         }

@@ -18,7 +18,7 @@
         <p>La caution d'un montant de @Model.Caution vous a été reversée.</p>
     }
 }
-else {
+else if(!Model.Cancelled) {
     <p class="well">
         Réservation du @Model.StartingOn.ToString("yyyy-MM-dd") au @Model.EndingOn.ToString("yyyy-MM-dd").
     </p>
@@ -40,23 +40,29 @@ else {
                 <li class="list-group-item">IBAN: xxxx-xxxxxxx-xxx</li>
             </ul>
         </div>
-        using (Html.BeginForm("Details", "Overview", new { Id = ViewBag.ReservationId }, FormMethod.Post, null))
-        {
-            <div class="row">
-                <div class="col-sm-12">
-                    <div class="pull-right">
-                        <input type="submit" class="btn btn-primary" value="J'ai payé !" />
-                        <input type="reset" class="btn btn-danger" value="Annuler ma réservation" />
-                    </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="pull-right">
+                    @if (Model.PaymentDeclared)
+                    {
+                        <button class="btn btn-primary" disabled="disabled">J'ai déjà payé</button>
+                    }
+                    else
+                    {
+                        @Html.ActionLink("J'ai payé !", "PaymentDeclared", "overview", new { id = Model.Id }, new { @class = "btn btn-primary" });
+                    }
+                    @Html.ActionLink("Annuler ma réservation", "CancelReservation", "overview", new { id = Model.Id }, new { @class = "btn btn-danger" });
                 </div>
             </div>
-        }
+        </div>
     }
     else
     {
-        < p > Le paiement a bien été reçu.</ p >
-
-
-           < p > Nous vous remercions et vous souhaitons un agréable séjour au gite de La Fenière !</ p >
+        <p>Votre paiement a bien été reçu.</p>
+        <p>Nous vous remercions et vous souhaitons un agréable séjour au gite de La Fenière !</p>
     }
+}
+else{
+    <p>Votre réservation a été annulée...</p>
+    <p>Retourner à la @Html.ActionLink("page des réservations", "Index", "Reservation")</p>
 }
