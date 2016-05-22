@@ -41,6 +41,7 @@ namespace Gite.Database.Repositories
         public void Insert(Reservation reservation)
         {
             _session.Save(reservation);
+            _session.Flush();
         }
     }
 }

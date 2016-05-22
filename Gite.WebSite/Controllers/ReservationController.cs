@@ -36,7 +36,9 @@ namespace Gite.WebSite.Controllers
         public ActionResult CheckIn(string id)
         {
             var date = _calendar.GetSpecificDate(id);
-                
+
+            if (date.Reserved) throw new Exception("This date is already reserved...");
+
             PrepareViewbag(id, date);
 
             return View(new ReservationModel { Price = date.Price.Amount, Caution =date.Price.Amount });
@@ -46,7 +48,8 @@ namespace Gite.WebSite.Controllers
         public ActionResult CheckIn(string id, ReservationModel model)
         {
             var date = _calendar.GetSpecificDate(id);
-                
+
+            if (date.Reserved) throw new Exception("This date is already reserved...");
             if (model.Price != date.Price.Amount || model.Caution != date.Price.Amount)
             {
                 PrepareViewbag(id, date);
