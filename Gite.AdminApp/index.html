@@ -10,7 +10,7 @@
         <script type="text/javascript" src="scripts/adminApp.helper.js"></script>
         <script type="text/javascript" src="scripts/adminApp.ui.js"></script>
         <script type="text/javascript">
-            var baseUrl = "http://localhost:20523/api/reservation/"
+            var baseUrl = "http://la-feniere.azurewebsites.net/api/reservation/"
         </script>
     </head>
     <body>
@@ -80,10 +80,11 @@
             <p>Depuis toujours: <strong id="all">--</strong>€</p>
         </div>
 
-
-
         <!-- DIALOGS -->
-        <div data-role="dialog" id="dialog">La paiement a été confirmé.</div>
+        <div data-role="dialog" id="confirmedDialog" class="ui-content">
+            <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
+            Le paiement a été confirmé.
+        </div>
     </body>
 </html>
 <script type="text/javascript">

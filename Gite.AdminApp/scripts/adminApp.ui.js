@@ -63,17 +63,18 @@ window.Reservations = (function ($) {
             url: baseUrl + 'PaymentReceived/' + current.Id,
             type: 'PUT',
             success: function () {
-                $.mobile.changePage('#confirmedDialog', 'pop', true, true);
                 refresh();
                 $("#reservationDetails #link").trigger("click");
             },
-            error: function () { alert("Meh."); }
+            error: function () { alert("Déjà confirmé.."); }
         });
     }
 
     // Setup navigation
     $(document).on("pagebeforeshow", "#reservations", function () { window.Reservations.refresh(); });
     $(document).on("pagebeforeshow", "#reservationDetails", function () { window.Reservations.showDetails(); });
+    $(document).on("pagehide", "#confirmedDialog", function () {
+    });
 
     return {
         refresh: refresh,
