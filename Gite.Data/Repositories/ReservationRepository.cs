@@ -3,6 +3,7 @@ using Gite.Model.Model;
 using Gite.Model.Repositories;
 using NHibernate;
 using NHibernate.Linq;
+using System;
 
 namespace Gite.Database.Repositories
 {
@@ -15,9 +16,14 @@ namespace Gite.Database.Repositories
             _session = session;
         }
 
-        public Reservation Load(string id)
+        public Reservation Load(Guid id)
         {
             return _session.Load<Reservation>(id);
+        }
+
+        public Reservation LoadByCustomId(string id)
+        {
+            return _session.Query<Reservation>().SingleOrDefault(x => x.CustomId == id && !x.IsCancelled);
         }
 
         public IQueryable<Reservation> Query()
@@ -28,9 +34,8 @@ namespace Gite.Database.Repositories
         public bool IsWeekReserved(int year, int dayOfYear)
         {
             var id = string.Format("{0}{1:D3}", year, dayOfYear);
-            var resa = _session.Query<Reservation>().FirstOrDefault(x => x.Id == id);
 
-            return resa != null;
+            return _session.Query<Reservation>().Any(x => x.CustomId == id && !x.IsCancelled);
         }
 
         public void Insert(Reservation reservation)

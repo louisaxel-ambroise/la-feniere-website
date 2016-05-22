@@ -11,12 +11,12 @@ namespace Gite.Model.Services.PriceCalculation.Strategies
             if (dateTime.Month == June)
             {
                 response.Match = true;
-                response.Amount = 400;
+                response.Amount = response.Caution = 400;
             }
             else if (dateTime.Month == July || dateTime.Month == August)
             {
                 response.Match = true;
-                response.Amount = 590;
+                response.Amount = response.Caution = 590;
             }
 
             return response;

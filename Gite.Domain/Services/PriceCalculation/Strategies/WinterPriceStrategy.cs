@@ -11,7 +11,7 @@ namespace Gite.Model.Services.PriceCalculation.Strategies
             if (dateTime.Month == December || dateTime.Month == January)
             {
                 response.Match = true;
-                response.Amount = 500;
+                response.Amount = response.Caution = 500;
             }
 
             return response;

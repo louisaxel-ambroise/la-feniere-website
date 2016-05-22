@@ -10,15 +10,14 @@ namespace Gite.Model.Services.PriceCalculation.Strategies
             
             if (offset.Days < 7)
             {
-                // Apply discount -> 10% (reservation last minute)
-                response.Amount = ApplyDiscount(response.Amount);
+                response.Amount = ApplyDiscount(response.Amount); // Apply discount -> 10% (reservation last minute)
                 response.HasDiscount = true;
             }
 
             return response;
         }
 
-        private int ApplyDiscount(int price)
+        private float ApplyDiscount(float price)
         {
             return (price - (price/10));
         }

@@ -10,11 +10,12 @@ namespace Gite.WebSite.Models
         {
             return new Reservation
             {
-                Id = id,
+                CustomId = id,
                 Ip = ip,
                 StartingOn = date.BeginDate,
                 EndingOn = date.EndDate,
                 Price = model.Price,
+                Caution = model.Caution,
                 CautionRefunded = true,
                 PaymentReceived = false,
                 CreatedOn = DateTime.Now,
@@ -33,13 +34,15 @@ namespace Gite.WebSite.Models
             return new ApiReservation
             {
                 Id = reservation.Id,
+                CustomId = reservation.CustomId,
                 StartingOn = reservation.StartingOn.ToString("yyyy-MM-dd"),
                 EndingOn = reservation.EndingOn.ToString("yyyy-MM-dd"),
                 Mail = reservation.Contact.Mail,
                 Name = reservation.Contact.Name,
                 PaymentReceived = reservation.PaymentReceived,
                 CautionRefunded = reservation.CautionRefunded,
-                Price = reservation.Price
+                Price = reservation.Price,
+                Caution = reservation.Caution
             };
         }
     }

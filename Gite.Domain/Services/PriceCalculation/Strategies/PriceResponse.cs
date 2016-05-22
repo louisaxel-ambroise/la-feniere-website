@@ -3,7 +3,8 @@
     public class PriceResponse
     {
         public bool Match { get; set; }
-        public int Amount { get; set; }
+        public float Amount { get; set; }
+        public float Caution { get; set; }
         public bool HasDiscount { get; set; }
     }
 }

@@ -4,7 +4,9 @@ namespace Gite.WebSite.Models
 {
     public class ReservationModel
     {
-        public int Price { get; set; }
+        public float Price { get; set; }
+        public float Caution { get; set; }
+
         public string Ip { get; set; }
         [Required(AllowEmptyStrings = false, ErrorMessage = "Veuillez entrer votre adresse mail")]
         public string Email { get; set; }

@@ -39,7 +39,7 @@ namespace Gite.WebSite.Controllers
                 
             PrepareViewbag(id, date);
 
-            return View(new ReservationModel { Price = date.Price.Amount });
+            return View(new ReservationModel { Price = date.Price.Amount, Caution =date.Price.Amount });
         }
 
         [HttpPost]
@@ -47,7 +47,7 @@ namespace Gite.WebSite.Controllers
         {
             var date = _calendar.GetSpecificDate(id);
                 
-            if (model.Price != date.Price.Amount)
+            if (model.Price != date.Price.Amount || model.Caution != date.Price.Amount)
             {
                 PrepareViewbag(id, date);
                 return View(model); // TODO: redirect to error?

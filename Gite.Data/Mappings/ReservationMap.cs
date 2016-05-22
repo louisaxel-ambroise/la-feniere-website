@@ -7,13 +7,17 @@ namespace Gite.Database.Mappings
     {
         public ReservationMap()
         {
-            Id(x => x.Id).Column("Id").Not.Nullable();
+            Id(x => x.Id).Column("Id").GeneratedBy.GuidComb();
+            Map(x => x.CustomId).Column("CustomId").Not.Nullable();
+            Map(x => x.IsCancelled).Column("Cancelled").Not.Nullable();
             Map(x => x.Ip).Column("Ip").Nullable();
+            Map(x => x.Price).Column("Price").Not.Nullable();
+            Map(x => x.Caution).Column("Caution").Not.Nullable();
             Map(x => x.CreatedOn).Column("CreatedOn").Not.Nullable();
             Map(x => x.StartingOn).Column("StartingOn").Not.Nullable();
             Map(x => x.EndingOn).Column("EndingOn").Not.Nullable();
-            Map(x => x.PaymentReceived).Column("Validated").Not.Nullable();
-            Map(x => x.CautionRefunded).Column("Confirmed").Nullable();
+            Map(x => x.PaymentReceived).Column("PaymentReceived").Not.Nullable();
+            Map(x => x.CautionRefunded).Column("CautionRefunded").Nullable();
             Component(x => x.Contact).ColumnPrefix("Contact");
         }
     }

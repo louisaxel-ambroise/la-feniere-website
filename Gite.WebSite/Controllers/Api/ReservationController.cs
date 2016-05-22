@@ -50,7 +50,7 @@ namespace Gite.WebSite.Controllers.Api
         }
 
         [HttpPut]
-        public IHttpActionResult PaymentReceived(string id)
+        public IHttpActionResult PaymentReceived(Guid id)
         {
             _paymentProcessor.PaymentReceived(id);
 
@@ -58,7 +58,7 @@ namespace Gite.WebSite.Controllers.Api
         }
 
         [HttpPut]
-        public IHttpActionResult CautionRefunded(string id)
+        public IHttpActionResult CautionRefunded(Guid id)
         {
             _refundProcessor.Process(id);
 

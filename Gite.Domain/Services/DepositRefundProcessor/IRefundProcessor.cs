@@ -1,7 +1,9 @@
-﻿namespace Gite.Model.Services.DepositRefundProcessor
+﻿using System;
+
+namespace Gite.Model.Services.DepositRefundProcessor
 {
     public interface IRefundProcessor
     {
-        void Process(string reservationId);
+        void Process(Guid reservationId);
     }
 }

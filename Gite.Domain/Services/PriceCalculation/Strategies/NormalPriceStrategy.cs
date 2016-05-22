@@ -9,7 +9,7 @@ namespace Gite.Model.Services.PriceCalculation.Strategies
             if (response.Match) return response;
 
             response.Match = true;
-            response.Amount = 320;
+            response.Amount = response.Caution = 320;
 
             return response;
         }

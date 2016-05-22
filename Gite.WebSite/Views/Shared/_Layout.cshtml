@@ -26,8 +26,13 @@
             <a class="flag" href="#?lang=en"><img src="~/Content/Images/flags/en.jpg" /></a>
             <a class="flag" href="#?lang=de"><img src="~/Content/Images/flags/de.jpg" /></a>
         </div>
-        <div class="logo">
-            <p>Gîte de caractère en Ardèche</p></div>
+        <div class="row">
+            <div class="logo col-xs-12 col-sm-6 col-md-4">
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-3">
+                <p>Gîte de caractère en Ardèche</p>
+            </div>
+        </div>
     </header>
     <div class="navbar navbar-inverse">
         <div class="container">
@@ -55,7 +60,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p class="text-center">&copy; @DateTime.Now.Year - La Fenière &bull; <span class="social-icon"><i class="fa fa-facebook"></i>acebook</span></p>
+            <p class="text-center">&copy; @DateTime.Now.Year - La Fenière &bull; <span class="social-icon"><i class="fa fa-facebook-square"></i>acebook</span></p>
         </footer>
     </div>
     @RenderSection("scripts", required: false)

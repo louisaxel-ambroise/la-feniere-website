@@ -4,7 +4,9 @@ namespace Gite.Model.Model
 {
     public class Reservation
     {
-        public virtual string Id { get; set; }
+        public virtual Guid Id { get; set; }
+        public virtual string CustomId { get; set; }
+        public virtual bool IsCancelled { get; set; }
         public virtual string Ip { get; set; }
         public virtual DateTime CreatedOn { get; set; }
         public virtual DateTime StartingOn { get; set; }
@@ -12,6 +14,7 @@ namespace Gite.Model.Model
         public virtual Contact Contact { get; set; }
         public virtual bool PaymentReceived { get; set; }
         public virtual bool CautionRefunded { get; set; }
-        public virtual int Price { get; set; }
+        public virtual float Price { get; set; }
+        public virtual float Caution { get; set; }
     }
 }

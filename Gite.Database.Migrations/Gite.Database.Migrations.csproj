@@ -41,7 +41,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="M001_Create_Reservation_Table.cs" />
-    <Compile Include="M002_Alter_Reservation_Add_IP_Field.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

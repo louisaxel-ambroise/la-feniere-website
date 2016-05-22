@@ -1,5 +1,5 @@
 ﻿header{
-    height:100px;
+    min-height:100px;
 }
 
 body{
@@ -31,12 +31,17 @@ h2{
     background-repeat: no-repeat;
     height:90px;
 }
-.logo p{
-    padding-top:55px;
+header p{
     height:15px;
     font-size:15px;
     line-height:15px;
-    margin-left:350px;
+    text-align:right;
+}
+@media (min-width: 768px ) {
+    header p{
+        margin-top:72px;
+        letter-spacing:1px;
+    }
 }
 
 .social-icon {
@@ -94,5 +99,26 @@ h2{
     padding-bottom:0 !important;
     height: 42px;
 }
+
+.navbar-inverse .navbar-nav > li > a{
+    border-bottom:2px solid #2e2e2e;
+}
+
+.navbar-inverse .navbar-nav > li.reservation > a:hover, .navbar-inverse .navbar-nav > li.reservation > a:focus{
+    border-bottom:2px solid #0391ce;
+}
+.navbar-inverse .navbar-nav > li.activites > a:hover, .navbar-inverse .navbar-nav > li.activites > a:focus{
+    border-bottom:2px solid #938781;
+}
+.navbar-inverse .navbar-nav > li.contact > a:hover, .navbar-inverse .navbar-nav > li.contact > a:focus{
+    border-bottom:2px solid #66b032;
+}
+.navbar-inverse .navbar-nav > li.decouvrir > a:hover, .navbar-inverse .navbar-nav > li.decouvrir > a:focus{
+    border-bottom:2px solid #a7194b;
+}
+.navbar-inverse .navbar-nav > li.accueil > a:hover, .navbar-inverse .navbar-nav > li.accueil > a:focus{
+    border-bottom:2px solid #b74506;
+}
+
 button.navbar-toggle{ height:35px !important; margin-top:6px;margin-left:10px; }
 .navbar-bottom{ height:40px;width:100%;}
