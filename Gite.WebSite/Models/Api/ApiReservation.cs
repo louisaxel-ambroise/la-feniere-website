@@ -12,6 +12,7 @@ namespace Gite.WebSite.Models.Api
         public string EndingOn { get; set; }
         public float Price { get; set; }
         public float Caution { get; set; }
+        public bool PaymentDeclared { get; set; }
         public bool PaymentReceived { get; set; }
         public bool CautionRefunded { get; set; }
     }

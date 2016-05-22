@@ -41,6 +41,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="M001_Create_Reservation_Table.cs" />
+    <Compile Include="M002_Alter_Reservation_Add_PaymentDeclared_Field.cs" />
+    <Compile Include="M003_Alter_Reservation_Add_PaymentDeclared_Field.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

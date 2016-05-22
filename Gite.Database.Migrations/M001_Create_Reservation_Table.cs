@@ -10,7 +10,6 @@ namespace Gite.Database.Migrations
             Create.Table("Reservation")
                 .WithColumn("Id").AsGuid().PrimaryKey()
                 .WithColumn("CustomId").AsString(7).NotNullable() // year (yyyy) + day of year (0-365)
-                .WithColumn("Cancelled").AsBoolean().NotNullable()
                 .WithColumn("StartingOn").AsDateTime().NotNullable()
                 .WithColumn("EndingOn").AsDateTime().NotNullable()
                 .WithColumn("CreatedOn").AsDateTime().NotNullable()
@@ -23,11 +22,6 @@ namespace Gite.Database.Migrations
                 .WithColumn("Price").AsFloat().NotNullable()
                 .WithColumn("Caution").AsFloat().NotNullable()
                 .WithColumn("Ip").AsString(20).Nullable();
-
-            Create.Index("IX_RESERVATION_CUSTOMID_CANCELLED")
-                .OnTable("Reservation")
-                .OnColumn("CustomId").Ascending()
-                .OnColumn("Cancelled").Ascending();
         }
     }
 }

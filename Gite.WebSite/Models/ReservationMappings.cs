@@ -11,7 +11,6 @@ namespace Gite.WebSite.Models
             return new Reservation
             {
                 CustomId = id,
-                IsCancelled = false,
                 Ip = ip,
                 StartingOn = date.BeginDate,
                 EndingOn = date.EndDate,
@@ -53,6 +52,7 @@ namespace Gite.WebSite.Models
                 EndingOn = reservation.EndingOn.ToString("yyyy-MM-dd"),
                 Mail = reservation.Contact.Mail,
                 Name = reservation.Contact.Name,
+                PaymentDeclared = reservation.PaymentDeclared,
                 PaymentReceived = reservation.PaymentReceived,
                 CautionRefunded = reservation.CautionRefunded,
                 Price = reservation.Price,

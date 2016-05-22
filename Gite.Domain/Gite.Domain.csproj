@@ -68,8 +68,10 @@
     <Compile Include="Model\Reservation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\IReservationRepository.cs" />
-    <Compile Include="Services\ReservationPersister\IReservationPersister.cs" />
-    <Compile Include="Services\ReservationPersister\ReservationPersister.cs" />
+    <Compile Include="Services\Reservations\ReservationCanceller\IReservationCanceller.cs" />
+    <Compile Include="Services\Reservations\ReservationCanceller\ReservationCanceller.cs" />
+    <Compile Include="Services\Reservations\ReservationPersister\IReservationPersister.cs" />
+    <Compile Include="Services\Reservations\ReservationPersister\ReservationPersister.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

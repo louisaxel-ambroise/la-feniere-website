@@ -45,6 +45,7 @@
   <ItemGroup>
     <Content Include="index.html" />
     <Content Include="packages.config" />
+    <Content Include="scripts\adminApp.helper.js" />
     <Content Include="scripts\adminApp.ui.js" />
   </ItemGroup>
   <ItemGroup>

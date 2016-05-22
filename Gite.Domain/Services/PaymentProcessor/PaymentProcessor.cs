@@ -21,7 +21,7 @@ namespace Gite.Model.Services.PaymentProcessor
             var reservation = _reservationRepository.Load(reservationId);
 
             if (reservation.PaymentReceived) throw new Exception(string.Format("Payment for reservation {0} already marked as received.", reservationId));
-            if (reservation.IsCancelled) throw new Exception(string.Format("Reservation {0} is cancelled.", reservationId));
+            if (reservation.IsCancelled()) throw new Exception(string.Format("Reservation {0} is cancelled.", reservationId));
 
             reservation.PaymentReceived = true;
         }

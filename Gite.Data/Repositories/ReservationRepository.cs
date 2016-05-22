@@ -23,7 +23,7 @@ namespace Gite.Database.Repositories
 
         public Reservation LoadByCustomId(string id)
         {
-            return _session.Query<Reservation>().SingleOrDefault(x => x.CustomId == id && !x.IsCancelled);
+            return _session.Query<Reservation>().SingleOrDefault(x => x.CustomId == id && x.CancelToken == null);
         }
 
         public IQueryable<Reservation> Query()
@@ -35,7 +35,7 @@ namespace Gite.Database.Repositories
         {
             var id = string.Format("{0}{1:D3}", year, dayOfYear);
 
-            return _session.Query<Reservation>().Any(x => x.CustomId == id && !x.IsCancelled);
+            return _session.Query<Reservation>().Any(x => x.CustomId == id && x.CancelToken == null);
         }
 
         public void Insert(Reservation reservation)

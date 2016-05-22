@@ -7,49 +7,73 @@
         <link href="http://code.jquery.com/mobile/1.4.5/jquery.mobile.structure-1.4.5.min.css" rel="stylesheet" />
         <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
         <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+        <script type="text/javascript" src="scripts/adminApp.helper.js"></script>
         <script type="text/javascript" src="scripts/adminApp.ui.js"></script>
+        <script type="text/javascript">
+            var baseUrl = "http://la-feniere.azurewebsites.net/api/reservation/"
+        </script>
     </head>
     <body>
+        <!-- HOME page -->
         <div id="home" data-role="page">
             <div data-role="header" data-position="fixed">
-                <a id="refresh" onclick="refresh();" data-role="button" data-mini="true">MàJ</a>
+                <a id="refresh" onclick="window.HomePage.refresh();" class="ui-btn ui-btn-right ui-corner-all ui-icon-refresh ui-btn-icon-notext">MàJ</a>
                 <h1>La Fenière</h1>
             </div>
             <ul data-role="listview" data-inset="true">
-                <li><a href="#incomingReservations" id="incLink" data-transition="slide">A venir</a></li>
-                <li><a href="#pastReservations" id="pastLink" data-transition="slide">Passées</a></li>
-                <li><a href="#overview" data-transition="slide">Résumé</a></li>
-                <li><a href="#alerts" data-transition="slide">Alertes (0)</a></li>
+                <li><a href="#reservations" id="incLink" data-transition="slide">Réservations</a></li>
+                <li><a href="#" data-transition="slide">Alertes</a></li>
+                <li><a href="#comptes" data-transition="slide">Comptes</a></li>
             </ul>
         </div>
-        <div id="incomingReservations" data-role="page">
+
+        <!-- Reservation pages -->
+        <div id="reservations" data-role="page">
             <div data-role="header" data-position="fixed">
                 <a href="#home" data-role="button" data-mini="true" data-transition="slide" data-direction="reverse">Retour</a>
-                <h1>Réservations à venir</h1>
+                <h1>Réservations</h1>
+                <a id="refresh" onclick="window.Reservations.refresh();" class="ui-btn ui-btn-right ui-corner-all ui-icon-refresh ui-btn-icon-notext">MàJ</a>
             </div>
-            <div data-role="collapsible-set" id="incomingList">
-            </div>
+            <ul data-role="listview" data-inset="true">
+                <li><a href="#incomingReservation" data-transition="slide">Prochainement (<span id="incoming"></span>)</a></li>
+                <li><a href="#pendingReservation" data-transition="slide">Attente de confirmation (<span id="pending"></span>)</a></li>
+                <li><a href="#" data-transition="slide">Cautions en attente</a></li>
+            </ul>
         </div>
-        <div id="pastReservations" data-role="page">
+
+        <!-- Reservations -- Incoming page -->
+        <div id="incomingReservation" data-role="page">
             <div data-role="header" data-position="fixed">
-                <a href="#home" data-role="button" data-mini="true" data-transition="slide" data-direction="reverse">Retour</a>
-                <h1>Réservations passées</h1>
+                <a href="#reservations" data-role="button" data-mini="true" data-transition="slide" data-direction="reverse">Retour</a>
+                <h1>Prochainement</h1>
             </div>
-            <div data-role="collapsible-set" id="pastList">
-            </div>
+            <ul data-role="listview" id="list">
+            </ul>
         </div>
-        <div id="overview" data-role="page">
+        <!-- Reservations -- Pending confirmation page -->
+        <div id="pendingReservation" data-role="page">
             <div data-role="header" data-position="fixed">
-                <a href="#home" data-role="button" data-mini="true" data-transition="slide" data-direction="reverse">Retour</a>
-                <h1>Résumé</h1>
-                <p style="text-align:center;">A venir...</p>
+                <a href="#reservations" data-role="button" data-mini="true" data-transition="slide" data-direction="reverse">Retour</a>
+                <h1>Attente de confirmation</h1>
             </div>
+            <ul data-role="listview" id="list"></ul>
         </div>
-        <div id="alerts" data-role="page">
+
+        <!-- Comptes pages -->
+        <div id="comptes" data-role="page">
             <div data-role="header" data-position="fixed">
                 <a href="#home" data-role="button" data-mini="true" data-transition="slide" data-direction="reverse">Retour</a>
-                <h1>Alertes</h1>
+                <h1>Comptabilité</h1>
+                <a id="refresh" onclick="window.Comptes.refresh();" class="ui-btn ui-corner-all ui-icon-refresh ui-btn-icon-notext">MàJ</a>
             </div>
+            <p>Ce mois-ci: <strong id="month">--</strong>€</p>
+            <p>Cette année: <strong id="year">--</strong>€</p>
+            <p>Depuis toujours: <strong id="all">--</strong>€</p>
         </div>
     </body>
 </html>
+<script type="text/javascript">
+    $( document ).on( "mobileinit", function() {
+        refresh();
+    });
+</script>

@@ -1,59 +1,68 @@
-﻿if (typeof window.Reservations === 'undefined') {
-    window.Reservations = {};
-}
+﻿if (typeof window.HomePage === 'undefined') window.HomePage = {};
+if (typeof window.Reservations === 'undefined') window.Reservations = {};
+if (typeof window.Comptes === 'undefined') window.Comptes = {};
 
-var model = {
-    incoming: 0,
-    past: 0
-};
-
-var updateIncomingPage = function (data) {
-    var list = "";
-
-    for (var i = 0; i < data.length ; i++) {
-        list += "<div data-role=\"collapsible\">";
-        list += "<h3>" + data[i].StartingOn.substr(0, 10) + " - " + data[i].EndingOn.substr(0, 10) + "</h3>";
-        list += "<p>" + data[i].Name + "(" + data[i].Mail + ")</p>";
-        if (data[i].PaymentReceived)
-            list += "<p>Paiement reçu (" + data[i].Price + "€)</p>";
-        else
-            list += "<p style='color:red'>Paiement non reçu (" + data[i].Price + "€)</p>";
-        list += "</div>";
+window.HomePage = (function ($) {
+    var refresh = function () {
+        alert("toto");
     }
 
-    $("#incomingList").html(list);
-    $('#incomingList').trigger('create');
-}
-var updatePastPage = function (data) {
-    var list = "";
+    return {
+        refresh: refresh
+    }
+})($);
 
-    for (var i = 0; i < data.length ; i++) {
-        list += "<div data-role=\"collapsible\">";
-        list += "<h3>" + data[i].StartingOn.substr(0, 10) + " - " + data[i].EndingOn.substr(0, 10) + "</h3>";
-        list += "<p>" + data[i].Name + "(" + data[i].Mail + ")</p>";
-        if (data[i].CautionRefunded)
-            list += "<p>Caution rendue.</p>";
-        else
-            list += "<p style='color:red'>Caution non rendue (" + data[i].Price + "€)</p>";
-        list += "</div>";
+window.Reservations = (function ($) {
+    var refresh = function () {
+        incoming();
+        pendingConfirmation();
+        // TODO: cautions en attente
     }
 
-    $("#pastList").html(list);
-    $('#pastList').trigger('create');
-}
+    var incoming = function () {
+        $.get(baseUrl + "Incoming", function (data) {
+            window.Reservations.model.Incoming = data;
 
-var refresh = function () {
-    $.get("http://localhost:20523/api/reservation/incoming", function (data) {
-        model.incoming = data;
-        $("#incLink").html("A venir (" + data.length + ")");
-        updateIncomingPage(data);
-    });
-    $.get("http://localhost:20523/api/reservation/past", function (data) {
-        model.past = data;
-        $("#pastLink").html("Passées (" + data.length + ")");
-    });
-}
+            $("#reservations #incoming").html(data.length);
+            $("#incomingReservation #list").html(IncomingReservations(data));
+            $('#incomingReservation #list').listview('refresh');
+        });
+    }
 
-window.Reservations.ui = (function ($) {
-    refresh();
+    var pendingConfirmation = function () {
+        $.get(baseUrl + "PendingConfirmation", function (data) {
+            window.Reservations.model.Pending = data;
+
+            $("#reservations #pending").html(data.length);
+            $("#pendingReservation #list").html(PendingValidation(data));
+            $('#pendingReservation #list').listview('refresh');
+        });
+    }
+
+    // Setup navigation
+    $(document).on("pagebeforeshow", "#reservations", function () { window.Reservations.refresh(); });
+
+    return {
+        refresh: refresh,
+        incoming: incoming,
+        model: {}
+    }
+})($);
+
+
+window.Comptes = (function ($) {
+    var refresh = function () {
+        $.get(baseUrl + "Accountancy", function (data) {
+            $("#comptes #month").html(data.Month);
+            $("#comptes #year").html(data.Year);
+            $("#comptes #all").html(data.All);
+        })
+    }
+
+    // Setup navigation
+    $(document).on("pagebeforeshow", "#comptes", function () {window.Comptes.refresh(); });
+
+    return {
+        refresh: refresh
+    }
 })($);

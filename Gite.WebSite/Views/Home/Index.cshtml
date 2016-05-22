@@ -6,11 +6,11 @@
 <script src="https://maps.googleapis.com/maps/api/js?callback=initMap" async defer></script>
 <script type="text/javascript">
     function initMap() {
-        var gitePosition = { lat: 45, lng: 4 };
+        var gitePosition = { lat: 44.690441, lng: 4.281118 };
         var mapDiv = document.getElementById('map');
         var map = new google.maps.Map(mapDiv, {
             scrollwheel: false,
-            center: { lat: 44.690441, lng: 4.781118 },
+            center: gitePosition,
             mapTypeId: google.maps.MapTypeId.HYBRID,
             zoom: 7
         });

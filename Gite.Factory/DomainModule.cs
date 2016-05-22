@@ -3,6 +3,7 @@ using Gite.Model.Services.DepositRefundProcessor;
 using Gite.Model.Services.MailSender;
 using Gite.Model.Services.PaymentProcessor;
 using Gite.Model.Services.PriceCalculation;
+using Gite.Model.Services.ReservationCanceller;
 using Gite.Model.Services.ReservationPersister;
 using Ninject.Modules;
 
@@ -28,6 +29,7 @@ namespace Gite.Factory
             Bind<IReservationCalendar>().To<ReservationCalendar>();
             Bind<IPaymentProcessor>().To<PaymentProcessor>();
             Bind<IRefundProcessor>().To<RefundProcessor>();
+            Bind<IReservationCanceller>().To<ReservationCanceller>();
             Bind<IReservationConfirmationMailSender>().To<ReservationConfirmationMailSender>()
                 .WithConstructorArgument("from", _from)
                 .WithConstructorArgument("password", _password)
