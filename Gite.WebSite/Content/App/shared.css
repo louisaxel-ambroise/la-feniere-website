@@ -93,11 +93,11 @@ header p{
     }
 }
 
-.navbar{ border-radius:0;margin-bottom:0;padding-bottom:0; min-height:42px !important;}
+.navbar{ border-radius:0;margin-bottom:0;padding-bottom:0; min-height:50px !important;}
 .navbar-nav > li > a, .navbar-brand {
     padding-top:12px !important; 
     padding-bottom:0 !important;
-    height: 42px;
+    height: 50px;
 }
 
 .navbar-inverse .navbar-nav > li > a{
