@@ -1,6 +1,6 @@
 ﻿@{
-    ViewBag.Title = "Accueil";
-    ViewBag.Color = "#b74506";
+    ViewBag.Title = "Souvenirs";
+    ViewBag.Color = "#8C0092";
 }
 
 <script src="https://maps.googleapis.com/maps/api/js?callback=initMap" async defer></script>
@@ -35,9 +35,27 @@
         <img src="~/Content/Images/12590_8.jpg" class="img-thumbnail" alt="Chirols">
     </div>
     <h2>Bienvenue à La Fenière</h2>
-	<p>Nous avons le plaisir de vous accueillir à Veyrières, petit hameau du village de Chirols accroché à la montagne dominant la vallée de la Fontaulière (affluent de l’Ardèche).</p>
-	<p>Ce lieu a gardé le cachet des hameaux d’autrefois, environnement calme et authentique au milieu des châtaigniers. </p>
-	<p>Ce gîte en pierre conçu pour 6 personnes, est aménagé sur 2 niveaux et possède notamment 3 chambres et 2 terrasses.</p>
+    <p>Description rapide du gîte.</p>
+</div>
+<div class="row">
+    <h2>A faire dans le coin</h2>
+    <div class="col-xs-6 col-md-4">
+        <h3>Sports aquatiques</h3>
+        <p>
+            Canoë Kayak, descente de l'Ardèche
+        </p>
+        @Html.ActionLink("En savoir plus »", "Activites", null, new { @class = "btn btn-default" })
+    </div>
+    <div class="col-xs-6 col-md-4">
+        <h3>Activités culturelles</h3>
+        <p>Plein de trucs à faire</p>
+        @Html.ActionLink("Voir les activités »", "Activites", null, new { @class = "btn btn-default" })
+    </div>
+    <div class="col-md-4 col-sm-12">
+        <h3>Villages de caractère</h3>
+        <p>Marchés, villages médiévaux, etc.</p>
+        @Html.ActionLink("Plus d'info »", "Activites", null, new { @class = "btn btn-default" })
+    </div>
 </div>
 <div class="row">
     <h2>Nous trouver</h2>

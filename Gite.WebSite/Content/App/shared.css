@@ -85,7 +85,7 @@ header p{
     }
 
     .navbar .nav li {
-        width: 20%;
+        width: 15%;
     }
 
     .navbar .nav li a {
@@ -116,9 +116,25 @@ header p{
 .navbar-inverse .navbar-nav > li.decouvrir > a:hover, .navbar-inverse .navbar-nav > li.decouvrir > a:focus{
     border-bottom:2px solid #a7194b;
 }
+.navbar-inverse .navbar-nav > li.souvenirs > a:hover, .navbar-inverse .navbar-nav > li.souvenirs > a:focus{
+    border-bottom:2px solid #8C0092;
+}
 .navbar-inverse .navbar-nav > li.accueil > a:hover, .navbar-inverse .navbar-nav > li.accueil > a:focus{
     border-bottom:2px solid #b74506;
 }
 
 button.navbar-toggle{ height:35px !important; margin-top:6px;margin-left:10px; }
 .navbar-bottom{ height:40px;width:100%;}
+
+
+.body-content p, .body-content li{
+	font-family:georgia;
+	font-size:16px;
+}
+.body-content li{
+	margin-bottom:5px;
+}
+.boty-content ul{
+	margin-left:20px;
+}
+	

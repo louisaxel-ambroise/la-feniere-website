@@ -32,5 +32,10 @@ namespace Gite.WebSite.Controllers
         {
             return View();
         }
+
+        public ActionResult Souvenirs()
+        {
+            return View();
+        }
     }
 }
