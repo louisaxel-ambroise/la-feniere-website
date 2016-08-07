@@ -126,11 +126,6 @@ header p{
 button.navbar-toggle{ height:35px !important; margin-top:6px;margin-left:10px; }
 .navbar-bottom{ height:32px;width:100%;}
 
-
-.body-content {
-	font-family:georgia;
-	font-size:105%;
-}
 .body-content li{
 	margin-bottom:5px;
 }
