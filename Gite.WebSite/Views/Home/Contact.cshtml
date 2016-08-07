@@ -18,13 +18,13 @@
         });
 
         var infowindow = new google.maps.InfoWindow({
-            content: "<h4>Gîte @ViewBag.GiteName</h4>Hameau de Veyrières<br />07380 Chirols<br />France"
+            content: "<h4>Gîte Mas des Genettes</h4>Hameau de Veyrières<br />07380 Chirols<br />France"
         });
 
         var marker = new google.maps.Marker({
             position: gitePosition,
             map: map,
-            title: 'Gîte @ViewBag.GiteName'
+            title: 'Gîte Mas des Genettes'
         });
         marker.addListener('click', function () {
             infowindow.open(map, marker);

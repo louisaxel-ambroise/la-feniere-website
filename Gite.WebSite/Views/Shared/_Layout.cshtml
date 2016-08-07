@@ -3,7 +3,6 @@
     {
         ViewBag.Color = "#b74506";
     }
-	ViewBag.GiteName = "Mas des Genettes";
 }
 
 <!DOCTYPE html>
@@ -12,7 +11,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - La Fenière</title>
+    <title>@ViewBag.Title - Mas des Genettes</title>
     @Styles.Render("~/Content/css")
     @Styles.Render("~/Content/laFeniere")
 
@@ -62,7 +61,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p class="text-center">&copy; @DateTime.Now.Year - @ViewBag.GiteName &bull; <span class="social-icon"><i class="fa fa-facebook-square"></i>acebook</span></p>
+            <p class="text-center">&copy; @DateTime.Now.Year - Mas des Genettes &bull; <i class="fa fa-facebook-square"></i>acebook</p>
         </footer>
     </div>
     @RenderSection("scripts", required: false)
