@@ -308,6 +308,7 @@
     <Content Include="Views\Error\NotFound.cshtml" />
     <Content Include="Views\Home\Description.cshtml" />
     <Content Include="Views\Home\Activites.cshtml" />
+    <Content Include="Views\Home\Souvenirs.cshtml" />
     <Content Include="Views\Reservation\Index.cshtml" />
     <Content Include="Views\Reservation\CheckIn.cshtml" />
     <Content Include="Views\Reservation\ListWeekForMonth.cshtml" />
