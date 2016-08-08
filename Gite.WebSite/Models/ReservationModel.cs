@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using Gite.WebSite.Attributes;
 
 namespace Gite.WebSite.Models
 {
@@ -25,6 +26,13 @@ namespace Gite.WebSite.Models
         public string City { get; set; }
         [Required(AllowEmptyStrings = false, ErrorMessage = "Veuillez renseigner votre pays")]
         public string Country { get; set; }
+
+        [PeopleNumber("Adults", "Children", "Babies", ErrorMessage = "Veuillez vérifier le nombre de personnes présentes")]
+        public int TotalPeople { get; set; }
+        [Range(1, 6, ErrorMessage = "Au moins un adulte doit être présent")]
+        public int Adults { get; set; }
+        public int Children { get; set; }
+        public int Babies { get; set; }
 
         public string FormatAddress()
         {

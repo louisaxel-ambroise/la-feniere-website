@@ -50,12 +50,7 @@ namespace Gite.WebSite.Controllers
             var date = _calendar.GetSpecificDate(id);
 
             if (date.Reserved) throw new Exception("This date is already reserved...");
-            if (model.Price != date.Price.Amount || model.Caution != date.Price.Amount)
-            {
-                PrepareViewbag(id, date);
-                return View(model); // TODO: redirect to error?
-            }
-            if (!ModelState.IsValid)
+            if (model.Price != date.Price.Amount || model.Caution != date.Price.Amount || !ModelState.IsValid)
             {
                 PrepareViewbag(id, date);
                 return View(model);

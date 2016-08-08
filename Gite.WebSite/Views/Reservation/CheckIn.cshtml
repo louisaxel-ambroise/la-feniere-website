@@ -27,7 +27,8 @@
     </div>
     <div class="col-md-6">
         <p>Vous serez prévenus par e-mail lorsque votre virement aura été accepté.</p>
-        <p><strong>Les chèques ne sont pas acceptés.<br/>Les paiements se font uniquement par virement bancaire.</strong>
+        <p>
+            <strong>Les chèques ne sont pas acceptés.<br />Les paiements se font uniquement par virement bancaire.</strong>
         </p>
     </div>
 </div>
@@ -47,35 +48,52 @@
             <h4>Vos coordonnées:</h4>
             <div class="form-group">
                 <label for="name">Votre nom:</label>
-                @Html.TextBoxFor(x => x.Name, new { id = "name", @class = "form-control", placeholder = "name" })
+                @Html.TextBoxFor(x => x.Name, new {id = "name", @class = "form-control", placeholder = "name"})
             </div>
             <div class="form-group">
                 <label for="email">Votre adresse e-mail:</label>
-                @Html.TextBoxFor(x => x.Email, new { id = "email", @class = "form-control", placeholder = "e-mail" })
+                @Html.TextBoxFor(x => x.Email, new {id = "email", @class = "form-control", placeholder = "e-mail"})
             </div>
             <div class="form-group">
                 <label for="phone">Votre numéro de téléphone:</label>
-                @Html.TextBoxFor(x => x.Phone, new { id = "phone", @class = "form-control", placeholder = "Téléphone" })
+                @Html.TextBoxFor(x => x.Phone, new {id = "phone", @class = "form-control", placeholder = "Téléphone"})
             </div>
         </div>
         <div class="col-md-6">
             <h4>Votre adresse:</h4>
             <div class="form-group">
                 <label for="address">Rue:</label>
-                @Html.TextBoxFor(x => x.Street, new { id = "address", @class = "form-control", placeholder = "Rue" })
+                @Html.TextBoxFor(x => x.Street, new {id = "address", @class = "form-control", placeholder = "Rue"})
             </div>
             <div class="form-group">
                 <label for="city">Ville:</label>
-                @Html.TextBoxFor(x => x.City, new { id = "city", @class = "form-control", placeholder = "Ville" })
+                @Html.TextBoxFor(x => x.City, new {id = "city", @class = "form-control", placeholder = "Ville"})
             </div>
             <div class="form-group">
                 <label for="zipcode">Code postal:</label>
-                @Html.TextBoxFor(x => x.ZipCode, new { id = "zipcode", @class = "form-control", placeholder = "Code Postal" })
+                @Html.TextBoxFor(x => x.ZipCode, new {id = "zipcode", @class = "form-control", placeholder = "Code Postal"})
             </div>
             <div class="form-group">
                 <label for="country">Pays:</label>
-                @Html.TextBoxFor(x => x.Country, new { id = "country", @class = "form-control", placeholder = "Pays" })
+                @Html.TextBoxFor(x => x.Country, new {id = "country", @class = "form-control", placeholder = "Pays"})
             </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <!-- Add here: # of persons, childs and less than 2 -->
+            <label for="peopleNumber">Nombre de personnes total:</label>
+            @Html.TextBoxFor(x => x.TotalPeople, new {id = "peopleNumber", @class = "form-control", value = 0, @type = "number"})
+
+            <label for="adultsNumber">Nombre de personnes total:</label>
+            @Html.TextBoxFor(x => x.Adults, new { id = "adultsNumber", @class = "form-control", value = 0, @type = "number" })
+
+            <label for="childrenNumber">Nombre de personnes total:</label>
+            @Html.TextBoxFor(x => x.Children, new { id = "childrenNumber", @class = "form-control", value = 0, @type = "number" })
+
+            <label for="babiesNumber">Nombre de personnes total:</label>
+            @Html.TextBoxFor(x => x.Babies, new { id = "babiesNumber", @class = "form-control", value = 0, @type = "number" })
+            
         </div>
     </div>
     <div class="row">
