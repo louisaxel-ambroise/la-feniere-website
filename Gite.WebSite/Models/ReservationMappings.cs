@@ -6,19 +6,10 @@ namespace Gite.WebSite.Models
 {
     public static class ReservationMappings
     {
-        public static Reservation MapToReservation(this ReservationModel model, string id, string ip, Date date)
+        public static Reservation MapToReservation(this ReservationModel model, string id, string ip)
         {
             return new Reservation
             {
-                CustomId = id,
-                Ip = ip,
-                StartingOn = date.BeginDate,
-                EndingOn = date.EndDate,
-                Price = model.Price,
-                Caution = model.Caution,
-                CautionRefunded = false,
-                PaymentReceived = false,
-                CreatedOn = DateTime.Now,
                 Contact = new Contact
                 {
                     Address = model.FormatAddress(),
@@ -33,16 +24,7 @@ namespace Gite.WebSite.Models
         {
             return new ReservationOverview
             {
-                Id = reservation.Id,
-                CustomId = reservation.CustomId,
-                StartingOn = reservation.StartingOn,
-                EndingOn = reservation.EndingOn,
-                Caution = reservation.Caution,
-                Price = reservation.Price,
-                Cancelled = reservation.IsCancelled(),
-                CautionRefunded = reservation.CautionRefunded,
-                PaymentDeclared = reservation.PaymentDeclared,
-                PaymentReceived = reservation.PaymentReceived
+
             };
         }
 
@@ -51,16 +33,6 @@ namespace Gite.WebSite.Models
             return new ApiReservation
             {
                 Id = reservation.Id,
-                CustomId = reservation.CustomId,
-                StartingOn = reservation.StartingOn.ToString("yyyy-MM-dd"),
-                EndingOn = reservation.EndingOn.ToString("yyyy-MM-dd"),
-                Mail = reservation.Contact.Mail,
-                Name = reservation.Contact.Name,
-                PaymentDeclared = reservation.PaymentDeclared,
-                PaymentReceived = reservation.PaymentReceived,
-                CautionRefunded = reservation.CautionRefunded,
-                Price = reservation.Price,
-                Caution = reservation.Caution
             };
         }
     }

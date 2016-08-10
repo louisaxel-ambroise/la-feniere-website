@@ -10,6 +10,6 @@ namespace Gite.Model.Repositories
         Reservation LoadByCustomId(string reservationId);
         void Insert(Reservation reservation);
         IQueryable<Reservation> Query();
-        bool IsWeekReserved(int year, int dayOfYear);
+        bool IsWeekReserved(DateTime firstDayOfWeek);
     }
 }

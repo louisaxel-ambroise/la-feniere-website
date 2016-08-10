@@ -6,8 +6,8 @@ namespace Gite.WebSite.Models
 {
     public class ReservationModel
     {
-        public float Price { get; set; }
-        public float Caution { get; set; }
+        public double Price { get; set; }
+        public double Caution { get; set; }
         public Guid ReservationId { get; set; }
         public string Ip { get; set; }
 
@@ -29,6 +29,7 @@ namespace Gite.WebSite.Models
 
         [PeopleNumber("Adults", "Children", "Babies", ErrorMessage = "Veuillez vérifier le nombre de personnes présentes")]
         public int TotalPeople { get; set; }
+
         [Range(1, 6, ErrorMessage = "Au moins un adulte doit être présent")]
         public int Adults { get; set; }
         public int Children { get; set; }
