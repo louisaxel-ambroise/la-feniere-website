@@ -107,7 +107,7 @@
 
                 if (isWeekSelected(date)) {
                     $(this).text("Choisi (" + price + "€)");
-                    $(this).css("background", "url('Content/Images/check.png') center right no-repeat #008a00");
+                    $(this).css("background", "url('/Content/Images/check.png') center right no-repeat #008a00");
                 } else if (canSelectWeek(date)) {
                     $(this).text("Libre (" + price + "€)");
                     $(this).css("background", "#5cb85c");
@@ -137,9 +137,7 @@
             // Display info to user
             $("#reservationDetails").text("Du " + format(begin) + " au " + format(addDays(end, 7)) + ". Total: " + total + "€");
             $("#validate").click(function () {
-                var beginCode = begin.getFullYear();
-                var endCode = end.getFullYear();
-                window.location.href = "/Reservation/CheckIn?begin=" + beginCode + "&end=" + endCode;
+                window.location.href = "/Reservation/CheckIn?f=" + format(begin) + "&l=" + format(end);
             });
         } else {
             $("#reservationDetails").text("Aucune semaine sélectionnée.");

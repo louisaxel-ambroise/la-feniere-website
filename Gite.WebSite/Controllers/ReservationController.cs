@@ -1,13 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using Gite.Model.Model;
+using Gite.Model.Services.Calendar;
 using Gite.WebSite.Models;
 
 namespace Gite.WebSite.Controllers
 {
     public class ReservationController : Controller
     {
+        private readonly IWeekCalendar _weekCalendar;
+
+        public ReservationController(IWeekCalendar weekCalendar)
+        {
+            if (weekCalendar == null) throw new ArgumentNullException("weekCalendar");
+
+            _weekCalendar = weekCalendar;
+        }
+
         public ActionResult Index()
         {
             return View();
@@ -34,8 +45,18 @@ namespace Gite.WebSite.Controllers
             return PartialView(result);
         }
 
-        public ActionResult CheckIn(string id)
+        public ActionResult CheckIn()
         {
+            var firstWeek = DateTime.Parse(Request.Params.Get("f"));
+            var lastWeek = DateTime.Parse(Request.Params.Get("l"));
+
+            var reservationWeeks = _weekCalendar.GetWeeksBetween(firstWeek, lastWeek);
+
+            if (reservationWeeks.Any(x => x.IsReserved))
+            {
+                throw new Exception("Week is already booked.");
+            }
+
             return View(new ReservationModel { Price = 0, Caution = 280 });
         }
 
