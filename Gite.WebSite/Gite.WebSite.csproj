@@ -241,6 +241,7 @@
     </Compile>
     <Compile Include="Models\Api\ApiReservation.cs" />
     <Compile Include="Models\Date.cs" />
+    <Compile Include="Models\DateMappings.cs" />
     <Compile Include="Models\ReservationMappings.cs" />
     <Compile Include="Models\ReservationModel.cs" />
     <Compile Include="App_Start\NinjectContainer.cs" />

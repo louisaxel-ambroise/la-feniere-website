@@ -1,22 +1,28 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using Gite.Model.Model;
 using Gite.Model.Services.Calendar;
 using Gite.WebSite.Models;
+using Gite.Model.Services.Reservations;
 
 namespace Gite.WebSite.Controllers
 {
     public class ReservationController : Controller
     {
+        private readonly IBooker _reservationBooker;
         private readonly IWeekCalendar _weekCalendar;
+        private readonly IReservationPlanner _reservationPlanner;
 
-        public ReservationController(IWeekCalendar weekCalendar)
+        public ReservationController(IWeekCalendar weekCalendar, IReservationPlanner reservationPlanner, IBooker reservationBooker)
         {
             if (weekCalendar == null) throw new ArgumentNullException("weekCalendar");
+            if (reservationBooker == null) throw new ArgumentNullException("reservationBooker");
+            if (reservationPlanner == null) throw new ArgumentNullException("reservationPlanner");
 
             _weekCalendar = weekCalendar;
+            _reservationPlanner = reservationPlanner;
+            _reservationBooker = reservationBooker;
         }
 
         public ActionResult Index()
@@ -26,56 +32,44 @@ namespace Gite.WebSite.Controllers
 
         public ActionResult ListWeekForMonth(int year, int month)
         {
-            var result = new List<Date>();
-            var date = new DateTime(year, month, 1);
-            while (date.DayOfWeek != DayOfWeek.Saturday) date = date.AddDays(1);
-
-            while (date.Month == month)
-            {
-                result.Add(new Date
-                {
-                    BeginDate = date.Date,
-                    EndDate = date.AddDays(7).Date,
-                    Reserved = date < DateTime.Now,
-                    Price = 590
-                });
-                date = date.AddDays(7);
-            }
+            var result = _weekCalendar.ListWeeksForMonth(year, month).MapToDate();
 
             return PartialView(result);
         }
 
         public ActionResult CheckIn()
         {
-            var firstWeek = DateTime.Parse(Request.Params.Get("f"));
-            var lastWeek = DateTime.Parse(Request.Params.Get("l"));
+            Reservation reservation;
+            DateTime firstWeek, lastWeek;
 
-            var reservationWeeks = _weekCalendar.GetWeeksBetween(firstWeek, lastWeek);
+            try
+            {
+                firstWeek = DateTime.Parse(Request.Params.Get("f"));
+                lastWeek = DateTime.Parse(Request.Params.Get("l"));
+                reservation = _reservationPlanner.PlanReservationForWeeks(firstWeek, lastWeek);
+            }
+            catch
+            {
+                return RedirectToAction("Index");
+            }
 
-            if (reservationWeeks.Any(x => x.IsReserved))
+            if (reservation.Weeks.Any(x => x.IsReserved))
             {
                 throw new Exception("Week is already booked.");
             }
 
-            return View(new ReservationModel { Price = 0, Caution = 280 });
+            var ip = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
+            var model = reservation.MapToReservationModel(ip);
+
+            return View(model);
         }
 
         [HttpPost]
         public ActionResult CheckIn(string id, ReservationModel model)
         {
-            var date = default(object); // TODO: _calendar.GetSpecificDate(id);
+            var reservation = _reservationPlanner.PlanReservationForWeeks(model.StartsOn, model.EndsOn);
 
-            //if (date.Reserved) throw new Exception("This date is already reserved...");
-            //if (model.Price != date.Price.Amount || model.Caution != 280 || !ModelState.IsValid)
-            //{
-            //    return View(model);
-            //}
-
-            //var ipAddress = HttpContext.Request.UserHostAddress;
-            //var reservation = model.MapToReservation(id, ipAddress, date);
-
-            //_reservationPersister.Persist(reservation);
-            //model.ReservationId = reservation.Id;
+            model.ReservationId = _reservationBooker.Book(reservation, null);
            
             return View("ValidateBooking", model);
         }

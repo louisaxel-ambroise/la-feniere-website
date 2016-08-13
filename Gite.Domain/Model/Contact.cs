@@ -7,4 +7,9 @@
         public virtual string Mail { get; set; }
         public virtual string Phone { get; set; }
     }
+
+    public class ReservationDetails
+    {
+
+    }
 }

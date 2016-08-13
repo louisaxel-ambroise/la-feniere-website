@@ -16,17 +16,8 @@ namespace Gite.Model.Services.Reservations
         }
 
         [CommitTransaction]
-        public Guid Book(DateTime @from, DateTime to, Contact contact)
+        public Guid Book(Reservation reservation, ReservationDetails reservationDetails)
         {
-            var reservation = new Reservation
-            {
-                Id = Guid.NewGuid(),
-                Contact = contact,
-                BookedOn = DateTime.Now
-            };
-
-
-
             _repository.Insert(reservation);
 
             return reservation.Id;

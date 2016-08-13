@@ -16,18 +16,18 @@
 @foreach (var date in Model)
 {
     var text = "Libre";
-    var reservableClass = date.Reserved ? "reservedWeek" : "reservableWeek";
+    var reservableClass = date.IsReserved ? "reservedWeek" : "reservableWeek";
     
     <div class="@reservableClass col-sm-6 @baseClass">
         <div class="well well-large">
-            <h5 class="period">Du @date.BeginDate.ToString("dd/MM/yyyy")<br />Au @date.EndDate.ToString("dd/MM/yyyy")</h5>
-            @if (date.Reserved)
+            <h5 class="period">Du @date.StartsOn.ToString("dd/MM/yyyy")<br />Au @date.EndsOn.ToString("dd/MM/yyyy")</h5>
+            @if (date.IsReserved)
             {
                 <span class="btn btn-default" style="display: block;" disabled>Indisponible</span>
             }
             else
             {
-                <a href="#" data-date="@date.BeginDate.ToString("dd/MM/yyyy")" data-price="@date.Price" class="btn btn-success btn-right" style="display: block;">@text (@date.Price €)</a>
+                <a href="#" data-date="@date.StartsOn.ToString("dd/MM/yyyy")" data-price="@date.Price" class="btn btn-success btn-right" style="display: block;">@text (@date.Price €)</a>
             }
         </div>
     </div>

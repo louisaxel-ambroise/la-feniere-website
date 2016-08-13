@@ -51,8 +51,15 @@
     <Compile Include="Model\ReservationWeek.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\IReservationRepository.cs" />
+    <Compile Include="Repositories\IReservationWeekRepository.cs" />
+    <Compile Include="Services\Calendar\IWeekCalendar.cs" />
+    <Compile Include="Services\Calendar\WeekCalendar.cs" />
+    <Compile Include="Services\Pricing\IPriceCalculator.cs" />
+    <Compile Include="Services\Pricing\PriceCalculator.cs" />
     <Compile Include="Services\Reservations\Booker.cs" />
     <Compile Include="Services\Reservations\IBooker.cs" />
+    <Compile Include="Services\Reservations\IReservationPlanner.cs" />
+    <Compile Include="Services\Reservations\ReservationPlanner.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -1,22 +1,19 @@
-﻿using System;
-using Gite.Model.Model;
-using Gite.WebSite.Models.Api;
+﻿using Gite.Model.Model;
 
 namespace Gite.WebSite.Models
 {
     public static class ReservationMappings
     {
-        public static Reservation MapToReservation(this ReservationModel model, string id, string ip)
+        public static ReservationModel MapToReservationModel(this Reservation reservation, string ip = null)
         {
-            return new Reservation
+            return new ReservationModel
             {
-                Contact = new Contact
-                {
-                    Address = model.FormatAddress(),
-                    Mail = model.Email,
-                    Name = model.Name,
-                    Phone = model.Phone
-                }
+                StartsOn = reservation.StartsOn(),
+                EndsOn = reservation.EndsOn(),
+                Price = reservation.Price(),
+                Reduction = reservation.Reduction(),
+                Caution = 280,
+                Ip = ip
             };
         }
 
@@ -25,14 +22,6 @@ namespace Gite.WebSite.Models
             return new ReservationOverview
             {
 
-            };
-        }
-
-        public static ApiReservation MapToApiReservation(this Reservation reservation)
-        {
-            return new ApiReservation
-            {
-                Id = reservation.Id,
             };
         }
     }

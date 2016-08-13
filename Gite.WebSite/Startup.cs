@@ -6,7 +6,7 @@ using Ninject.Web.Common.OwinHost;
 using Ninject.Web.WebApi.OwinHost;
 using Owin;
 
-[assembly: OwinStartup(typeof(Startup))]
+//[assembly: OwinStartup(typeof(Startup))] // TODO: uncomment to enable WebAPI
 
 namespace Gite.WebSite
 {

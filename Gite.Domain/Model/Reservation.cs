@@ -7,6 +7,8 @@ namespace Gite.Model.Model
     public class Reservation
     {
         public virtual Guid Id { get; set; }
+        public virtual double PriceWithDiscount { get; set; }
+        public virtual double Advanced { get; set; }
         public virtual Contact Contact { get; set; }
         public virtual IList<ReservationWeek> Weeks { get; set; }
         public virtual DateTime BookedOn { get; set; }
@@ -14,9 +16,30 @@ namespace Gite.Model.Model
         public virtual DateTime? CancelledOn { get; set; }
         public virtual Guid? CancellationToken { get; set; }
 
+        public Reservation()
+        {
+            Weeks = new List<ReservationWeek>();
+        }
+
         public virtual bool IsValid()
         {
             return !CancellationToken.HasValue && (AdvancedReceptionDate.HasValue || BookedOn.Date < DateTime.Now.AddDays(5));
+        }
+
+        public virtual double Reduction()
+        {
+            if (Weeks.Count == 2) return 3;
+            if (Weeks.Count > 2) return 4;
+
+            return 0;
+        }
+
+        public virtual double Price()
+        {
+            var totalWeeks = Weeks.Sum(x => x.Price);
+            var reduction = totalWeeks * Reduction() / 100;
+
+            return Math.Ceiling(totalWeeks - reduction);
         }
 
         public virtual DateTime StartsOn()
@@ -40,9 +63,9 @@ namespace Gite.Model.Model
             }
         }
 
-        public virtual bool ContainsDate(DateTime firstDayOfWeek)
+        public virtual bool ContainsDate(DateTime date)
         {
-            return StartsOn() <= firstDayOfWeek && EndsOn() > firstDayOfWeek;
+            return StartsOn() >= date && EndsOn().AddDays(7) <= date;
         }
     }
 }

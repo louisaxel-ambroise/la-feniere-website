@@ -4,9 +4,9 @@ namespace Gite.Model.Model
 {
     public class Date
     {
-        public DateTime BeginDate { get; set; }
-        public DateTime EndDate { get; set; }
-        public bool Reserved { get; set; }
+        public DateTime StartsOn { get; set; }
+        public DateTime EndsOn { get; set; }
+        public bool IsReserved { get; set; }
         public double Price { get; set; }
     }
 }

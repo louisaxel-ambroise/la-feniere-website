@@ -21,11 +21,6 @@ namespace Gite.Database.Repositories
             return _session.Load<Reservation>(id);
         }
 
-        public Reservation LoadByCustomId(string id)
-        {
-            throw new NotImplementedException();
-        }
-
         public IQueryable<Reservation> Query()
         {
             return _session.Query<Reservation>();

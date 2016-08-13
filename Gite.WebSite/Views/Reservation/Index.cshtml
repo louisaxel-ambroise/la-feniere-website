@@ -156,7 +156,7 @@
             <h4 class="text-center noselect"><span class="hand" id="month-prev">&lt;</span>&nbsp;&nbsp;<span class="fixedWidth" id="month">Mai</span>&nbsp;&nbsp;<span class="hand" id="month-next">&gt;</span></h4>
         </div>
     </div>
-    <div class="row text-center" id="weeksOfMonth">
+    <div class="row text-center" id="weeksOfMonth" style="min-height:130px;">
 
     </div>
 
@@ -178,6 +178,7 @@
     }
 
     function refreshWeeks() {
+        $("#weeksOfMonth").text("Loading...");
         $("#weeksOfMonth").load('/Reservation/ListWeekForMonth?year=' + currentYear + '&month=' + (currentMonth + 1), setSelectableWeeks);
     }
 

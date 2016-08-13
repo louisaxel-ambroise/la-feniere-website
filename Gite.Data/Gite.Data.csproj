@@ -49,6 +49,7 @@
     <Compile Include="Mappings\ReservationMap.cs" />
     <Compile Include="Repositories\ReservationRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\ReservationWeekRepository.cs" />
     <Compile Include="UnitOfWork.cs" />
   </ItemGroup>
   <ItemGroup>

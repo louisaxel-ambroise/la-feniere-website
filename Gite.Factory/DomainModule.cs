@@ -1,4 +1,7 @@
-﻿using Ninject.Modules;
+﻿using Gite.Model.Services.Calendar;
+using Gite.Model.Services.Pricing;
+using Gite.Model.Services.Reservations;
+using Ninject.Modules;
 
 namespace Gite.Factory
 {
@@ -18,6 +21,10 @@ namespace Gite.Factory
         public override void Load()
         {
             // TODO: bind model.
+            Bind<IBooker>().To<Booker>();
+            Bind<IWeekCalendar>().To<WeekCalendar>();
+            Bind<IPriceCalculator>().To<PriceCalculator>();
+            Bind<IReservationPlanner>().To<ReservationPlanner>();
         }
     }
 }

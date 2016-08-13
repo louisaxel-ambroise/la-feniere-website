@@ -1,12 +1,15 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using Gite.WebSite.Attributes;
 
 namespace Gite.WebSite.Models
 {
     public class ReservationModel
     {
+        public DateTime StartsOn { get; set; }
+        public DateTime EndsOn { get; set; }
+
         public double Price { get; set; }
+        public double Reduction { get; set; }
         public double Caution { get; set; }
         public Guid ReservationId { get; set; }
         public string Ip { get; set; }
@@ -31,6 +34,10 @@ namespace Gite.WebSite.Models
         public int Adults { get; set; }
         public int Children { get; set; }
         public int Babies { get; set; }
+
+
+        public int AnimalsNumber { get; set; }
+        public string AnimalsType{ get; set; }
 
         public string FormatAddress()
         {

@@ -11,12 +11,13 @@ namespace Gite.Model.Services.Pricing
                 case 7:
                     return 590;
                 case 8:
-                    return (week.AddDays(7).Month > 8) ? 440 : 590;
+                    return (week.AddDays(7).Month > 8) ? 420 : 590;
+                case 5:
                 case 6:
                 case 9:
-                    return 440;
+                    return 420;
                 default:
-                    return 340;
+                    return 330;
             }
         }
     }

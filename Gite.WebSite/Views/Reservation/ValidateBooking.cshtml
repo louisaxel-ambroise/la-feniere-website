@@ -51,15 +51,18 @@
 <div class="row">
     <h2>Prochaines étapes</h2>
     <div class="col-md-4 col-sm-6">
-        <h3>Effectuer le virement</h3>
-        <p>
-            Plus vite la location est payée, mieux c'est !
-        </p>
+        <h3>Payer l'accompte</h3>
+        <p>Un accompte doit être payé par virement bancaire dans les 5 jours afin de valider la réservation</p>
         <p>@Html.ActionLink("Payer", "Details", "Overview", new { id = Model.ReservationId }, new { @class = "btn btn-default" })</p>
     </div>
     <div class="col-md-4 col-sm-6">
-        <h3>Rappel de réservation</h3>
-        <p>Vous recevrez un mail 2 semaines avant votre séjour pour vous rappeler de vos dates ainsi que des modalités d'arrivée.</p>
+        <h3>Payer la réservation</h3>
+        <p>Au plus tard 10 jours avans le début de la réservation, le montant total de la location doit être payé par virement bancaire</p>
+        <p><a class="btn btn-default" href="#">Voir les modalités &raquo;</a></p>
+    </div>
+    <div class="col-md-4 col-sm-6">
+        <h3>Planifier vos vacances</h3>
+        <p>Vous recevrez un mail 2 semaines avant votre séjour pour vous rappeler de votre réservation ainsi que des modalités d'arrivée.</p>
         <p><a class="btn btn-default" href="#">Voir les modalités &raquo;</a></p>
     </div>
     <div class="col-md-4 col-sm-6">
