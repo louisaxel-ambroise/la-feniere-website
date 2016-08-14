@@ -10,6 +10,7 @@
 
     public class ReservationDetails
     {
-
+        public Contact Contact { get; set; }
+        public People People { get; set; }
     }
 }

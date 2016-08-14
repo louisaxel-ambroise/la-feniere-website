@@ -1,9 +1,9 @@
 ﻿header{
-    min-height:100px;
+    min-height:120px;
 }
 
 body{
-    padding-top:10px;
+    padding-top:0;
     background:#eaeaea;
 }
 
@@ -29,7 +29,7 @@ h2{
     background-image: url(/Content/images/logo.png);
     background-position: center center;
     background-repeat: no-repeat;
-    height:100px;
+    height:120px;
 }
 header p{
     height:15px;
@@ -39,7 +39,7 @@ header p{
 }
 @media (min-width: 768px ) {
     header p{
-        margin-top:72px;
+        margin-top:102px;
         letter-spacing:1px;
     }
 }

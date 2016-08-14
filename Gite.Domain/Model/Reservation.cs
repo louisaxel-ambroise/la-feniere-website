@@ -1,71 +1,45 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Gite.Model.Model
 {
     public class Reservation
     {
         public virtual Guid Id { get; set; }
-        public virtual double PriceWithDiscount { get; set; }
-        public virtual double Advanced { get; set; }
-        public virtual Contact Contact { get; set; }
-        public virtual IList<ReservationWeek> Weeks { get; set; }
+        public virtual double DefaultPrice { get; set; }
+        public virtual double FinalPrice { get; set; }
+        public virtual DateTime FirstWeek { get; set; }
+        public virtual DateTime LastWeek { get; set; }
         public virtual DateTime BookedOn { get; set; }
+        public virtual Contact Contact { get; set; }
+        public virtual People People { get; set; }
+        public virtual DateTime? AdvancedDeclarationDate { get; set; }
         public virtual DateTime? AdvancedReceptionDate { get; set; }
+        public virtual double? AdvancedValue { get; set; }
+        public virtual DateTime? PaymentDeclarationDate { get; set; }
+        public virtual DateTime? PaymentReceptionDate { get; set; }
+        public virtual double? PaymentValue { get; set; }
         public virtual DateTime? CancelledOn { get; set; }
+        public virtual CancelReason? CancellationReason { get; set; }
         public virtual Guid? CancellationToken { get; set; }
-
-        public Reservation()
-        {
-            Weeks = new List<ReservationWeek>();
-        }
 
         public virtual bool IsValid()
         {
-            return !CancellationToken.HasValue && (AdvancedReceptionDate.HasValue || BookedOn.Date < DateTime.Now.AddDays(5));
+            return CancellationToken == null && (AdvancedReceptionDate != null || BookedOn < DateTime.Now.AddDays(5));
         }
 
-        public virtual double Reduction()
+        public virtual double ComputeDiscount()
         {
-            if (Weeks.Count == 2) return 3;
-            if (Weeks.Count > 2) return 4;
+            var weeksNumber = (LastWeek - FirstWeek).Days / 7;
+
+            if (weeksNumber == 2) return 3;
+            if (weeksNumber > 2) return 4;
 
             return 0;
         }
 
-        public virtual double Price()
-        {
-            var totalWeeks = Weeks.Sum(x => x.Price);
-            var reduction = totalWeeks * Reduction() / 100;
-
-            return Math.Ceiling(totalWeeks - reduction);
-        }
-
-        public virtual DateTime StartsOn()
-        {
-            return Weeks.OrderBy(x => x.StartsOn).First().StartsOn;
-        }
-
-        public virtual DateTime EndsOn()
-        {
-            return Weeks.OrderBy(x => x.EndsOn).Last().EndsOn;
-        }
-
-        public virtual void Cancel()
-        {
-            CancellationToken = Guid.NewGuid();
-            CancelledOn = DateTime.Now;
-
-            foreach (var week in Weeks)
-            {
-                week.CancellationToken = CancellationToken;
-            }
-        }
-
         public virtual bool ContainsDate(DateTime date)
         {
-            return StartsOn() >= date && EndsOn().AddDays(7) <= date;
+            return FirstWeek >= date && LastWeek.AddDays(7) < date;
         }
     }
 }

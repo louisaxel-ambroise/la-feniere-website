@@ -9,6 +9,7 @@ namespace Gite.Model.Repositories
         Reservation Load(Guid reservationId);
         void Insert(Reservation reservation);
         IQueryable<Reservation> Query();
+        IQueryable<Reservation> QueryValidReservations();
         bool IsWeekReserved(DateTime firstDayOfWeek);
     }
 }

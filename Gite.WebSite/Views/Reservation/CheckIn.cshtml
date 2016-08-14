@@ -4,25 +4,27 @@
     ViewBag.Title = "Réserver le gîte";
     ViewBag.Color = "#0391ce";
     Layout = "~/Views/Shared/_Layout.cshtml";
-
-    var total = 580;
 }
 
-<h2>Réserver du @Model.StartsOn.ToString("dd/MM/yyyy") au @Model.EndsOn.AddDays(7).ToString("dd/MM/yyyy")</h2>
+<h2>Réserver du @Model.StartsOn.ToString("dd/MM/yyyy") au @Model.EndsOn.ToString("dd/MM/yyyy")</h2>
 
 <div class="well row">
-    <h4>Le montant à payer sera de <strong>@Model.Price €</strong>.</h4>
+    <h4>Le montant à payer sera de <strong>@Model.FinalPrice €</strong>.</h4>
     <div class="col-md-6">
         <p>
             Détails:
             <ul>
-                <li>Prix de la location: @Model.Price€</ li >
-                <li>Caution: @Model.Caution€</ li >
+                <li>Prix de la location: @Model.OriginalPrice€</li>
+                @if (Model.Reduction > 0)
+                {
+                    <li>Réduction nombre de semaines: @Model.Reduction%</li>
+                }
+                <li>Caution: @Model.Caution€</li>
             </ul>
         </p>
     </div>
     <div class="col-md-6">
-        <p>Un accompte de @((Model.Price*0.25).ToString("N2")) € est à payer dans les 5 jours afin de valider la réservation.</p>
+        <p>Un accompte de @((Model.FinalPrice * 0.25).ToString("N2")) € est à payer dans les 5 jours afin de valider la réservation.</p>
         <p>Vous serez prévenus par e-mail lorsque votre réservation aura été validée.</p>
         <p>
             <strong>Les chèques ne sont pas acceptés.<br />Les paiements se font uniquement par virement bancaire.</strong>
@@ -39,8 +41,11 @@
 {
     @Html.ValidationSummary()
     @Html.HiddenFor(x => x.StartsOn, new { id = Model.StartsOn })
-    @Html.HiddenFor(x => x.EndsOn, new { id = Model.Price })
-    @Html.HiddenFor(x => x.Price, new { id = ViewBag.Price })
+    @Html.HiddenFor(x => x.EndsOn, new { id = Model.EndsOn })
+    @Html.HiddenFor(x => x.OriginalPrice, new { id = Model.OriginalPrice })
+    @Html.HiddenFor(x => x.Reduction, new { id = Model.Reduction })
+    @Html.HiddenFor(x => x.LastWeek, new { id = Model.LastWeek })
+    @Html.HiddenFor(x => x.FinalPrice, new { id = ViewBag.FinalPrice })
     @Html.HiddenFor(x => x.Caution, new { id = ViewBag.Caution })
     <div class="row">
         <div class="col-md-6">
@@ -85,7 +90,7 @@
         </div>
     </div>
     <div class="row">
-        <h4>Nombre de personnes:</h4>
+        <h4>Détail des personnes:</h4>
         <p>Une taxe de séjour de 0,80€/personne/jour est d'application pour chaque adulte (plus de 12 ans).</p>
         <div class="col-md-4">
             <label for="adultsNumber">Adultes (plus de 12 ans):</label>
@@ -101,13 +106,14 @@
         </div>
     </div>
     <div class="row margin-bottom-10">
+        <h4>Détail des animaux:</h4>
         <div class="col-md-4">
             <label for="animalsNumber">Nombre d'animaux:</label>
             @Html.TextBoxFor(x => x.AnimalsNumber, new { id = "animalsNumber", @class = "form-control", value = 0, @type = "number" })
         </div>
         <div class="col-md-4">
             <label for="animalsType">Description des animaux:</label>
-            @Html.TextBoxFor(x => x.AnimalsType, new { id = "animalsType", @class = "form-control", value = 0, @type = "number" })
+            @Html.TextBoxFor(x => x.AnimalsType, new { id = "animalsType", @class = "form-control" })
         </div>
     </div>
     <div class="row">

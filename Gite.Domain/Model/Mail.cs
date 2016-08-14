@@ -1,4 +1,4 @@
-﻿namespace Gite.Model.Services.MailSender
+﻿namespace Gite.Model.Model
 {
     public class Mail
     {

@@ -26,6 +26,11 @@ namespace Gite.Database.Repositories
             return _session.Query<Reservation>();
         }
 
+        public IQueryable<Reservation> QueryValidReservations()
+        {
+            return _session.Query<Reservation>().Where(x => x.CancellationToken == null && (x.AdvancedReceptionDate != null || x.BookedOn < DateTime.Now.AddDays(5)));
+        }
+
         public bool IsWeekReserved(DateTime firstDayOfWeek)
         {
             return _session.Query<Reservation>().Any(x => x.IsValid() && x.ContainsDate(firstDayOfWeek));

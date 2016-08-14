@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Gite.WebSite.Attributes;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace Gite.WebSite.Models
@@ -6,9 +7,11 @@ namespace Gite.WebSite.Models
     public class ReservationModel
     {
         public DateTime StartsOn { get; set; }
+        public DateTime LastWeek { get; set; }
         public DateTime EndsOn { get; set; }
 
-        public double Price { get; set; }
+        public double FinalPrice { get; set; }
+        public double OriginalPrice { get; set; }
         public double Reduction { get; set; }
         public double Caution { get; set; }
         public Guid ReservationId { get; set; }
@@ -32,12 +35,17 @@ namespace Gite.WebSite.Models
 
         [Range(1, 6, ErrorMessage = "Au moins un adulte doit être présent")]
         public int Adults { get; set; }
+        [MaxSumNumber(6, "Adults", ErrorMessage = "Le gîte ne peux accueillir plus de 6 personnes")]
+        [Range(0, int.MaxValue, ErrorMessage = "Ce nombre ne peut être négatif")]
         public int Children { get; set; }
+        [Range(0, int.MaxValue, ErrorMessage = "Ce nombre ne peut être négatif")]
         public int Babies { get; set; }
 
 
+        [Range(0, int.MaxValue, ErrorMessage = "Ce nombre ne peut être négatif")]
         public int AnimalsNumber { get; set; }
-        public string AnimalsType{ get; set; }
+        [NotNullIfFilled("AnimalsNumber", ErrorMessage = "Veuillez entrer le type d'animaux qui seront présents.")]
+        public string AnimalsType { get; set; }
 
         public string FormatAddress()
         {

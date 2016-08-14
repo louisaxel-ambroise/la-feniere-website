@@ -25,7 +25,6 @@ namespace Gite.Factory
             SessionProvider.Register(_connectionString);
             
             Bind<IReservationRepository>().To<ReservationRepository>();
-            Bind<IReservationWeekRepository>().To<ReservationWeekRepository>();
             Bind<ISession>().ToMethod(ctx => SessionProvider.OpenSession()).InUnitOfWorkScope();
             Bind<IUnitOfWork>().To<UnitOfWork>();
         }
