@@ -3,18 +3,168 @@
     ViewBag.Color = "#0391ce";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<script type="text/javascript">
+    var begin = null;
+    var end = null;
+    var total = 0;
 
+    var format = function (date) {
+        var mm = date.getMonth() + 1; // getMonth() is zero-based
+        var dd = date.getDate();
+        var month, day;
+
+        if (mm < 10) month = "0" + mm;
+        else month = mm;
+
+        if (dd < 10) day = "0" + dd;
+        else day = dd;
+
+        return day + "/" + month + "/" + date.getFullYear(); // padding
+    };
+
+    function parseDate(input) {
+        var parts = input.split('/');
+        return new Date(parts[2], parts[1] - 1, parts[0]);
+    }
+
+    function addDays(date, days) {
+        var nDate = new Date(date);
+        nDate.setDate(nDate.getDate() + days);
+
+        return nDate;
+    }
+
+    var isWeekSelected = function (input) {
+        return begin != null && parseDate(input).getTime() >= begin.getTime() && parseDate(input).getTime() <= end.getTime();
+    }
+
+    var canUnselectWeek = function (input) {
+        return begin != null && parseDate(input).getTime() === begin.getTime() || parseDate(input).getTime() === end.getTime();
+    }
+
+    var canSelectWeek = function(input) {
+        if (begin === null && end === null) {
+            return true;
+        }
+        if (parseDate(input).getTime() === begin.getTime() || parseDate(input).getTime() === end.getTime()) return false; // Already selected
+
+        if (addDays(parseDate(input), 7).getTime() === begin.getTime()) return true;
+        if (addDays(parseDate(input), -7).getTime() === end.getTime()) return true;
+
+        return false;
+    };
+
+    var selectWeek = function (input, price) {
+        if (begin === null) {
+            begin = parseDate(input);
+        }
+        if (end === null) {
+            end = parseDate(input);
+        }
+        else if (parseDate(input).getTime() < begin.getTime()) {
+            begin = parseDate(input);
+        } else if (parseDate(input).getTime() > end.getTime()) {
+            end = parseDate(input);
+        }
+
+        total += price;
+    };
+
+    var unselectWeek = function (input, price) {
+        var date = parseDate(input);
+        if (begin != null && begin.getTime() === date.getTime()) {
+            if (end.getTime() === begin.getTime()) {
+                begin = null;
+                end = null;
+            } else {
+                begin = addDays(begin, 7);
+            }
+            total -= price;
+        }
+        if (end != null && end.getTime() === date.getTime()) {
+            if (end.getTime() === begin.getTime()) {
+                begin = null;
+                end = null;
+            } else {
+                end = addDays(end, -7);
+            }
+
+            total -= price;
+        }
+    };
+
+    var showWarning = function(text) {
+        $("#warning").text(text).fadeIn(750, function() {
+            setTimeout(function() { $("#warning").fadeOut(750); }, 1200);
+        });
+    }
+
+    var setSelectableWeeks = function() {
+        $(".reservableWeek", $("#weeksOfMonth")).each(function() {
+            $("a", this).each(function() {
+                var date = $(this).data("date");
+                var price = $(this).data("price");
+
+                if (isWeekSelected(date)) {
+                    $(this).text("Choisi (" + price + "€)");
+                    $(this).css("background", "url('/Content/Images/check.png') center right no-repeat #008a00");
+                } else if (canSelectWeek(date)) {
+                    $(this).text("Libre (" + price + "€)");
+                    $(this).css("background", "#5cb85c");
+                } else {
+                    $(this).text("Libre (" + price + "€)");
+                    $(this).css("background", "#8bd48b");
+                }
+
+                $(this).off().click(function(dt, pc) {
+                    if (canSelectWeek(dt)) {
+                        selectWeek(dt, pc);
+                    } else if (canUnselectWeek(dt)) {
+                        unselectWeek(dt, pc);
+                    } else if (isWeekSelected(dt) && !canUnselectWeek(dt)) {
+                        showWarning("Impossible de déselectionner cette semaine.");
+                    } else {
+                        showWarning("Veuillez ne choisir que des semaines consécutives");
+                    }
+                    setSelectableWeeks();
+                    return false;
+                }.bind(this, date, price));
+
+            });
+        });
+
+        if (begin != null && end != null) {
+            // Display info to user
+            $("#reservationDetails").html("Du " + format(begin) + " au " + format(addDays(end, 7)) + ".<br />Total:<strong> " + total + "€</strong>");
+            $("#validate").click(function () {
+                window.location.href = "/Reservation/CheckIn?f=" + format(begin) + "&l=" + format(end);
+            });
+        } else {
+            $("#reservationDetails").html("Aucune semaine sélectionnée.<br /> ");
+        }
+    };
+</script>
 <h2>Tarifs et réservations</h2>
 
 <div class="calendar">
     <div class="row">
         <div class="well">
+            <div class="container" style="height: 20px">
+                <div id="warning" class="text-center" style="color: darkred; font-weight: bold; display: none;"></div>
+            </div>
             <h3 class="text-center noselect"><span class="hand" id="year-prev">&lt;</span>&nbsp;&nbsp;<span class="fixedWidth" id="year"></span>&nbsp;&nbsp;<span class="hand" id="year-next">&gt;</span></h3>
             <h4 class="text-center noselect"><span class="hand" id="month-prev">&lt;</span>&nbsp;&nbsp;<span class="fixedWidth" id="month">Mai</span>&nbsp;&nbsp;<span class="hand" id="month-next">&gt;</span></h4>
         </div>
     </div>
-    <div class="row text-center" id="weeksOfMonth">
+    <div class="row text-center" id="weeksOfMonth" style="min-height:130px;">
 
+    </div>
+    <div class="row">
+        <div class="pull-right well">
+            <div id="reservationDetails">Aucune semaine sélectionnée.<br /> </div>
+            <button id="validate" class="btn btn-primary">Continuer la réservation</button>
+            <button onclick="window.location.reload(); return false;" class="btn btn-warning">Annuler</button>
+        </div>
     </div>
 </div>
 
@@ -32,7 +182,8 @@
     }
 
     function refreshWeeks() {
-        $("#weeksOfMonth").load('/Reservation/ListWeekForMonth?year=' + currentYear + '&month=' + (currentMonth + 1));
+        $("#weeksOfMonth").text("Loading...");
+        $("#weeksOfMonth").load('/Reservation/ListWeekForMonth?year=' + currentYear + '&month=' + (currentMonth + 1), setSelectableWeeks);
     }
 
     function updateYear(val) {

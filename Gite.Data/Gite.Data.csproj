@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Mappings\ContactMap.cs" />
+    <Compile Include="Mappings\PeopleMap.cs" />
     <Compile Include="Mappings\ReservationMap.cs" />
     <Compile Include="Repositories\ReservationRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

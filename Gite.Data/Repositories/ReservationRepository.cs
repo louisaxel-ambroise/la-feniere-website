@@ -21,21 +21,24 @@ namespace Gite.Database.Repositories
             return _session.Load<Reservation>(id);
         }
 
-        public Reservation LoadByCustomId(string id)
-        {
-            return _session.Query<Reservation>().SingleOrDefault(x => x.CustomId == id && x.CancelToken == null);
-        }
-
         public IQueryable<Reservation> Query()
         {
             return _session.Query<Reservation>();
         }
 
-        public bool IsWeekReserved(int year, int dayOfYear)
+        public IQueryable<Reservation> QueryValidReservations()
         {
-            var id = string.Format("{0}{1:D3}", year, dayOfYear);
+            return _session.Query<Reservation>().Where(x => 
+                x.CancellationToken == null &&
+                (
+                    (x.AdvancedReceptionDate != null || x.BookedOn < DateTime.Now.AddDays(7)) ||
+                    (x.AdvancedDeclarationDate != null && x.AdvancedDeclarationDate >= DateTime.Now.Date.AddDays(-4))
+                ));
+        }
 
-            return _session.Query<Reservation>().Any(x => x.CustomId == id && x.CancelToken == null);
+        public bool IsWeekReserved(DateTime firstDayOfWeek)
+        {
+            return _session.Query<Reservation>().Any(x => x.IsValid() && x.ContainsDate(firstDayOfWeek));
         }
 
         public void Insert(Reservation reservation)

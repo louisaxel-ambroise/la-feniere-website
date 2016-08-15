@@ -1,31 +1,21 @@
-﻿using System;
-using Gite.Model.Model;
-using Gite.WebSite.Models.Api;
+﻿using Gite.Model.Model;
 
 namespace Gite.WebSite.Models
 {
     public static class ReservationMappings
     {
-        public static Reservation MapToReservation(this ReservationModel model, string id, string ip, Date date)
+        public static ReservationModel MapToReservationModel(this Reservation reservation, string ip = null)
         {
-            return new Reservation
+            return new ReservationModel
             {
-                CustomId = id,
-                Ip = ip,
-                StartingOn = date.BeginDate,
-                EndingOn = date.EndDate,
-                Price = model.Price,
-                Caution = model.Caution,
-                CautionRefunded = false,
-                PaymentReceived = false,
-                CreatedOn = DateTime.Now,
-                Contact = new Contact
-                {
-                    Address = model.FormatAddress(),
-                    Mail = model.Email,
-                    Name = model.Name,
-                    Phone = model.Phone
-                }
+                StartsOn = reservation.FirstWeek,
+                EndsOn = reservation.LastWeek.AddDays(7),
+                LastWeek = reservation.LastWeek,
+                FinalPrice = reservation.FinalPrice,
+                OriginalPrice = reservation.DefaultPrice,
+                Reduction = reservation.ComputeDiscount(),
+                Caution = 280,
+                Ip = ip
             };
         }
 
@@ -34,34 +24,44 @@ namespace Gite.WebSite.Models
             return new ReservationOverview
             {
                 Id = reservation.Id,
-                CustomId = reservation.CustomId,
-                StartingOn = reservation.StartingOn,
-                EndingOn = reservation.EndingOn,
-                Caution = reservation.Caution,
-                Price = reservation.Price,
-                Cancelled = reservation.IsCancelled(),
-                CautionRefunded = reservation.CautionRefunded,
-                PaymentDeclared = reservation.PaymentDeclared,
-                PaymentReceived = reservation.PaymentReceived
+                BookedOn = reservation.BookedOn,
+                StartsOn = reservation.FirstWeek,
+                EndsOn = reservation.LastWeek.AddDays(7),
+                LastWeek = reservation.LastWeek,
+                Reduction = reservation.ComputeDiscount(),
+                OriginalPrice = reservation.DefaultPrice,
+                FinalPrice = reservation.FinalPrice,
+                PaymentDeclared = reservation.PaymentDeclarationDate.HasValue,
+                PaymentReceived = reservation.PaymentReceptionDate.HasValue,
+                Caution = 280,
+                Cancelled = reservation.CancellationToken.HasValue,
+                CancelReason = FormatCancelReason(reservation.CancellationReason),
+                CancelledOn = reservation.CancelledOn,
+
+                AdvancePaymentDeclared = reservation.AdvancedDeclarationDate.HasValue,
+                AdvancePaymentReceived = reservation.AdvancedReceptionDate.HasValue,
+                AdvanceValue = reservation.AdvancedValue ?? reservation.FinalPrice*0.25
             };
         }
 
-        public static ApiReservation MapToApiReservation(this Reservation reservation)
+        private static string FormatCancelReason(CancelReason? reason)
         {
-            return new ApiReservation
+            if(reason == null)
+                    return "La rison de l'annulation n'est pas connue.";
+
+            switch (reason)
             {
-                Id = reservation.Id,
-                CustomId = reservation.CustomId,
-                StartingOn = reservation.StartingOn.ToString("yyyy-MM-dd"),
-                EndingOn = reservation.EndingOn.ToString("yyyy-MM-dd"),
-                Mail = reservation.Contact.Mail,
-                Name = reservation.Contact.Name,
-                PaymentDeclared = reservation.PaymentDeclared,
-                PaymentReceived = reservation.PaymentReceived,
-                CautionRefunded = reservation.CautionRefunded,
-                Price = reservation.Price,
-                Caution = reservation.Caution
-            };
+                case CancelReason.AdvanceNotReceived:
+                    return "La caution n'a pas été reçue à temps (au plus tard 5 jours après la réservation).";
+                case CancelReason.CancelledByOwner:
+                    return "Le propriétaire a annulé la réservation.";
+                case CancelReason.CancelledByUser:
+                    return "Vous avez annulé la réservation.";
+                case CancelReason.PaymentNotReceived:
+                    return "Le paiement n'a pas été reçu à temps (au plus tard 10 jours avant le début de la location).";
+                default:
+                    return "La rison de l'annulation n'est pas connue.";
+            }
         }
     }
 }

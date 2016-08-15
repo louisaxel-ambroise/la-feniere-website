@@ -1,10 +1,10 @@
 ﻿header{
-    min-height:100px;
+    min-height:120px;
 }
 
 body{
-    padding-top:10px;
-    background:#ded6ce; /* eaeaea */
+    padding-top:0;
+    background:#eaeaea;
 }
 
 .body-content{ padding-top:20px; }
@@ -17,9 +17,9 @@ body{
 }
 
 h2{
-    padding-left:60px;
+    padding-left:35px;
     min-height:30px;
-    background:url("/Content/Images/foin.png") center left no-repeat;
+    /*background:url("/Content/Images/foin.png") center left no-repeat;*/
 }
 
 .logo {
@@ -27,9 +27,9 @@ h2{
     margin-top: 0px;
     padding-top: 0px;
     background-image: url(/Content/images/logo.png);
-    background-position: left center;
+    background-position: center center;
     background-repeat: no-repeat;
-    height:90px;
+    height:120px;
 }
 header p{
     height:15px;
@@ -39,7 +39,7 @@ header p{
 }
 @media (min-width: 768px ) {
     header p{
-        margin-top:72px;
+        margin-top:102px;
         letter-spacing:1px;
     }
 }
@@ -90,6 +90,10 @@ header p{
 
     .navbar .nav li a {
         text-align: center;
+    }
+
+    .navbar .nav li a .fa {
+        display:block;
     }
 }
 

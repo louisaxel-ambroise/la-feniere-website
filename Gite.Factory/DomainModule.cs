@@ -1,10 +1,10 @@
 ﻿using Gite.Model.Services.Calendar;
-using Gite.Model.Services.DepositRefundProcessor;
-using Gite.Model.Services.MailSender;
-using Gite.Model.Services.PaymentProcessor;
-using Gite.Model.Services.PriceCalculation;
-using Gite.Model.Services.ReservationCanceller;
-using Gite.Model.Services.ReservationPersister;
+using Gite.Model.Services.Contract;
+using Gite.Model.Services.Mails;
+using Gite.Model.Services.Pricing;
+using Gite.Model.Services.Reservations;
+using Gite.Model.Services.Reservations.Actions;
+using Gite.Model.Services.Reservations.Payment;
 using Ninject.Modules;
 
 namespace Gite.Factory
@@ -24,16 +24,19 @@ namespace Gite.Factory
 
         public override void Load()
         {
+            Bind<IBooker>().To<Booker>();
+            Bind<IWeekCalendar>().To<WeekCalendar>();
             Bind<IPriceCalculator>().To<PriceCalculator>();
-            Bind<IReservationPersister>().To<ReservationPersister>();
-            Bind<IReservationCalendar>().To<ReservationCalendar>();
-            Bind<IPaymentProcessor>().To<PaymentProcessor>();
-            Bind<IRefundProcessor>().To<RefundProcessor>();
+            Bind<IReservationPlanner>().To<ReservationPlanner>();
             Bind<IReservationCanceller>().To<ReservationCanceller>();
-            Bind<IReservationConfirmationMailSender>().To<ReservationConfirmationMailSender>()
-                .WithConstructorArgument("from", _from)
-                .WithConstructorArgument("password", _password)
+            Bind<IPaymentManager>().To<PaymentManager>();
+            Bind<IContractGenerator>().To<ContractGenerator>()
                 .WithConstructorArgument("baseUrl", _baseUrl);
+            Bind<IMailGenerator>().To<MailGenerator>()
+                .WithConstructorArgument("baseUrl", _baseUrl);
+            Bind<IMailSender>().To<MailSender>()
+                .WithConstructorArgument("from", _from)
+                .WithConstructorArgument("password", _password);
         }
     }
 }

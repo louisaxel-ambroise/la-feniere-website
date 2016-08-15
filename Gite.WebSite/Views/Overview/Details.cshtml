@@ -7,62 +7,104 @@
 
 <h2>Details de la réservation</h2>
 
-@if (DateTime.Now >= Model.EndingOn)
+@if (!Model.Cancelled && DateTime.Now >= Model.EndsOn)
 {
-    if (!Model.CautionRefunded)
-    {
-        <p>La caution d'un montant de @Model.Caution vous sera reversée d'ici quelques jours.</p>
-    }
-    else
-    {
-        <p>La caution d'un montant de @Model.Caution vous a été reversée.</p>
-    }
+    <p>Votre location est à présent terminée ! Nous espérons que vous avez passé un bon séjour.</p>
 }
 else if(!Model.Cancelled) {
     <p class="well">
-        Réservation du @Model.StartingOn.ToString("yyyy-MM-dd") au @Model.EndingOn.ToString("yyyy-MM-dd").
+        Votre réservation a bien été complétée.<br />
+        Réservation du @Model.StartsOn.ToString("dd/MM/yyyy") au @Model.EndsOn.ToString("dd/MM/yyyy").
     </p>
-
-    if (!Model.PaymentReceived)
-    {
-        <p>Le paiement de la réservation n'a toujours pas été reçu.</p>
-        <div class="row">
-            <ul class="list-group col-md-6">
-                <li class="list-group-item active">Détails du prix:</li>
-                <li class="list-group-item"><strong>Montant total à payer: @(Model.Price + Model.Caution)€</strong></li>
-                <li class="list-group-item">Prix du gîte: @Model.Price€</li>
-                <li class="list-group-item">Caution: @Model.Caution€</li>
+    <div class="row">
+        @if (Model.AdvancePaymentReceived)
+        {
+            <ul class="list-group col-md-4">
+                <li class="list-group-item active">Votre acompte a bien été reçu:</li>
+                <li class="list-group-item"><strong>Payé: @Model.AdvanceValue€</strong></li>
             </ul>
-            <ul class="list-group col-md-6">
-                <li class="list-group-item active">Coordonnées bancaires:</li>
-                <li class="list-group-item">N&deg; de compte: xxxxx-xxx-xxxx-xxxxx</li>
-                <li class="list-group-item">BIC: xxxxxxx</li>
-                <li class="list-group-item">IBAN: xxxx-xxxxxxx-xxx</li>
+        }
+        else
+        {
+            <ul class="list-group col-md-4">
+                <li class="list-group-item active">Acompte à payer avant le @Model.BookedOn.AddDays(5).ToString("dd/MM/yyyy"):</li>
+                <li class="list-group-item"><strong>Montant minimum: @Model.AdvanceValue€</strong></li>
             </ul>
-        </div>
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="pull-right">
-                    @if (Model.PaymentDeclared)
+        }
+        @if (Model.PaymentReceived)
+        {
+            <ul class="list-group col-md-4">
+                <li class="list-group-item active">Votre paiement a bien été reçu:</li>
+                <li class="list-group-item"><strong>Montant reçu: @(Model.FinalPrice - Model.AdvanceValue)€</strong></li>
+            </ul>
+        }
+        else
+        {
+            <ul class="list-group col-md-4">
+                <li class="list-group-item active">Paiement a effectuer avant le @Model.StartsOn.AddDays(-10).ToString("dd/MM/yyyy"):</li>
+                <li class="list-group-item"><strong>Montant total: @(Model.FinalPrice - Model.AdvanceValue)€</strong></li>
+                <li class="list-group-item">Détails: @Model.FinalPrice€ (prix total) - @Model.AdvanceValue€ (acompte)</li>
+            </ul>
+        }
+        <ul class="list-group col-md-4">
+            <li class="list-group-item active">Coordonnées bancaires:</li>
+            <li class="list-group-item">N&deg; de compte: xxxxx-xxx-xxxx-xxxxx</li>
+            <li class="list-group-item">BIC: xxxxxxx</li>
+            <li class="list-group-item">IBAN: xxxx-xxxxxxx-xxx</li>
+        </ul>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="pull-right">
+                @if (Model.AdvancePaymentDeclared)
+                {
+                    if (Model.AdvancePaymentReceived)
                     {
-                        <button class="btn btn-primary" disabled="disabled">J'ai déjà payé</button>
+                        <button class="btn btn-success">L'acompte a bien été reçu</button>
                     }
                     else
                     {
-                        @Html.ActionLink("J'ai payé !", "PaymentDeclared", "overview", new { id = Model.Id }, new { @class = "btn btn-primary" });
+                        <button class="btn btn-primary" disabled="disabled">Acompte en attente de validation</button>
                     }
-                    @Html.ActionLink("Annuler ma réservation", "CancelReservation", "overview", new { id = Model.Id }, new { @class = "btn btn-danger" });
-                </div>
+                }
+                else
+                {
+                    @Html.ActionLink("Déclarer l'acompte payé", "AdvanceDeclared", "overview", new { id = Model.Id }, new { @class = "btn btn-primary" });
+                }
             </div>
         </div>
-    }
-    else
-    {
-        <p>Votre paiement a bien été reçu.</p>
-        <p>Nous vous remercions et vous souhaitons un agréable séjour au gite de La Fenière !</p>
-    }
+        <div class="col-md-4">
+            <div class="pull-right">
+                @if (!Model.AdvancePaymentReceived)
+                {
+                    <button class="btn btn-primary" disabled="disabled">Déclarer la location payée</button>
+                }
+                else if (Model.PaymentDeclared)
+                {
+                    if (Model.PaymentReceived)
+                    {
+                        <button class="btn btn-success">Le paiement a bien été reçu</button>
+                    }
+                    else
+                    {
+                        <button class="btn btn-primary" disabled="disabled">Paiement en attente de validation</button>
+                    }
+                }
+                else
+                {
+                    @Html.ActionLink("Déclarer la location payée", "PaymentDeclared", "overview", new { id = Model.Id }, new { @class = "btn btn-primary" });
+                }
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="pull-right">
+                @Html.ActionLink("Annuler ma réservation", "CancelReservation", "overview", new { id = Model.Id }, new { @class = "btn btn-danger" });
+            </div>
+        </div>
+    </div>
 }
 else{
     <p>Votre réservation a été annulée...</p>
+    <p>La raison de l'annulation est: @Model.CancelReason</p>
     <p>Retourner à la @Html.ActionLink("page des réservations", "Index", "Reservation")</p>
 }

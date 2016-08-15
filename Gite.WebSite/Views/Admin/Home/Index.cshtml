@@ -1,0 +1,18 @@
+﻿@model Gite.WebSite.Models.Admin.HomeModel
+
+@{
+    Layout = "~/Views/Admin/Shared/_Layout.cshtml";
+}
+
+<div id="home" data-role="page">
+    <div data-role="header" data-position="fixed">
+        <a href="/account/logoff" data-role="button" data-mini="true" data-transition="slide" data-direction="reverse">Quitter</a>
+        <a id="refresh" class="ui-btn ui-btn-right ui-corner-all ui-icon-refresh ui-btn-icon-notext">MàJ</a>
+        <h1>Mas des Genettes</h1>
+    </div>
+    <ul data-role="listview" data-inset="true">
+        <li><a href="/admin/reservations" data-transition="slide">Réservations</a></li>
+        <li><a href="/admin/alerts" data-transition="slide">Alertes (@Model.Alerts)</a></li>
+        <li><a href="/admin/accountancy" data-transition="slide">Comptes</a></li>
+    </ul>
+</div>

@@ -32,6 +32,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="itextsharp, Version=5.5.9.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\iTextSharp.5.5.9\lib\itextsharp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Ninject">
       <HintPath>..\packages\Ninject.3.2.0.0\lib\net45-full\Ninject.dll</HintPath>
     </Reference>
@@ -42,36 +46,35 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Model\Date.cs" />
-    <Compile Include="Services\Calendar\IReservationCalendar.cs" />
-    <Compile Include="Services\Calendar\ReservationCalendar.cs" />
-    <Compile Include="Services\DepositRefundProcessor\RefundProcessor.cs" />
-    <Compile Include="Services\DepositRefundProcessor\IRefundProcessor.cs" />
-    <Compile Include="Services\MailSender\BaseMailSender.cs" />
-    <Compile Include="Services\MailSender\IReservationConfirmationMailSender.cs" />
+    <Compile Include="Model\CancelReason.cs" />
     <Compile Include="Model\Mail.cs" />
-    <Compile Include="Services\MailSender\ReservationConfirmationMailSender.cs" />
-    <Compile Include="Services\PaymentProcessor\IPaymentProcessor.cs" />
-    <Compile Include="Services\PaymentProcessor\PaymentProcessor.cs" />
-    <Compile Include="Services\PriceCalculation\Strategies\DiscountStrategy.cs" />
-    <Compile Include="Services\PriceCalculation\Strategies\SummerPriceStrategy.cs" />
-    <Compile Include="Services\PriceCalculation\IPriceCalculator.cs" />
-    <Compile Include="Services\PriceCalculation\Strategies\IPriceStrategy.cs" />
-    <Compile Include="Services\PriceCalculation\Strategies\NormalPriceStrategy.cs" />
-    <Compile Include="Services\PriceCalculation\PriceCalculator.cs" />
-    <Compile Include="Services\PriceCalculation\Strategies\PriceResponse.cs" />
-    <Compile Include="Services\PriceCalculation\Strategies\WinterPriceStrategy.cs" />
     <Compile Include="Interceptors\CommitTransactionAttribute.cs" />
     <Compile Include="Interceptors\CommitTransactionInterceptor.cs" />
     <Compile Include="IUnitOfWork.cs" />
     <Compile Include="Model\Contact.cs" />
+    <Compile Include="Model\People.cs" />
     <Compile Include="Model\Reservation.cs" />
+    <Compile Include="Model\ReservationWeek.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\IReservationRepository.cs" />
-    <Compile Include="Services\Reservations\ReservationCanceller\IReservationCanceller.cs" />
-    <Compile Include="Services\Reservations\ReservationCanceller\ReservationCanceller.cs" />
-    <Compile Include="Services\Reservations\ReservationPersister\IReservationPersister.cs" />
-    <Compile Include="Services\Reservations\ReservationPersister\ReservationPersister.cs" />
+    <Compile Include="Services\Calendar\IWeekCalendar.cs" />
+    <Compile Include="Services\Calendar\WeekCalendar.cs" />
+    <Compile Include="Services\Contract\ContractGenerator.cs" />
+    <Compile Include="Services\Contract\IContractGenerator.cs" />
+    <Compile Include="Services\Mails\IMailGenerator.cs" />
+    <Compile Include="Services\Mails\IMailSender.cs" />
+    <Compile Include="Services\Mails\MailGenerator.cs" />
+    <Compile Include="Services\Mails\MailSender.cs" />
+    <Compile Include="Services\Pricing\IPriceCalculator.cs" />
+    <Compile Include="Services\Pricing\PriceCalculator.cs" />
+    <Compile Include="Services\Reservations\Actions\IReservationCanceller.cs" />
+    <Compile Include="Services\Reservations\Actions\ReservationCanceller.cs" />
+    <Compile Include="Services\Reservations\Booker.cs" />
+    <Compile Include="Services\Reservations\IBooker.cs" />
+    <Compile Include="Services\Reservations\IReservationPlanner.cs" />
+    <Compile Include="Services\Reservations\Payment\IPaymentManager.cs" />
+    <Compile Include="Services\Reservations\Payment\PaymentManager.cs" />
+    <Compile Include="Services\Reservations\ReservationPlanner.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

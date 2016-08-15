@@ -1,0 +1,19 @@
+﻿@model Gite.WebSite.Models.Admin.ReservationsOverview
+
+@{
+    Layout = "~/Views/Admin/Shared/_Layout.cshtml";
+}
+
+<div id="reservations" data-role="page" data-dom-cache="false">
+    <div data-role="header" data-position="fixed">
+        <a href="/admin/home" data-role="button" data-mini="true" data-transition="slide" data-direction="reverse">Retour</a>
+        <a onClick="window.location.reload();" id="refresh" class="ui-btn ui-btn-right ui-corner-all ui-icon-refresh ui-btn-icon-notext">MàJ</a>
+        <h1>Réservations</h1>
+    </div>
+    <ul data-role="listview" data-inset="true">
+        <li><a href="/admin/reservations/new" data-transition="slide">Nouvelles réservations (@Model.New)</a></li>
+        <li><a href="/admin/reservations/pendingadvance" data-transition="slide">Acomptes à valider (@Model.PendingAdvance)</a></li>
+        <li><a href="/admin/reservations/incoming" data-transition="slide">Prochainement (@Model.Incoming)</a></li>
+        <li><a href="/admin/reservations/all" data-transition="slide">Toutes les réservations</a></li>
+    </ul>
+</div>

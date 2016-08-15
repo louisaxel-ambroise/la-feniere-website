@@ -1,24 +1,28 @@
 ﻿using System;
+using System.Linq;
 using System.Web.Mvc;
 using Gite.Model.Model;
 using Gite.Model.Services.Calendar;
-using Gite.Model.Services.ReservationPersister;
 using Gite.WebSite.Models;
+using Gite.Model.Services.Reservations;
 
 namespace Gite.WebSite.Controllers
 {
     public class ReservationController : Controller
     {
-        private readonly IReservationPersister _reservationPersister;
-        private readonly ReservationCalendar _calendar;
+        private readonly IBooker _reservationBooker;
+        private readonly IWeekCalendar _weekCalendar;
+        private readonly IReservationPlanner _reservationPlanner;
 
-        public ReservationController(IReservationPersister reservationPersister, ReservationCalendar calendar)
+        public ReservationController(IWeekCalendar weekCalendar, IReservationPlanner reservationPlanner, IBooker reservationBooker)
         {
-            if (reservationPersister == null) throw new ArgumentNullException("reservationPersister");
-            if (calendar == null) throw new ArgumentNullException("calendar");
+            if (weekCalendar == null) throw new ArgumentNullException("weekCalendar");
+            if (reservationBooker == null) throw new ArgumentNullException("reservationBooker");
+            if (reservationPlanner == null) throw new ArgumentNullException("reservationPlanner");
 
-            _reservationPersister = reservationPersister;
-            _calendar = calendar;
+            _weekCalendar = weekCalendar;
+            _reservationPlanner = reservationPlanner;
+            _reservationBooker = reservationBooker;
         }
 
         public ActionResult Index()
@@ -28,50 +32,68 @@ namespace Gite.WebSite.Controllers
 
         public ActionResult ListWeekForMonth(int year, int month)
         {
-            var dates = _calendar.ListSaturdaysForMonth(year, month);
+            var result = _weekCalendar.ListWeeksForMonth(year, month).MapToDate();
 
-            return PartialView(dates);
+            return PartialView(result);
         }
 
-        public ActionResult CheckIn(string id)
+        public ActionResult CheckIn()
         {
-            var date = _calendar.GetSpecificDate(id);
+            Reservation reservation;
+            DateTime firstWeek, lastWeek;
 
-            if (date.Reserved) throw new Exception("This date is already reserved...");
+            try
+            {
+                firstWeek = DateTime.Parse(Request.Params.Get("f"));
+                lastWeek = DateTime.Parse(Request.Params.Get("l"));
 
-            PrepareViewbag(id, date);
+                EnsureDatesAreSaturday(firstWeek, lastWeek);
+                if(_reservationPlanner.ContainsBookedWeek(firstWeek, lastWeek)) throw new Exception("Week already booked.");
 
-            return View(new ReservationModel { Price = date.Price.Amount, Caution =date.Price.Amount });
+                reservation = _reservationPlanner.PlanReservationForWeeks(firstWeek, lastWeek);
+            }
+            catch
+            {
+                return RedirectToAction("Index");
+            }
+
+            var ip = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
+            var model = reservation.MapToReservationModel(ip);
+
+            return View(model);
         }
 
         [HttpPost]
         public ActionResult CheckIn(string id, ReservationModel model)
         {
-            var date = _calendar.GetSpecificDate(id);
+            EnsureDatesAreSaturday(model.StartsOn, model.LastWeek);
+            var reservation = _reservationPlanner.PlanReservationForWeeks(model.StartsOn, model.LastWeek);
 
-            if (date.Reserved) throw new Exception("This date is already reserved...");
-            if (model.Price != date.Price.Amount || model.Caution != date.Price.Amount || !ModelState.IsValid)
+            if(_reservationPlanner.ContainsBookedWeek(model.StartsOn, model.LastWeek)) throw new Exception("Week already booked.");
+            if (model.FinalPrice != reservation.FinalPrice || !ModelState.IsValid) return View(model);
+
+            var details = new ReservationDetails
             {
-                PrepareViewbag(id, date);
-                return View(model);
-            }
+                Contact = new Contact
+                {
+                    Address = model.FormatAddress(), Mail = model.Email, Name = model.Name, Phone = model.Phone
+                },
+                People = new People
+                {
+                    Adults = model.Adults, Children = model.Children, Babies = model.Babies,
+                    Animals = model.AnimalsNumber, AnimalsDescription = model.AnimalsType
+                }
+            };
 
-            var ipAddress = HttpContext.Request.UserHostAddress;
-            var reservation = model.MapToReservation(id, ipAddress, date);
-
-            _reservationPersister.Persist(reservation);
-            model.ReservationId = reservation.Id;
+            var reservationId = _reservationBooker.Book(reservation, details);
            
-            return View("ValidateBooking", model);
+            return RedirectToAction("Details", "Overview", new { id = reservationId });
         }
 
-        private void PrepareViewbag(string id, Date date)
+        private static void EnsureDatesAreSaturday(params DateTime[] dates)
         {
-            ViewBag.ReservationId = id;
-            ViewBag.Date = date.BeginDate;
-            ViewBag.StartingOn = date.BeginDate.ToString("dd/MM/yyyy");
-            ViewBag.EndingOn = date.EndDate.ToString("dd/MM/yyyy");
-            ViewBag.Price = date.Price;
+            if (dates.Any(x => x.DayOfWeek != DayOfWeek.Saturday))
+                throw new Exception("Dates must be saturdays.");
         }
     }
 }
