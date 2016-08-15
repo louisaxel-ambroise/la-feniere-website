@@ -126,7 +126,7 @@ namespace Gite.Model.Services.Contract
             title.Add("Contrat de location\r\n\r\n\r\n");
 
             var logo = Image.GetInstance(new Uri(imageUrl));
-            logo.SetAbsolutePosition(document.PageSize.Width - 36f - 180f, document.PageSize.Width - 36f - 180f);
+            logo.SetAbsolutePosition(document.PageSize.Width - 25f - 120f, document.PageSize.Height - 20f - 78f);
 
             document.Add(logo);
             document.Add(title);

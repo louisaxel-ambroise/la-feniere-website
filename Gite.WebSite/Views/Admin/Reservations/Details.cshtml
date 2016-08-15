@@ -1,0 +1,94 @@
+﻿@model Gite.WebSite.Models.Admin.ReservationModel
+
+@{
+    Layout = "~/Views/Admin/Shared/_Layout.cshtml";
+}
+
+<div id="detailReservation" data-role="page" data-dom-cache="false">
+    <div data-role="header" data-position="fixed">
+        <a href="@ViewBag.Previous" data-role="button" data-mini="true" data-transition="slide" data-direction="reverse">Retour</a>
+        <a onClick="window.location.reload();" id="refresh" class="ui-btn ui-btn-right ui-corner-all ui-icon-refresh ui-btn-icon-notext">MàJ</a>
+        <h1>Détails</h1>
+    </div>
+    <div data-role="tabs">
+        <div data-role="navbar">
+            <ul>
+                <li><a href="#detail" data-ajax="false">Réservation</a></li>
+                <li><a href="#contact" data-ajax="false">Contact</a></li>
+                <li><a href="#actions" data-ajax="false">Actions</a></li>
+            </ul>
+        </div>
+        <div id="detail" class="ui-body-d ui-content">
+            <h3>Du @Model.FirstWeek.ToString("dd/MM/yyyy") au @Model.LastWeek.AddDays(7).ToString("dd/MM/yyyy")</h3>
+            <p>
+                Durée : @((Model.LastWeek.AddDays(7) - Model.FirstWeek).Days/7) semaine(s)<br />
+                Réservé le : @Model.BookedOn.ToString("dd/MM/yyyy HH:mm")
+            </p>
+            <p>
+                <strong>Prix total : @Model.FinalPrice €</strong><br />
+                @if (Model.Reduction > 0) {
+                    <span>
+                        Prix original : @Model.OriginalPrice €<br />
+                        Réduction: @Model.Reduction %
+                    </span>
+                }
+            </p>
+            <h3>Evénements</h3>
+            <p>
+                <div><strong>@Model.BookedOn.ToString("dd/MM/yyyy HH:mm")</strong> : réservation créée</div>
+                @if (Model.AdvancedDeclarationDate.HasValue) {
+                    <div><strong>@Model.AdvancedDeclarationDate.Value.ToString("dd/MM/yyyy HH:mm")</strong> : acompte payé</div>
+                }
+                @if (Model.AdvancedReceptionDate.HasValue) {
+                    <div><strong>@Model.AdvancedReceptionDate.Value.ToString("dd/MM/yyyy HH:mm")</strong> : acompte reçu<br /></div>
+                }
+                @if (Model.PaymentDeclarationDate.HasValue)
+                {
+                    <div><strong>@Model.PaymentDeclarationDate.Value.ToString("dd/MM/yyyy HH:mm")</strong> : location payée</div>
+                }
+                @if (Model.PaymentReceptionDate.HasValue)
+                {
+                    <div><strong>@Model.PaymentReceptionDate.Value.ToString("dd/MM/yyyy HH:mm")</strong> : location reçue<br /></div>
+                }
+            </p>
+        </div>
+        <div id="contact" class="ui-body-d ui-content">
+            <h3>@Model.Name</h3>
+            <p>Adresse : @Model.Address<br />
+            Mail : @Model.Mail</p>
+            <p>@(Model.Adults + @Model.Children + Model.Babies) personnes, dont @Model.Children enfants de moins de 12 ans et @Model.Babies bébés.</p>
+            @if (Model.Animals > 0)
+            {
+                <p>Animaux: @Model.Animals (@Model.AnimalsType)</p>
+            }
+        </div>
+        <div id="actions" class="ui-body-d ui-content">
+            @if (!Model.AdvancedReceived)
+            {
+                <h3>Réception de l'acompte</h3>
+                <form action="/admin/reservations/advancereceived/@Model.Id" method="post">
+                    <div data-role="fieldcontain">
+                        <label for="name">Montant:</label>
+                        <input type="number" name="acompte" id="acompte" value="@Model.AdvancedValue" />
+                    </div>	
+                    <input type="submit" value="Déclarer l'acompte reçu" />
+                </form>
+            }
+            else if (!Model.PaymentReceived)
+            {
+                <h2>Réception du paiement</h2>
+                <form action="/admin/reservations/paymentreceived/@Model.Id" method="post">
+                    <div data-role="fieldcontain">
+                        <label for="name">Montant:</label>
+                        <input type="number" name="acompte" id="acompte" value="@Model.PaymentValue" />
+                    </div>
+                    <input type="submit" value="Déclarer le paiement reçu" />
+                </form>
+            }
+            else
+            {
+                <h2>Aucune action disponible.</h2>
+            }
+        </div>
+    </div>
+</div>

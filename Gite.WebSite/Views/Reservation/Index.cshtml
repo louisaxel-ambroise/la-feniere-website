@@ -135,12 +135,12 @@
 
         if (begin != null && end != null) {
             // Display info to user
-            $("#reservationDetails").text("Du " + format(begin) + " au " + format(addDays(end, 7)) + ". Total: " + total + "€");
+            $("#reservationDetails").html("Du " + format(begin) + " au " + format(addDays(end, 7)) + ".<br />Total:<strong> " + total + "€</strong>");
             $("#validate").click(function () {
                 window.location.href = "/Reservation/CheckIn?f=" + format(begin) + "&l=" + format(end);
             });
         } else {
-            $("#reservationDetails").text("Aucune semaine sélectionnée.");
+            $("#reservationDetails").html("Aucune semaine sélectionnée.<br /> ");
         }
     };
 </script>
@@ -159,9 +159,13 @@
     <div class="row text-center" id="weeksOfMonth" style="min-height:130px;">
 
     </div>
-
-    <div id="reservationDetails">Aucune semaine sélectionnée.</div>
-    <button id="validate" class="btn btn-primary">Réserver</button>
+    <div class="row">
+        <div class="pull-right well">
+            <div id="reservationDetails">Aucune semaine sélectionnée.<br /> </div>
+            <button id="validate" class="btn btn-primary">Continuer la réservation</button>
+            <button onclick="window.location.reload(); return false;" class="btn btn-warning">Annuler</button>
+        </div>
+    </div>
 </div>
 
 <script type="text/javascript">

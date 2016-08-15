@@ -1,0 +1,17 @@
+﻿@model Gite.WebSite.Models.Admin.AlertsModel
+
+@{
+    Layout = "~/Views/Admin/Shared/_Layout.cshtml";
+}
+
+<div id="alerts" data-role="page">
+    <div data-role="header" data-position="fixed">
+        <a href="/admin/home" data-role="button" data-mini="true" data-transition="slide" data-direction="reverse">Retour</a>
+        <a onClick="window.location.reload();" id="refresh" class="ui-btn ui-btn-right ui-corner-all ui-icon-refresh ui-btn-icon-notext">MàJ</a>
+        <h1>Alertes</h1>
+    </div>
+    <ul data-role="listview" data-inset="true">
+        <li><a href="/admin/alerts/advances" data-transition="slide">Acomptes (@Model.Advances)</a></li>
+        <li><a href="/admin/alerts/payments" data-transition="slide">Paiements (@Model.Payments)</a></li>
+    </ul>
+</div>

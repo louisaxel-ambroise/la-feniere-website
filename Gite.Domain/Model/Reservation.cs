@@ -29,7 +29,7 @@ namespace Gite.Model.Model
 
         public virtual double ComputeDiscount()
         {
-            var weeksNumber = (LastWeek - FirstWeek).Days / 7;
+            var weeksNumber = (LastWeek.AddDays(7) - FirstWeek).Days / 7;
 
             if (weeksNumber == 2) return 3;
             if (weeksNumber > 2) return 4;

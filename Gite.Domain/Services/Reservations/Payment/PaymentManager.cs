@@ -25,12 +25,32 @@ namespace Gite.Model.Services.Reservations.Payment
         }
 
         [CommitTransaction]
+        public void DeclareAdvanceReceived(Guid id, double amount)
+        {
+            var reservation = _reservationRepository.Load(id);
+
+            if (reservation.AdvancedReceptionDate != null) throw new Exception("Advance is already received");
+            reservation.AdvancedReceptionDate = DateTime.Now;
+            reservation.AdvancedValue = amount;
+        }
+
+        [CommitTransaction]
         public void DeclarePaymentDone(Guid id)
         {
             var reservation = _reservationRepository.Load(id);
 
             if (reservation.PaymentDeclarationDate != null) throw new Exception("Advance is already declared");
             reservation.PaymentDeclarationDate = DateTime.Now;
+        }
+
+        [CommitTransaction]
+        public void DeclarePaymentReceived(Guid id, double amount)
+        {
+            var reservation = _reservationRepository.Load(id);
+
+            if (reservation.PaymentReceptionDate != null) throw new Exception("Advance is already declared");
+            reservation.PaymentReceptionDate = DateTime.Now;
+            reservation.PaymentValue = amount;
         }
     }
 }

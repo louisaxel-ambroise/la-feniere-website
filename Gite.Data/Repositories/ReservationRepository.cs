@@ -31,8 +31,8 @@ namespace Gite.Database.Repositories
             return _session.Query<Reservation>().Where(x => 
                 x.CancellationToken == null &&
                 (
-                    (x.AdvancedReceptionDate != null || x.BookedOn < DateTime.Now.AddDays(5)) ||
-                    (x.AdvancedDeclarationDate != null && x.AdvancedDeclarationDate >= DateTime.Now.AddDays(-2))
+                    (x.AdvancedReceptionDate != null || x.BookedOn < DateTime.Now.AddDays(7)) ||
+                    (x.AdvancedDeclarationDate != null && x.AdvancedDeclarationDate >= DateTime.Now.Date.AddDays(-4))
                 ));
         }
 

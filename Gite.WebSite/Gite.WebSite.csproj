@@ -231,7 +231,9 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Attributes\PeopleNumberAttribute.cs" />
-    <Compile Include="Controllers\Api\ReservationController.cs" />
+    <Compile Include="Controllers\Admin\AccountancyController.cs" />
+    <Compile Include="Controllers\Admin\HomeController.cs" />
+    <Compile Include="Controllers\Admin\ReservationsController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\OverviewController.cs" />
@@ -239,7 +241,13 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\Api\ApiReservation.cs" />
+    <Compile Include="Models\Admin\AccountancyOverview.cs" />
+    <Compile Include="Controllers\Admin\AlertsController.cs" />
+    <Compile Include="Models\Admin\AlertsModel.cs" />
+    <Compile Include="Models\Admin\HomeModel.cs" />
+    <Compile Include="Models\Admin\ReservationModel.cs" />
+    <Compile Include="Models\Admin\ReservationMappings.cs" />
+    <Compile Include="Models\Admin\ReservationsOverview.cs" />
     <Compile Include="Models\Date.cs" />
     <Compile Include="Models\DateMappings.cs" />
     <Compile Include="Models\ReservationMappings.cs" />
@@ -318,11 +326,23 @@
     <Content Include="Views\Reservation\Index.cshtml" />
     <Content Include="Views\Reservation\CheckIn.cshtml" />
     <Content Include="Views\Reservation\ListWeekForMonth.cshtml" />
-    <Content Include="Views\Reservation\ValidateBooking.cshtml" />
     <Content Include="Views\Overview\Details.cshtml" />
+    <Content Include="Views\Admin\Home\Index.cshtml" />
+    <Content Include="Views\Admin\Shared\_Layout.cshtml" />
+    <Content Include="Views\Admin\Accountancy\Index.cshtml" />
+    <Content Include="Views\Admin\Reservations\Index.cshtml" />
+    <Content Include="Views\Admin\Reservations\New.cshtml" />
+    <Content Include="Views\Admin\Reservations\All.cshtml" />
+    <Content Include="Views\Admin\Reservations\Details.cshtml" />
+    <Content Include="Views\Admin\Reservations\PendingAdvance.cshtml" />
+    <Content Include="Views\Admin\Reservations\Incoming.cshtml" />
+    <Content Include="Views\Admin\Alerts\Index.cshtml" />
+    <Content Include="Views\Admin\Alerts\Advances.cshtml" />
+    <Content Include="Views\Admin\Alerts\Payments.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Reservations\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
