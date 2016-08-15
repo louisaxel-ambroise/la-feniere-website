@@ -2,10 +2,11 @@
 {
     public class AccountancyOverview
     {
-        public double Month { get; set; }
-        public double Year { get; set; }
-        public double AllTime { get; set; }
-        public double LastMonth { get; set; }
-        public double LastYear { get; set; }
+        public double MonthEarned { get; set; }
+        public double MonthPlanned { get; set; }
+        public double YearEarned { get; set; }
+        public double YearPlanned { get; set; }
+        public double AllTimeEarned { get; set; }
+        public double AllTimePlanned { get; set; }
     }
 }

@@ -20,11 +20,17 @@ namespace Gite.WebSite.Controllers.Admin
         public ActionResult Index()
         {
             var reservations = _reservationRepository.QueryValidReservations().Where(x => x.AdvancedReceptionDate != null).ToList();
+
+            var month = reservations.Where(x => x.FirstWeek >= new DateTime(DateTime.Now.Year, DateTime.Now.Month, 01));
+            var year = reservations.Where(x => x.FirstWeek >= new DateTime(DateTime.Now.Year, 01, 01));
             var model = new AccountancyOverview
             {
-                Month = reservations.Where(x => x.FirstWeek >= new DateTime(DateTime.Now.Year, DateTime.Now.Month, 01)).Sum(x => x.FinalPrice),
-                Year = reservations.Where(x => x.FirstWeek >= new DateTime(DateTime.Now.Year, 01, 01)).Sum(x => x.FinalPrice),
-                AllTime = reservations.Sum(x => x.FinalPrice)
+                MonthEarned = month.Where(x => x.FirstWeek <= DateTime.Now).Sum(x => x.FinalPrice),
+                MonthPlanned = month.Where(x => x.FirstWeek > DateTime.Now).Sum(x => x.FinalPrice),
+                YearEarned = year.Where(x => x.FirstWeek <= DateTime.Now).Sum(x => x.FinalPrice),
+                YearPlanned = year.Where(x => x.FirstWeek > DateTime.Now).Sum(x => x.FinalPrice),
+                AllTimeEarned = reservations.Where(x => x.FirstWeek <= DateTime.Now).Sum(x => x.FinalPrice),
+                AllTimePlanned = reservations.Where(x => x.FirstWeek > DateTime.Now).Sum(x => x.FinalPrice)
             };
 
             return View("~/Views/Admin/Accountancy/Index.cshtml", model);

@@ -25,14 +25,16 @@ namespace Gite.WebSite.Controllers.Admin
         {
             var valids = _reservationRepository.QueryValidReservations().Where(x => x.FirstWeek >= DateTime.Now).ToList();
 
-            var newReservations = valids.Count(x => x.AdvancedDeclarationDate == null);
+            var newReservations = valids.Count(x => x.AdvancedDeclarationDate == null && x.AdvancedReceptionDate == null);
             var pendingAdvance = valids.Count(x => x.AdvancedDeclarationDate != null && x.AdvancedReceptionDate == null);
-            var incomingReservations = valids.Count(x => x.FirstWeek >= DateTime.Now.AddMonths(-2));
+            var pendingPayment = valids.Count(x => x.PaymentDeclarationDate != null && x.PaymentReceptionDate == null);
+            var incomingReservations = valids.Count(x => x.FirstWeek <= DateTime.Now.AddMonths(2));
 
             var model = new ReservationsOverview
             {
                 New = newReservations,
                 PendingAdvance = pendingAdvance,
+                PendingPayment = pendingPayment,
                 Incoming = incomingReservations
             };
 
@@ -42,7 +44,7 @@ namespace Gite.WebSite.Controllers.Admin
         public ActionResult New()
         {
             var reservations = _reservationRepository.QueryValidReservations()
-                .Where(x => x.AdvancedDeclarationDate == null)
+                .Where(x => x.AdvancedDeclarationDate == null && x.AdvancedReceptionDate == null)
                 .OrderBy(x => x.BookedOn).ToList();
             var model = reservations.Select(x => x.MapToReservationModel()).ToArray();
 
@@ -59,10 +61,20 @@ namespace Gite.WebSite.Controllers.Admin
             return View("~/Views/Admin/Reservations/PendingAdvance.cshtml", model);
         }
 
+        public ActionResult PendingPayment()
+        {
+            var reservations = _reservationRepository.QueryValidReservations()
+                .Where(x => x.PaymentDeclarationDate != null && x.PaymentReceptionDate == null)
+                .OrderBy(x => x.PaymentDeclarationDate).ToList();
+            var model = reservations.Select(x => x.MapToReservationModel()).ToArray();
+
+            return View("~/Views/Admin/Reservations/PendingPayment.cshtml", model);
+        }
+
         public ActionResult Incoming()
         {
             var reservations = _reservationRepository.QueryValidReservations()
-                .Where(x => x.FirstWeek >= DateTime.Now.AddMonths(-2))
+                .Where(x => x.FirstWeek <= DateTime.Now.AddMonths(2))
                 .OrderBy(x => x.FirstWeek).ToList();
             var model = reservations.Select(x => x.MapToReservationModel()).ToArray();
 
@@ -71,7 +83,7 @@ namespace Gite.WebSite.Controllers.Admin
 
         public ActionResult All()
         {
-            var reservations = _reservationRepository.QueryValidReservations().OrderBy(x => x.FirstWeek).ToList();
+            var reservations = _reservationRepository.QueryValidReservations().Where(x => x.FirstWeek >= DateTime.Now).OrderBy(x => x.FirstWeek).ToList();
             var model = reservations.Select(x => x.MapToReservationModel()).ToArray();
 
             return View("~/Views/Admin/Reservations/All.cshtml", model);

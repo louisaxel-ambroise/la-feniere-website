@@ -38,7 +38,7 @@ namespace Gite.WebSite.Controllers.Admin
             }
             else
             {
-                return View("~/Views/Admin/Account/Index.cshtml", credentials);
+                return RedirectToAction("Index", "Admin");
             }
         }
     }

@@ -6,7 +6,7 @@
 
 <div id="newReservations" data-role="page" data-cache="never">
     <div data-role="header" data-position="fixed">
-        <a href="/admin/reservations" data-role="button" data-mini="true" data-transition="slide" data-direction="reverse">Retour</a>
+        <a href="/reservations" data-role="button" data-mini="true" data-transition="slide" data-direction="reverse">Retour</a>
         <a onClick="window.location.reload();" id="refresh" class="ui-btn ui-btn-right ui-corner-all ui-icon-refresh ui-btn-icon-notext">MàJ</a>
         <h1>Nouvelles Réservations</h1>
     </div>
@@ -17,7 +17,7 @@
         @foreach (var reservation in Model)
         {
             <li class="ul-not-bold">
-                <a href="/admin/reservations/details/@reservation.Id.ToString("D")?from=@Request.Path">
+                <a href="/reservations/details/@reservation.Id.ToString("D")?from=@Request.Path">
                     <h2>Réservé le : @reservation.BookedOn.ToString("dd/MM/yyyy HH:mm")</h2>
                     Du @reservation.FirstWeek.ToString("dd/MM/yyyy") au @reservation.LastWeek.AddDays(7).ToString("dd/MM/yyyy")<br />
                     @reservation.Name

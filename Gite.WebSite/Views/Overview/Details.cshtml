@@ -56,7 +56,7 @@ else if(!Model.Cancelled) {
     <div class="row">
         <div class="col-md-4">
             <div class="pull-right">
-                @if (Model.AdvancePaymentDeclared)
+                @if (Model.AdvancePaymentDeclared || Model.AdvancePaymentReceived)
                 {
                     if (Model.AdvancePaymentReceived)
                     {
@@ -79,7 +79,7 @@ else if(!Model.Cancelled) {
                 {
                     <button class="btn btn-primary" disabled="disabled">Déclarer la location payée</button>
                 }
-                else if (Model.PaymentDeclared)
+                else if (Model.PaymentDeclared || Model.PaymentReceived)
                 {
                     if (Model.PaymentReceived)
                     {

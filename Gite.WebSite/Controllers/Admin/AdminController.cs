@@ -6,11 +6,11 @@ using Gite.WebSite.Models.Admin;
 
 namespace Gite.WebSite.Controllers.Admin
 {
-    public class HomeController : AuthorizeController
+    public class AdminController : AuthorizeController
     {
         private readonly IReservationRepository _reservationRepository;
 
-        public HomeController(IReservationRepository reservationRepository)
+        public AdminController(IReservationRepository reservationRepository)
         {
             _reservationRepository = reservationRepository;
         }
