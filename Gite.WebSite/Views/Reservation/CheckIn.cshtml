@@ -34,7 +34,7 @@
         <p>Vous vous apprêtez à réserver pour une date lointaine (plus de 2 ans). Êtes-vous sûr d'avoir choisi la bonne date ?</p>
     </div>
 }
-@using (Html.BeginForm("CheckIn", "Reservation", new { Id = ViewBag.ReservationId }, FormMethod.Post, null))
+@using (Html.BeginForm("CheckIn", "Reservation", FormMethod.Post))
 {
     @Html.ValidationSummary()
     @Html.HiddenFor(x => x.StartsOn, new { id = Model.StartsOn })

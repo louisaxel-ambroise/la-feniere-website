@@ -64,7 +64,7 @@ namespace Gite.WebSite.Controllers
         }
 
         [HttpPost]
-        public ActionResult CheckIn(string id, ReservationModel model)
+        public ActionResult CheckIn(ReservationModel model)
         {
             EnsureDatesAreSaturday(model.StartsOn, model.LastWeek);
             var reservation = _reservationPlanner.PlanReservationForWeeks(model.StartsOn, model.LastWeek);
