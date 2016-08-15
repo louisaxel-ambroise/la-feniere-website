@@ -44,8 +44,8 @@ namespace Gite.WebSite.Controllers
 
             try
             {
-                firstWeek = DateTime.Parse(Request.Params.Get("f"));
-                lastWeek = DateTime.Parse(Request.Params.Get("l"));
+                firstWeek = DateTime.ParseExact(Request.Params.Get("f"), "dd/MM/yyyy", null);
+                lastWeek = DateTime.ParseExact(Request.Params.Get("l"), "dd/MM/yyyy", null);
 
                 EnsureDatesAreSaturday(firstWeek, lastWeek);
                 if(_reservationPlanner.ContainsBookedWeek(firstWeek, lastWeek)) throw new Exception("Week already booked.");
