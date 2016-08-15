@@ -1,4 +1,5 @@
 ﻿using Gite.Model.Services.Calendar;
+using Gite.Model.Services.Contract;
 using Gite.Model.Services.Mails;
 using Gite.Model.Services.Pricing;
 using Gite.Model.Services.Reservations;
@@ -29,6 +30,8 @@ namespace Gite.Factory
             Bind<IReservationPlanner>().To<ReservationPlanner>();
             Bind<IReservationCanceller>().To<ReservationCanceller>();
             Bind<IPaymentManager>().To<PaymentManager>();
+            Bind<IContractGenerator>().To<ContractGenerator>()
+                .WithConstructorArgument("baseUrl", _baseUrl);
             Bind<IMailGenerator>().To<MailGenerator>()
                 .WithConstructorArgument("baseUrl", _baseUrl);
             Bind<IMailSender>().To<MailSender>()

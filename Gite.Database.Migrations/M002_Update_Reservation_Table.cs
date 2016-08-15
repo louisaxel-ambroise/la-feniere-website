@@ -11,7 +11,7 @@ namespace Gite.Database.Migrations
             Alter.Table("Reservation")
                 .AddColumn("AdvanceDeclarationDate").AsDateTime().Nullable()
                 .AddColumn("PaymentDeclarationDate").AsDateTime().Nullable()
-                .AddColumn("CancellationReason").AsDateTime().Nullable();
+                .AddColumn("CancellationReason").AsString().Nullable();
         }
     }
 }

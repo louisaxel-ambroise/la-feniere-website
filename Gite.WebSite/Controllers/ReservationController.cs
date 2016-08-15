@@ -85,9 +85,9 @@ namespace Gite.WebSite.Controllers
                 }
             };
 
-            model.ReservationId = _reservationBooker.Book(reservation, details);
+            var reservationId = _reservationBooker.Book(reservation, details);
            
-            return View("ValidateBooking", model);
+            return RedirectToAction("Details", "Overview", new { id = reservationId });
         }
 
         private static void EnsureDatesAreSaturday(params DateTime[] dates)

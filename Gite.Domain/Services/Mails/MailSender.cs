@@ -1,6 +1,8 @@
 ﻿using Gite.Model.Model;
 using System.Net;
 using System.Net.Mail;
+using System.IO;
+using System.Net.Mime;
 
 namespace Gite.Model.Services.Mails
 {
@@ -22,7 +24,21 @@ namespace Gite.Model.Services.Mails
             using (var mailMessage = new MailMessage(_from, address) { Subject = message.Subject, Body = message.Content, IsBodyHtml = true })
             using (var smtp = new SmtpClient { Host = "smtp.gmail.com", EnableSsl = true, UseDefaultCredentials = true, Credentials = credentials, Port = 25 })
             {
+                AddAttachments(mailMessage, message.Attachments);
+
                 smtp.Send(mailMessage);
+            }
+        }
+
+        private static void AddAttachments(MailMessage mailMessage, Stream[] attachments)
+        {
+            foreach(var stream in attachments)
+            {
+                ContentType contentType = new ContentType(MediaTypeNames.Application.Pdf);
+                Attachment attach = new Attachment(stream, contentType);
+                attach.ContentDisposition.FileName = "contract.pdf";
+
+                mailMessage.Attachments.Add(attach);
             }
         }
     }

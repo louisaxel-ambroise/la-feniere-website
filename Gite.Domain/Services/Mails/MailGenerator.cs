@@ -1,4 +1,5 @@
 ﻿using Gite.Model.Model;
+using Gite.Model.Services.Contract;
 using System;
 
 namespace Gite.Model.Services.Mails
@@ -6,12 +7,15 @@ namespace Gite.Model.Services.Mails
     public class MailGenerator : IMailGenerator
     {
         private readonly string _baseUrl;
+        private readonly IContractGenerator _contractGenerator;
 
-        public MailGenerator(string baseUrl)
+        public MailGenerator(string baseUrl, IContractGenerator contractGenerator)
         {
             if (string.IsNullOrEmpty(baseUrl)) throw new ArgumentNullException("baseUrl");
+            if (contractGenerator == null) throw new ArgumentNullException("contractGenerator");
 
             _baseUrl = baseUrl;
+            _contractGenerator = contractGenerator;
         }
 
         public Mail GenerateMail(Reservation reservation)
@@ -19,6 +23,7 @@ namespace Gite.Model.Services.Mails
             return new Mail
             {
                 Subject = "Mas des Genettes - Votre réservation",
+                Attachments = new[] { _contractGenerator.GenerateForReservation(reservation) },
                 Content = string.Format(@"
 <h2>Votre réservation.</h2>
 <p>Votre réservation du {0} au {1}</p>

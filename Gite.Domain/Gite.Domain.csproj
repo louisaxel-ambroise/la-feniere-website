@@ -32,6 +32,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="itextsharp, Version=5.5.9.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\iTextSharp.5.5.9\lib\itextsharp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Ninject">
       <HintPath>..\packages\Ninject.3.2.0.0\lib\net45-full\Ninject.dll</HintPath>
     </Reference>
@@ -55,6 +59,8 @@
     <Compile Include="Repositories\IReservationRepository.cs" />
     <Compile Include="Services\Calendar\IWeekCalendar.cs" />
     <Compile Include="Services\Calendar\WeekCalendar.cs" />
+    <Compile Include="Services\Contract\ContractGenerator.cs" />
+    <Compile Include="Services\Contract\IContractGenerator.cs" />
     <Compile Include="Services\Mails\IMailGenerator.cs" />
     <Compile Include="Services\Mails\IMailSender.cs" />
     <Compile Include="Services\Mails\MailGenerator.cs" />

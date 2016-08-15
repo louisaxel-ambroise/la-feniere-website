@@ -17,9 +17,9 @@ body{
 }
 
 h2{
-    padding-left:60px;
+    padding-left:35px;
     min-height:30px;
-    background:url("/Content/Images/foin.png") center left no-repeat;
+    /*background:url("/Content/Images/foin.png") center left no-repeat;*/
 }
 
 .logo {

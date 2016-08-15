@@ -32,7 +32,7 @@ namespace Gite.WebSite.Models
                 OriginalPrice = reservation.DefaultPrice,
                 FinalPrice = reservation.FinalPrice,
                 PaymentDeclared = reservation.PaymentDeclarationDate.HasValue,
-                PaymentReceived = reservation.AdvancedReceptionDate.HasValue,
+                PaymentReceived = reservation.PaymentReceptionDate.HasValue,
                 Caution = 280,
                 Cancelled = reservation.CancellationToken.HasValue,
                 CancelReason = FormatCancelReason(reservation.CancellationReason),

@@ -3,6 +3,7 @@ using Gite.Model.Interceptors;
 using Gite.Model.Model;
 using Gite.Model.Repositories;
 using Gite.Model.Services.Mails;
+using Gite.Model.Services.Contract;
 
 namespace Gite.Model.Services.Reservations
 {

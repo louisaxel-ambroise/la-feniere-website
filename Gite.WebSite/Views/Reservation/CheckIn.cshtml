@@ -9,7 +9,7 @@
 <h2>Réserver du @Model.StartsOn.ToString("dd/MM/yyyy") au @Model.EndsOn.ToString("dd/MM/yyyy")</h2>
 
 <div class="well row">
-    <h4>Le montant à payer sera de <strong>@Model.FinalPrice €</strong>.</h4>
+    <h4>Le montant de la location est de <strong>@Model.FinalPrice €</strong>.</h4>
     <div class="col-md-6">
         <p>
             Détails:
@@ -24,7 +24,7 @@
         </p>
     </div>
     <div class="col-md-6">
-        <p>Un accompte de @((Model.FinalPrice * 0.25).ToString("N2")) € est à payer dans les 5 jours afin de valider la réservation.</p>
+        <p>Un accompte de @((Model.FinalPrice * 0.25).ToString("N2")) € sera à payer dans les 5 jours afin de valider la réservation.</p>
         <p>Vous serez prévenus par e-mail lorsque votre réservation aura été validée.</p>
         <p>
             <strong>Les chèques ne sont pas acceptés.<br />Les paiements se font uniquement par virement bancaire.</strong>
