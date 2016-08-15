@@ -1,0 +1,22 @@
+﻿@model Gite.WebSite.Models.Admin.Credentials
+
+@{
+    Layout = "~/Views/Admin/Shared/_Layout.cshtml";
+}
+
+<div id="login" data-role="page">
+    <div data-role="header" data-position="fixed">
+        <h1>Connexion</h1>
+    </div>
+    <form action="/admin/account/login?ReturnUrl=@ViewBag.ReturnUrl" method="post">
+        <div data-role="fieldcontain">
+            <label for="name">Nom d'utilisateur:</label>
+            @Html.TextBoxFor(x => x.Username)
+        </div>
+        <div data-role="fieldcontain">
+            <label for="name">Mot de passe:</label>
+            @Html.PasswordFor(x => x.Password)
+        </div>
+        <input type="submit" value="Connexion" />
+    </form>
+</div>

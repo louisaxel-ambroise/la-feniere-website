@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace Gite.WebSite.Controllers.Admin
 {
-    public class AlertsController : Controller
+    public class AlertsController : AuthorizeController
     {
         private readonly IReservationRepository _reservationRepository;
 

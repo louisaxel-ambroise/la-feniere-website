@@ -6,7 +6,7 @@ using Gite.WebSite.Models.Admin;
 
 namespace Gite.WebSite.Controllers.Admin
 {
-    public class HomeController : Controller
+    public class HomeController : AuthorizeController
     {
         private readonly IReservationRepository _reservationRepository;
 

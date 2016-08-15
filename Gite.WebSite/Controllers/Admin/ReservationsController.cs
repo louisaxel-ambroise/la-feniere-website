@@ -7,7 +7,7 @@ using System.Web.Mvc;
 
 namespace Gite.WebSite.Controllers.Admin
 {
-    public class ReservationsController : Controller
+    public class ReservationsController : AuthorizeController
     {
         private readonly IReservationRepository _reservationRepository;
         private readonly IPaymentManager _paymentManager;
