@@ -137,7 +137,7 @@
             // Display info to user
             $("#reservationDetails").html("Du " + format(begin) + " au " + format(addDays(end, 7)) + ".<br />Total:<strong> " + total + "€</strong>");
             $("#validate").click(function () {
-                window.location.href = "/Reservation/CheckIn?f=" + format(begin) + "&l=" + format(end);
+                window.location = "/Reservation/CheckIn?f=" + format(begin) + "&l=" + format(end);
             });
         } else {
             $("#reservationDetails").html("Aucune semaine sélectionnée.<br /> ");
