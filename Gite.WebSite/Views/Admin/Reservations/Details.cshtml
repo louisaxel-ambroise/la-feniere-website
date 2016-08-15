@@ -61,7 +61,7 @@
             <h3>@Model.Name</h3>
             <p style="margin-left:15px">Adresse : @Model.Address<br />
             Mail : @Model.Mail</p>
-            <p style="margin-left:15px">@(Model.Adults + @Model.Children + Model.Babies) personnes, dont @Model.Children enfants de moins de 12 ans et @Model.Babies bébés.</p>
+            <p style="margin-left:15px">@(Model.Adults + @Model.Children + Model.Babies) personne(s), dont @Model.Children enfant(s) de moins de 12 ans et @Model.Babies bébé(s).</p>
             @if (Model.Animals > 0)
             {
                 <p>Animaux: @Model.Animals (@Model.AnimalsType)</p>
