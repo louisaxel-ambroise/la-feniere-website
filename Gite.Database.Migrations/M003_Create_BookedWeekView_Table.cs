@@ -12,7 +12,9 @@ namespace Gite.Database.Migrations
                 .WithColumn("ReservationId").AsGuid().NotNullable()
                 .WithColumn("Week").AsDate().NotNullable()
                 .WithColumn("DisablesOn").AsDate().Nullable()
-                .WithColumn("Cancelled").AsBoolean().NotNullable();
+                .WithColumn("CancellationToken").AsGuid().Nullable();
+
+            Create.UniqueConstraint("UQ_BOOKEDWEEK_VIEW").OnTable("BookedWeek_View").Columns("Week", "CancellationToken");
         }
     }
 }

@@ -13,7 +13,7 @@ namespace Gite.Database.Mappings
             Map(x => x.ReservationId).Column("ReservationId").Not.Nullable();
             Map(x => x.Week).Column("Week").Not.Nullable();
             Map(x => x.DisablesOn).Column("DisablesOn").Nullable();
-            Map(x => x.Cancelled).Column("Cancelled").Not.Nullable();
+            Map(x => x.CancellationToken).Column("CancellationToken").Not.Nullable();
         }
     }
 }

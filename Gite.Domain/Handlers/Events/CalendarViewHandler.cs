@@ -58,7 +58,7 @@ namespace Gite.Model.Handlers.Events
 
             foreach (var bookedWeek in bookedWeeks)
             {
-                bookedWeek.Cancelled = true;
+                bookedWeek.CancellationToken = @event.AggregateId;
             }
         }
 

@@ -23,6 +23,15 @@ namespace Gite.Database.Migrations
                 .WithColumn("AdvancePaymentReceived").AsBoolean().NotNullable()
                 .WithColumn("PaymentDeclared").AsBoolean().NotNullable()
                 .WithColumn("PaymentReceived").AsBoolean().NotNullable();
+
+            Create.Index("IX_RESERVATION_VIEW")
+                .OnTable("Reservation_View")
+                .OnColumn("BookedOn")
+                .Ascending()
+                .OnColumn("IsCancelled")
+                .Ascending();
+
+            Create.Index("IX_RESERVATION_VIEW_FIRSTWEEK").OnTable("Reservation_View").OnColumn("FirstWeek").Ascending();
         }
     }
 }

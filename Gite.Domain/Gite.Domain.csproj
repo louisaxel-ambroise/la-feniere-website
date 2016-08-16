@@ -77,11 +77,11 @@
     <Compile Include="Services\Reservations\IReservationCanceller.cs" />
     <Compile Include="Services\Reservations\PaymentManager.cs" />
     <Compile Include="Services\Reservations\ReservationCanceller.cs" />
-    <Compile Include="QueryViews\BookedWeek.cs" />
+    <Compile Include="Model\BookedWeek.cs" />
     <Compile Include="Interceptors\CommitTransactionAttribute.cs" />
     <Compile Include="Interceptors\CommitTransactionInterceptor.cs" />
     <Compile Include="IUnitOfWork.cs" />
-    <Compile Include="QueryViews\Reservation.cs" />
+    <Compile Include="Model\Reservation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Readers\IBookedWeekRepository.cs" />
     <Compile Include="Readers\IReservationRepository.cs" />
