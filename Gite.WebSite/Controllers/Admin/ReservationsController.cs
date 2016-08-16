@@ -28,7 +28,7 @@ namespace Gite.WebSite.Controllers.Admin
 
         public ActionResult Index()
         {
-            var valids = _reservationReader.QueryValids().Where(x => x.FirstWeek >= DateTime.Now).ToList();
+            var valids = _reservationReader.QueryValids().Where(x => x.FirstWeek > DateTime.Now).ToList();
 
             var newReservations = valids.Count(x => !x.AdvancePaymentDeclared && !x.AdvancePaymentReceived);
             var pendingAdvance = valids.Count(x => x.AdvancePaymentDeclared && !x.AdvancePaymentReceived);

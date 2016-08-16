@@ -9,23 +9,23 @@ namespace Gite.Model.Services.Mailing
 {
     public class MailSender : IMailSender
     {
-        private readonly string _from;
         private readonly string _password;
+        public string From { get; private set; }
 
         public MailSender(string from, string password)
         {
             if (@from == null) throw new ArgumentNullException("from");
             if (password == null) throw new ArgumentNullException("password");
 
-            _from = @from;
+            From = @from;
             _password = password;
         }
 
         public void SendMail(Mail message, string address)
         {
-            var credentials = new NetworkCredential(_from, _password);
+            var credentials = new NetworkCredential(From, _password);
 
-            using (var mailMessage = new MailMessage(_from, address) { Subject = message.Subject, Body = message.Content.Content, IsBodyHtml = message.Content.IsHtml })
+            using (var mailMessage = new MailMessage(From, address) { Subject = message.Subject, Body = message.Content.Content, IsBodyHtml = message.Content.IsHtml })
             using (var smtp = new SmtpClient { Host = "smtp.gmail.com", EnableSsl = true, UseDefaultCredentials = true, Credentials = credentials, Port = 25 })
             {
                 AddAttachments(mailMessage, message.Content.Attachments.ToArray());

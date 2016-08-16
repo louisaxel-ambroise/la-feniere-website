@@ -92,7 +92,6 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\Gite.Cqrs\Gite.Cqrs.csproj">
       <Project>{c3d95d43-948b-433c-bcf3-5302e53b8807}</Project>

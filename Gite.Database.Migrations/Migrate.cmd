@@ -1,2 +1,2 @@
-..\packages\FluentMigrator.1.6.1\tools\migrate --conn "server=.\SQLEXPRESS;database=lafeniere;Integrated Security=true;" --provider sqlserver2008 --assembly "bin\Debug\Gite.Database.Migrations.dll" --task migrate
+..\packages\FluentMigrator.1.6.1\tools\migrate --conn "Server=tcp:iv5auxdhuq.database.windows.net,1433;Database=la-feniere-dev;User ID=feniere-user@iv5auxdhuq;Password=F3niereP@ssw0rd;Trusted_Connection=False;Encrypt=True;Connection Timeout=30" --provider sqlserver2008 --assembly "bin\Debug\Gite.Database.Migrations.dll" --task migrate
 pause;

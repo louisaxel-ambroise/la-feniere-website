@@ -33,6 +33,7 @@ namespace Gite.Model.Handlers.Commands
 
             RaiseEvent(new AdvancePaymentDelayExtended
             {
+                AggregateId = command.AggregateId,
                 Days = command.Days
             });
         }

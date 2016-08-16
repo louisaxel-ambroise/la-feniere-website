@@ -28,7 +28,7 @@ namespace Gite.Database.Repositories
 
         public IQueryable<Reservation> QueryValids()
         {
-            return Query().Where(x => !x.IsCancelled && (x.AdvancePaymentReceived || x.BookedOn < DateTime.Now.AddDays(-5)));
+            return Query().Where(x => !x.IsCancelled && (x.AdvancePaymentReceived || x.BookedOn > DateTime.Now.AddDays(-5)));
         }
 
         public void Insert(Reservation reservation)

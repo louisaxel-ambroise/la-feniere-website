@@ -1,7 +1,7 @@
 ﻿using System;
+using Gite.Model.Views;
 using Gite.Cqrs;
 using Gite.Messaging.Events;
-using Gite.Model.Views;
 
 namespace Gite.Model.Aggregates
 {

@@ -25,8 +25,8 @@ namespace Gite.Model.Handlers.Commands
 
             RaiseEvent(new AdvancePaymentReceived
             {
-                OccuredOn = DateTime.Now,
-                AggregateId = command.AggregateId
+                AggregateId = command.AggregateId,
+                Amount = command.Amount
             });
         }
 

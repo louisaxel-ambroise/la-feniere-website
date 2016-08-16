@@ -20,7 +20,9 @@ namespace Gite.WebSite.Models
 
                 AdvancePaymentDeclared = reservation.AdvancePaymentDeclared,
                 AdvancePaymentReceived = reservation.AdvancePaymentReceived,
-                AdvanceValue = reservation.AdvancePaymentValue ?? reservation.FinalPrice*0.25
+                AdvanceValue = reservation.AdvancePaymentValue ?? reservation.FinalPrice*0.25,
+                PaymentDeclared = reservation.PaymentDeclared,
+                PaymentReceived = reservation.PaymentReceived
             };
         }
     }

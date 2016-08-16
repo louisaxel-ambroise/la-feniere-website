@@ -17,6 +17,7 @@ namespace Gite.Model.Handlers.Events
         {
             if (aggregateLoader == null) throw new ArgumentNullException("aggregateLoader");
             if (mailGenerator == null) throw new ArgumentNullException("mailGenerator");
+            if (mailSender == null) throw new ArgumentNullException("mailSender");
 
             _aggregateLoader = aggregateLoader;
             _mailGenerator = mailGenerator;
@@ -36,7 +37,7 @@ namespace Gite.Model.Handlers.Events
             var reservation = _aggregateLoader.Load<ReservationAggregate>(@event.AggregateId);
 
             var mail = _mailGenerator.GenerateAdvancePaymentReceived(reservation);
-            _mailSender.SendMail(mail, reservation.Contact.Mail);
+            _mailSender.SendMail(mail, _mailSender.From);
         }
     }
 }

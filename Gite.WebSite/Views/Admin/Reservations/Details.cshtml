@@ -48,17 +48,17 @@
         <div id="actions" class="ui-body-d ui-content">
             @if (!Model.AdvancedReceived)
             {
-                <h3>Prolonger le temps d'attente</h3>
-                <form action="/reservations/extendexpiration/@Model.Id" method="post">
-                    <input type="submit" value="Prolonger de 3 jours" />
-                </form>
                 <h3>Réception de l'acompte</h3>
                 <form action="/reservations/advancereceived/@Model.Id" method="post">
                     <div data-role="fieldcontain">
                         <label for="name">Montant:</label>
-                        <input type="number" name="acompte" id="acompte" value="@Model.AdvancedValue" />
+                        <input type="number" name="acompte" id="acompte" value="@(Model.AdvancedValue ?? Model.FinalPrice*0.25)" />
                     </div>	
                     <input type="submit" value="Déclarer l'acompte reçu" />
+                </form>
+                <h3>Prolonger le temps d'attente</h3>
+                <form action="/reservations/extendexpiration/@Model.Id" method="post">
+                    <input type="submit" value="Prolonger de 3 jours" />
                 </form>
             }
             else if (!Model.PaymentReceived)
@@ -67,7 +67,7 @@
                 <form action="/reservations/paymentreceived/@Model.Id" method="post">
                     <div data-role="fieldcontain">
                         <label for="name">Montant:</label>
-                        <input type="number" name="paiement" id="paiement" value="@Model.PaymentValue" />
+                        <input type="number" name="paiement" id="paiement" value="@(Model.FinalPrice - Model.AdvancedValue)" />
                     </div>
                     <input type="submit" value="Déclarer le paiement reçu" />
                 </form>
