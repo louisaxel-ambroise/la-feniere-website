@@ -1,80 +1,56 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using Gite.Model.Repositories;
-using Gite.Model.Services.Pricing;
 using Gite.Model.Model;
+using Gite.Model.Repositories;
 
 namespace Gite.Model.Services.Calendar
 {
     public class WeekCalendar : IWeekCalendar
     {
-        private readonly IReservationRepository _reservationRepository;
+        private readonly IBookedWeekReader _bookedWeekReader;
         private readonly IPriceCalculator _priceCalculator;
 
-        public WeekCalendar(IReservationRepository reservationRepository, IPriceCalculator priceCalculator)
+        public WeekCalendar(IBookedWeekReader bookedWeekReader, IPriceCalculator priceCalculator)
         {
-            if (reservationRepository == null) throw new ArgumentNullException("reservationRepository");
+            if (bookedWeekReader == null) throw new ArgumentNullException("bookedWeekReader");
             if (priceCalculator == null) throw new ArgumentNullException("priceCalculator");
 
-            _reservationRepository = reservationRepository;
+            _bookedWeekReader = bookedWeekReader;
             _priceCalculator = priceCalculator;
         }
 
-        public IEnumerable<ReservationWeek> GetWeeksBetween(DateTime firstWeek, DateTime lastWeek)
+        public IEnumerable<Week> ListWeeksForMonth(int year, int month)
         {
-            ValidateInput(firstWeek, lastWeek);
-            var weeks = new List<ReservationWeek>();
+            var result = new List<Week>();
+            var start = FindFirstSaturday(year, month);
 
-            for (var i = firstWeek; i <= lastWeek; i = i.AddDays(7))
+            var bookedWeeks = _bookedWeekReader.Query().Where(x => x.IsValid() && x.Week >= start && x.Week < new DateTime(year, month, 1).AddMonths(1)).ToList();
+
+            while (start.Month == month)
             {
-                weeks.Add(new ReservationWeek
+                var price = _priceCalculator.ComputeForWeek(start);
+
+                result.Add(new Week
                 {
-                    StartsOn = i,
-                    EndsOn = i.AddDays(7),
-                    IsReserved = IsWeekBooked(i),
-                    Price = _priceCalculator.ComputeForWeek(i)
+                    Start = start,
+                    IsReserved = bookedWeeks.Any(x => x.Week == start),
+                    Price = price
                 });
+
+                start = start.AddDays(7);
             }
 
-            return weeks;
+            return result;
         }
 
-        public IEnumerable<ReservationWeek> ListWeeksForMonth(int year, int month)
+        private DateTime FindFirstSaturday(int year, int month)
         {
-            var weeks = new List<ReservationWeek>();
-            var firstSaturday = FindFirstSaturday(year, month);
+            var start = new DateTime(year, month, 1);
 
-            for (var i = firstSaturday; i.Month == month; i = i.AddDays(7))
-            {
-                weeks.Add(new ReservationWeek
-                {
-                    StartsOn = i,
-                    EndsOn = i.AddDays(7),
-                    IsReserved = IsWeekBooked(i),
-                    Price = _priceCalculator.ComputeForWeek(i)
-                });
-            }
+            while (start.DayOfWeek != DayOfWeek.Saturday) start = start.AddDays(1);
 
-            return weeks;
-        }
-
-        private static DateTime FindFirstSaturday(int year, int month)
-        {
-            var date = new DateTime(year, month, 1);
-            while (date.DayOfWeek != DayOfWeek.Saturday) date = date.AddDays(1);
-
-            return date;
-        }
-
-        private bool IsWeekBooked(DateTime firstWeek)
-        {
-            return firstWeek <= DateTime.Now.Date || _reservationRepository.QueryValidReservations().Any(x => x.FirstWeek <= firstWeek && x.LastWeek >= firstWeek);
-        }
-
-        private static void ValidateInput(params DateTime[] dates)
-        {
-            if (dates.Any(x => x.DayOfWeek != DayOfWeek.Saturday)) throw new Exception("Reservations can only start on saturday.");
+            return start;
         }
     }
 }

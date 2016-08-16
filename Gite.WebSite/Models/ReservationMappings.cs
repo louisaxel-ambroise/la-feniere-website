@@ -13,7 +13,7 @@ namespace Gite.WebSite.Models
                 LastWeek = reservation.LastWeek,
                 FinalPrice = reservation.FinalPrice,
                 OriginalPrice = reservation.DefaultPrice,
-                Reduction = reservation.ComputeDiscount(),
+                // Reduction = reservation.ComputeDiscount(),
                 Caution = 280,
                 Ip = ip
             };
@@ -28,40 +28,16 @@ namespace Gite.WebSite.Models
                 StartsOn = reservation.FirstWeek,
                 EndsOn = reservation.LastWeek.AddDays(7),
                 LastWeek = reservation.LastWeek,
-                Reduction = reservation.ComputeDiscount(),
                 OriginalPrice = reservation.DefaultPrice,
                 FinalPrice = reservation.FinalPrice,
-                PaymentDeclared = reservation.PaymentDeclarationDate.HasValue,
-                PaymentReceived = reservation.PaymentReceptionDate.HasValue,
                 Caution = 280,
-                Cancelled = reservation.CancellationToken.HasValue,
-                CancelReason = FormatCancelReason(reservation.CancellationReason),
-                CancelledOn = reservation.CancelledOn,
+                Cancelled = reservation.IsCancelled,
+                CancelReason = reservation.CancellationReason,
 
-                AdvancePaymentDeclared = reservation.AdvancedDeclarationDate.HasValue,
-                AdvancePaymentReceived = reservation.AdvancedReceptionDate.HasValue,
-                AdvanceValue = reservation.AdvancedValue ?? reservation.FinalPrice*0.25
+                AdvancePaymentDeclared = reservation.AdvancePaymentDeclared,
+                AdvancePaymentReceived = reservation.AdvancePaymentReceived,
+                AdvanceValue = reservation.AdvancePaymentValue ?? reservation.FinalPrice*0.25
             };
-        }
-
-        private static string FormatCancelReason(CancelReason? reason)
-        {
-            if(reason == null)
-                    return "La rison de l'annulation n'est pas connue.";
-
-            switch (reason)
-            {
-                case CancelReason.AdvanceNotReceived:
-                    return "La caution n'a pas été reçue à temps (au plus tard 5 jours après la réservation).";
-                case CancelReason.CancelledByOwner:
-                    return "Le propriétaire a annulé la réservation.";
-                case CancelReason.CancelledByUser:
-                    return "Vous avez annulé la réservation.";
-                case CancelReason.PaymentNotReceived:
-                    return "Le paiement n'a pas été reçu à temps (au plus tard 10 jours avant le début de la location).";
-                default:
-                    return "La rison de l'annulation n'est pas connue.";
-            }
         }
     }
 }

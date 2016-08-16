@@ -5,6 +5,6 @@ namespace Gite.Model.Services.Reservations
 {
     public interface IBooker
     {
-        Guid Book(Reservation reservation, ReservationDetails reservationDetails);
+        Guid Book(DateTime firstWeek, DateTime lastWeek, ReservationDetails reservationDetails);
     }
 }

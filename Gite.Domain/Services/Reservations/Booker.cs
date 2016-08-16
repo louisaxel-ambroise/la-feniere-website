@@ -1,41 +1,35 @@
 using System;
+using Gite.Cqrs.Commands;
+using Gite.Messaging.Commands;
 using Gite.Model.Interceptors;
 using Gite.Model.Model;
-using Gite.Model.Repositories;
-using Gite.Model.Services.Mails;
-using Gite.Model.Services.Contract;
 
 namespace Gite.Model.Services.Reservations
 {
     public class Booker : IBooker
     {
-        private readonly IReservationRepository _repository;
-        private readonly IMailGenerator _mailGenerator;
-        private readonly IMailSender _mailSender;
+        private readonly ICommandDispatcher _commandDispatcher;
 
-        public Booker(IReservationRepository repository, IMailGenerator mailGenerator, IMailSender mailSender)
+        public Booker(ICommandDispatcher commandDispatcher)
         {
-            if (repository == null) throw new ArgumentNullException("repository");
-            if (mailGenerator == null) throw new ArgumentNullException("mailGenerator");
-            if (mailSender == null) throw new ArgumentNullException("mailSender");
+            if (commandDispatcher == null) throw new ArgumentNullException("commandDispatcher");
 
-            _repository = repository;
-            _mailGenerator = mailGenerator;
-            _mailSender = mailSender;
+            _commandDispatcher = commandDispatcher;
         }
 
         [CommitTransaction]
-        public Guid Book(Reservation reservation, ReservationDetails reservationDetails)
+        public Guid Book(DateTime firstWeek, DateTime lastWeek, ReservationDetails reservationDetails)
         {
-            reservation.Contact = reservationDetails.Contact;
-            reservation.People = reservationDetails.People;
+            var reservationId = Guid.NewGuid();
 
-            _repository.Insert(reservation);
+            _commandDispatcher.Dispatch(new CreateReservation
+            {
+                AggregateId = reservationId,
+                FirstWeek = firstWeek,
+                LastWeek = lastWeek
+            });
 
-            var mail = _mailGenerator.GenerateMail(reservation);
-            _mailSender.SendMail(mail, reservation.Contact.Mail);
-
-            return reservation.Id;
+            return reservationId;
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Gite.Model.Model
+namespace Gite.WebSite.Models
 {
     public class Date
     {

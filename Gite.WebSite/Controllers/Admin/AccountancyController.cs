@@ -19,10 +19,11 @@ namespace Gite.WebSite.Controllers.Admin
 
         public ActionResult Index()
         {
-            var reservations = _reservationRepository.QueryValidReservations().Where(x => x.AdvancedReceptionDate != null).ToList();
+            var reservations = _reservationRepository.Query().Where(x => !x.IsCancelled && x.AdvancePaymentReceived).ToList();
 
-            var month = reservations.Where(x => x.FirstWeek >= new DateTime(DateTime.Now.Year, DateTime.Now.Month, 01));
-            var year = reservations.Where(x => x.FirstWeek >= new DateTime(DateTime.Now.Year, 01, 01));
+            var month = reservations.Where(x => x.FirstWeek >= new DateTime(DateTime.Now.Year, DateTime.Now.Month, 01)).ToList();
+            var year = reservations.Where(x => x.FirstWeek >= new DateTime(DateTime.Now.Year, 01, 01)).ToList();
+
             var model = new AccountancyOverview
             {
                 MonthEarned = month.Where(x => x.FirstWeek <= DateTime.Now).Sum(x => x.FinalPrice),

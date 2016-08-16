@@ -24,19 +24,8 @@ namespace Gite.WebSite.Models.Admin
                 Animals = reservation.People.Animals,
                 AnimalsType = reservation.People.AnimalsDescription,
 
-                AdvancedReceived = reservation.AdvancedReceptionDate.HasValue,
-                AdvancedReceptionDate = reservation.AdvancedReceptionDate,
-                AdvancedDeclarationDate = reservation.AdvancedDeclarationDate,
-                AdvancedValue = reservation.AdvancedValue,
-
-                PaymentReceived = reservation.PaymentReceptionDate.HasValue,
-                PaymentReceptionDate = reservation.PaymentReceptionDate,
-                PaymentDeclarationDate = reservation.PaymentDeclarationDate,
-                PaymentValue = reservation.PaymentValue,
-
                 OriginalPrice = reservation.DefaultPrice,
                 FinalPrice = reservation.FinalPrice,
-                Reduction = reservation.ComputeDiscount()
             };
         }
     }

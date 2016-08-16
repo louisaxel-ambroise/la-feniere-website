@@ -1,10 +1,8 @@
-﻿using Gite.Model.Model;
-using Gite.Model.Repositories;
-using Gite.Model.Services.Reservations.Actions;
-using Gite.Model.Services.Reservations.Payment;
+﻿using Gite.Model.Repositories;
 using Gite.WebSite.Models;
 using System;
 using System.Web.Mvc;
+using Gite.Model.Services.Reservations;
 
 namespace Gite.WebSite.Controllers
 {
@@ -36,7 +34,7 @@ namespace Gite.WebSite.Controllers
         [HttpGet]
         public ActionResult AdvanceDeclared(Guid id)
         {
-            _paymentManager.DeclareAdvancePaid(id);
+            _paymentManager.DeclareAdvancePaymentDone(id);
 
             return RedirectToAction("Details", new { id = id });
         }
@@ -52,7 +50,7 @@ namespace Gite.WebSite.Controllers
         [HttpGet]
         public ActionResult CancelReservation(Guid id)
         {
-            _reservationCanceller.CancelReservation(id, CancelReason.CancelledByUser);
+            _reservationCanceller.CancelReservation(id, "annulé par l'utilisateur");
 
             return RedirectToAction("Details", new { id = id });
         }

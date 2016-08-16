@@ -18,8 +18,7 @@ namespace Gite.WebSite.Controllers.Admin
         [HttpGet]
         public ActionResult Index()
         {
-            var alerts = _reservationRepository.Query().Count(x =>
-                (x.AdvancedReceptionDate == null && x.BookedOn <= DateTime.Now.Date.AddDays(-4)) || (x.PaymentReceptionDate == null && x.FirstWeek <= DateTime.Now.Date.AddDays(11)));
+            var alerts = _reservationRepository.Query().Count(x => !x.IsCancelled && ((!x.AdvancePaymentReceived && x.BookedOn <= DateTime.Now.Date.AddDays(-4)) || (!x.PaymentReceived && x.FirstWeek <= DateTime.Now.Date.AddDays(11))));
 
             var model = new HomeModel
             {

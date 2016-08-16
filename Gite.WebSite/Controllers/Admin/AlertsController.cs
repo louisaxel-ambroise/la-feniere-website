@@ -19,8 +19,8 @@ namespace Gite.WebSite.Controllers.Admin
 
         public ActionResult Index()
         {
-            var advances = _reservationRepository.Query().Count(x => x.AdvancedReceptionDate == null && x.BookedOn <= DateTime.Now.Date.AddDays(-4));
-            var payments = _reservationRepository.Query().Count(x => x.PaymentReceptionDate == null && x.FirstWeek <= DateTime.Now.Date.AddDays(11));
+            var advances = _reservationRepository.Query().Count(x => !x.IsCancelled && !x.AdvancePaymentReceived && x.BookedOn <= DateTime.Now.Date.AddDays(-4));
+            var payments = _reservationRepository.Query().Count(x => !x.IsCancelled && !x.PaymentReceived && x.FirstWeek <= DateTime.Now.Date.AddDays(11));
 
             var model = new AlertsModel
             {
@@ -33,7 +33,7 @@ namespace Gite.WebSite.Controllers.Admin
 
         public ActionResult Advances()
         {
-            var reservations = _reservationRepository.Query().Where(x => x.AdvancedReceptionDate == null && x.BookedOn <= DateTime.Now.Date.AddDays(-4)).ToList();
+            var reservations = _reservationRepository.Query().Where(x => !x.AdvancePaymentReceived && x.BookedOn <= DateTime.Now.Date.AddDays(-4)).ToList();
             var model = reservations.Select(x => x.MapToReservationModel()).ToArray();
 
             return View("~/Views/Admin/Alerts/Advances.cshtml", model);
@@ -41,7 +41,7 @@ namespace Gite.WebSite.Controllers.Admin
 
         public ActionResult Payments()
         {
-            var reservations = _reservationRepository.Query().Where(x => x.PaymentReceptionDate == null && x.FirstWeek <= DateTime.Now.Date.AddDays(11)).ToList();
+            var reservations = _reservationRepository.Query().Where(x => !x.IsCancelled && !x.PaymentReceived && x.FirstWeek <= DateTime.Now.Date.AddDays(11)).ToList();
             var model = reservations.Select(x => x.MapToReservationModel()).ToArray();
 
             return View("~/Views/Admin/Alerts/Payments.cshtml", model);
