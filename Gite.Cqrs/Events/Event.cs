@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 
 namespace Gite.Cqrs.Events
 {
@@ -9,6 +10,7 @@ namespace Gite.Cqrs.Events
             OccuredOn = DateTime.Now;
         }
 
+        [JsonIgnore]
         public Guid AggregateId { get; set; }
         public DateTime OccuredOn { get; set; }
     }

@@ -12,7 +12,10 @@ namespace Gite.Cqrs.Extensions
         {
             var matchingType = knownEvents.Single(x => x.Name == envelop.Type);
 
-            return (Event) JsonConvert.DeserializeObject(envelop.Payload, matchingType);
+            var evt = (Event) JsonConvert.DeserializeObject(envelop.Payload, matchingType);
+            evt.AggregateId = envelop.AggregateId;
+
+            return evt;
         } 
     }
 }
