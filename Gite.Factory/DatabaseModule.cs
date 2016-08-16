@@ -2,7 +2,7 @@
 using Gite.Database;
 using Gite.Database.Repositories;
 using Gite.Model;
-using Gite.Model.Repositories;
+using Gite.Model.Readers;
 using NHibernate;
 using Ninject.Extensions.UnitOfWork;
 using Ninject.Modules;
@@ -24,7 +24,9 @@ namespace Gite.Factory
         {
             SessionProvider.Register(_connectionString);
             
-            Bind<IReservationRepository>().To<ReservationRepository>();
+            Bind<IReservationReader>().To<ReservationReader>();
+            Bind<IBookedWeekRepository>().To<BookedWeekRepository>();
+            Bind<IBookedWeekReader>().To<BookedWeekReader>();
             Bind<ISession>().ToMethod(ctx => SessionProvider.OpenSession()).InUnitOfWorkScope();
             Bind<IUnitOfWork>().To<UnitOfWork>();
         }

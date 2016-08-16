@@ -16,7 +16,7 @@
                 <li><a href="#detail" data-ajax="false" class="ui-btn-active ul-link">Détails</a></li>
                 <li><a href="#contact" data-ajax="false">Contact</a></li>
                 <li><a href="#actions" data-ajax="false">Actions</a></li>
-                <li><a href="#history" data-ajax="false">Historique</a></li>
+                <li><a href="/reservations/history/@Model.Id" data-ajax="true">Historique</a></li>
             </ul>
         </div>
         <div id="detail" class="ui-body-d ui-content">
@@ -35,28 +35,6 @@
                 }
             </p>
         </div>
-        <div id="history" class="ui-body-d ui-content">
-            <h3>Historique</h3>
-            <p>
-                <div style="margin-left:15px"><strong>@Model.BookedOn.ToString("dd/MM/yyyy HH:mm")</strong> : réservation créée</div>
-                @if (Model.AdvancedDeclarationDate.HasValue)
-                {
-                    <div style="margin-left:15px"><strong>@Model.AdvancedDeclarationDate.Value.ToString("dd/MM/yyyy HH:mm")</strong> : acompte payé</div>
-                }
-                @if (Model.AdvancedReceptionDate.HasValue)
-                {
-                    <div style="margin-left:15px"><strong>@Model.AdvancedReceptionDate.Value.ToString("dd/MM/yyyy HH:mm")</strong> : acompte reçu<br /></div>
-                }
-                @if (Model.PaymentDeclarationDate.HasValue)
-                {
-                    <div style="margin-left:15px"><strong>@Model.PaymentDeclarationDate.Value.ToString("dd/MM/yyyy HH:mm")</strong> : location payée</div>
-                }
-                @if (Model.PaymentReceptionDate.HasValue)
-                {
-                    <div style="margin-left:15px"><strong>@Model.PaymentReceptionDate.Value.ToString("dd/MM/yyyy HH:mm")</strong> : location reçue<br /></div>
-                }
-            </p>
-        </div>
         <div id="contact" class="ui-body-d ui-content">
             <h3>@Model.Name</h3>
             <p style="margin-left:15px">Adresse : @Model.Address<br />
@@ -70,6 +48,10 @@
         <div id="actions" class="ui-body-d ui-content">
             @if (!Model.AdvancedReceived)
             {
+                <h3>Prolonger le temps d'attente</h3>
+                <form action="/reservations/extendexpiration/@Model.Id" method="post">
+                    <input type="submit" value="Prolonger de 3 jours" />
+                </form>
                 <h3>Réception de l'acompte</h3>
                 <form action="/reservations/advancereceived/@Model.Id" method="post">
                     <div data-role="fieldcontain">
@@ -85,7 +67,7 @@
                 <form action="/reservations/paymentreceived/@Model.Id" method="post">
                     <div data-role="fieldcontain">
                         <label for="name">Montant:</label>
-                        <input type="number" name="acompte" id="acompte" value="@Model.PaymentValue" />
+                        <input type="number" name="paiement" id="paiement" value="@Model.PaymentValue" />
                     </div>
                     <input type="submit" value="Déclarer le paiement reçu" />
                 </form>

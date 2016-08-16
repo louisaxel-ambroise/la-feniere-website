@@ -1,25 +1,25 @@
 ﻿using System;
 using System.Linq;
-using Gite.Model.Repositories;
 using System.Web.Mvc;
+using Gite.Model.Readers;
 using Gite.WebSite.Models.Admin;
 
 namespace Gite.WebSite.Controllers.Admin
 {
     public class AdminController : AuthorizeController
     {
-        private readonly IReservationRepository _reservationRepository;
+        private readonly IReservationReader _reservationReader;
 
-        public AdminController(IReservationRepository reservationRepository)
+        public AdminController(IReservationReader reservationReader)
         {
-            _reservationRepository = reservationRepository;
+            _reservationReader = reservationReader;
         }
 
         [HttpGet]
         public ActionResult Index()
         {
-            var alerts = _reservationRepository.Query().Count(x =>
-                (x.AdvancedReceptionDate == null && x.BookedOn <= DateTime.Now.Date.AddDays(-4)) || (x.PaymentReceptionDate == null && x.FirstWeek <= DateTime.Now.Date.AddDays(11)));
+            var alerts = _reservationReader.QueryValids().Count(x => (!x.AdvancePaymentReceived && x.BookedOn <= DateTime.Now.AddDays(-4)) || (!x.PaymentReceived && x.FirstWeek <= DateTime.Now.AddDays(11)));
+            alerts += _reservationReader.Query().Count(x => !x.IsCancelled && ((x.BookedOn < DateTime.Now.AddDays(-5) && !x.AdvancePaymentDeclared) || (x.BookedOn < DateTime.Now.AddDays(-9) && !x.AdvancePaymentReceived)));
 
             var model = new HomeModel
             {

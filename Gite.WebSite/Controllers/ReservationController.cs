@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Linq;
 using System.Web.Mvc;
-using Gite.Model.Model;
 using Gite.Model.Services.Calendar;
-using Gite.WebSite.Models;
+using Gite.Model.Services.Pricing;
 using Gite.Model.Services.Reservations;
+using Gite.Model.Views;
+using Gite.WebSite.Models;
 
 namespace Gite.WebSite.Controllers
 {
@@ -12,16 +13,16 @@ namespace Gite.WebSite.Controllers
     {
         private readonly IBooker _reservationBooker;
         private readonly IWeekCalendar _weekCalendar;
-        private readonly IReservationPlanner _reservationPlanner;
+        private readonly IPriceCalculator _priceCalculator;
 
-        public ReservationController(IWeekCalendar weekCalendar, IReservationPlanner reservationPlanner, IBooker reservationBooker)
+        public ReservationController(IWeekCalendar weekCalendar, IPriceCalculator priceCalculator, IBooker reservationBooker)
         {
             if (weekCalendar == null) throw new ArgumentNullException("weekCalendar");
+            if (priceCalculator == null) throw new ArgumentNullException("priceCalculator");
             if (reservationBooker == null) throw new ArgumentNullException("reservationBooker");
-            if (reservationPlanner == null) throw new ArgumentNullException("reservationPlanner");
 
             _weekCalendar = weekCalendar;
-            _reservationPlanner = reservationPlanner;
+            _priceCalculator = priceCalculator;
             _reservationBooker = reservationBooker;
         }
 
@@ -39,26 +40,21 @@ namespace Gite.WebSite.Controllers
 
         public ActionResult CheckIn()
         {
-            Reservation reservation;
-            DateTime firstWeek, lastWeek;
+            var firstWeek = DateTime.ParseExact(Request.QueryString["f"], "dd/MM/yyyy", null);
+            var lastWeek = DateTime.ParseExact(Request.QueryString["l"], "dd/MM/yyyy", null);
 
-            try
+            EnsureDatesAreSaturday(firstWeek, lastWeek);
+
+            var price = _priceCalculator.ComputeForInterval(firstWeek, lastWeek);
+            var model = new ReservationModel
             {
-                firstWeek = DateTime.ParseExact(Request.Params.Get("f"), "dd/MM/yyyy", null);
-                lastWeek = DateTime.ParseExact(Request.Params.Get("l"), "dd/MM/yyyy", null);
-
-                EnsureDatesAreSaturday(firstWeek, lastWeek);
-                if(_reservationPlanner.ContainsBookedWeek(firstWeek, lastWeek)) throw new Exception("Week already booked.");
-
-                reservation = _reservationPlanner.PlanReservationForWeeks(firstWeek, lastWeek);
-            }
-            catch
-            {
-                return RedirectToAction("Index");
-            }
-
-            var ip = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
-            var model = reservation.MapToReservationModel(ip);
+                StartsOn = firstWeek,
+                LastWeek = lastWeek,
+                FinalPrice = price.Final,
+                OriginalPrice = price.Original,
+                Reduction = price.Reduction,
+                Ip = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"]
+            };
 
             return View(model);
         }
@@ -67,33 +63,36 @@ namespace Gite.WebSite.Controllers
         public ActionResult CheckIn(ReservationModel model)
         {
             EnsureDatesAreSaturday(model.StartsOn, model.LastWeek);
-            var reservation = _reservationPlanner.PlanReservationForWeeks(model.StartsOn, model.LastWeek);
 
-            if(_reservationPlanner.ContainsBookedWeek(model.StartsOn, model.LastWeek)) throw new Exception("Week already booked.");
-            if (model.FinalPrice != reservation.FinalPrice || !ModelState.IsValid) return View(model);
-
-            var details = new ReservationDetails
+            if (!ModelState.IsValid)
             {
-                Contact = new Contact
-                {
-                    Address = model.FormatAddress(), Mail = model.Email, Name = model.Name, Phone = model.Phone
-                },
-                People = new People
-                {
-                    Adults = model.Adults, Children = model.Children, Babies = model.Babies,
-                    Animals = model.AnimalsNumber, AnimalsDescription = model.AnimalsType
-                }
+                return View(model);
+            }
+
+            var contact = new Contact
+            {
+                Address = model.FormatAddress(),
+                Mail = model.Email,
+                Name = model.Name,
+                Phone = model.Phone
+            };
+            var people = new People
+            {
+                Adults = model.Adults,
+                Children = model.Children,
+                Babies = model.Babies,
+                Animals = model.AnimalsNumber,
+                AnimalsDescription = model.AnimalsType
             };
 
-            var reservationId = _reservationBooker.Book(reservation, details);
+            var reservationId = _reservationBooker.Book(model.StartsOn, model.LastWeek, model.FinalPrice, contact, people);
            
             return RedirectToAction("Details", "Overview", new { id = reservationId });
         }
 
         private static void EnsureDatesAreSaturday(params DateTime[] dates)
         {
-            if (dates.Any(x => x.DayOfWeek != DayOfWeek.Saturday))
-                throw new Exception("Dates must be saturdays.");
+            if (dates.Any(x => x.DayOfWeek != DayOfWeek.Saturday)) throw new Exception("Dates must be saturdays.");
         }
     }
 }

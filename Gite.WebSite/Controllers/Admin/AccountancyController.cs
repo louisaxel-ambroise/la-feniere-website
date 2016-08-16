@@ -1,28 +1,29 @@
-﻿using Gite.Model.Repositories;
-using Gite.WebSite.Models.Admin;
-using System;
+﻿using System;
 using System.Linq;
 using System.Web.Mvc;
+using Gite.Model.Readers;
+using Gite.WebSite.Models.Admin;
 
 namespace Gite.WebSite.Controllers.Admin
 {
     public class AccountancyController : AuthorizeController
     {
-        private readonly IReservationRepository _reservationRepository;
+        private readonly IReservationReader _reservationReader;
 
-        public AccountancyController(IReservationRepository reservationRepository)
+        public AccountancyController(IReservationReader reservationReader)
         {
-            if (reservationRepository == null) throw new ArgumentNullException("reservationRepository");
+            if (reservationReader == null) throw new ArgumentNullException("reservationReader");
 
-            _reservationRepository = reservationRepository;
+            _reservationReader = reservationReader;
         }
 
         public ActionResult Index()
         {
-            var reservations = _reservationRepository.QueryValidReservations().Where(x => x.AdvancedReceptionDate != null).ToList();
+            var reservations = _reservationReader.QueryValids().Where(x => x.AdvancePaymentReceived).ToList();
 
-            var month = reservations.Where(x => x.FirstWeek >= new DateTime(DateTime.Now.Year, DateTime.Now.Month, 01));
-            var year = reservations.Where(x => x.FirstWeek >= new DateTime(DateTime.Now.Year, 01, 01));
+            var month = reservations.Where(x => x.FirstWeek >= new DateTime(DateTime.Now.Year, DateTime.Now.Month, 01)).ToList();
+            var year = reservations.Where(x => x.FirstWeek >= new DateTime(DateTime.Now.Year, 01, 01)).ToList();
+
             var model = new AccountancyOverview
             {
                 MonthEarned = month.Where(x => x.FirstWeek <= DateTime.Now).Sum(x => x.FinalPrice),

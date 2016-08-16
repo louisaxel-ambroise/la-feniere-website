@@ -1,8 +1,9 @@
-﻿using Gite.Model.Model;
+﻿using System;
+using System.IO;
+using Gite.Model.Aggregates;
+using Gite.Model.Views;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
-using System;
-using System.IO;
 
 namespace Gite.Model.Services.Contract
 {
@@ -17,13 +18,13 @@ namespace Gite.Model.Services.Contract
             _baseUrl = baseUrl;
         }
 
-        public Stream GenerateForReservation(Reservation reservation)
+         public Stream GenerateForReservation(ReservationAggregate reservation)
         {
             using (var stream = new MemoryStream())
             {
                 var document = new Document();
 
-                using (var writer = PdfWriter.GetInstance(document, stream))
+                using (PdfWriter.GetInstance(document, stream))
                 {
                     document.Open();
                     AddDocumentTitle(document, string.Join("/", _baseUrl, "Content/Images/logo_small.png"));
@@ -62,11 +63,6 @@ namespace Gite.Model.Services.Contract
             document.Add(phrase);
         }
 
-        private static void AddDesignation(Document documet)
-        {
-
-        }
-
         private static void AddDuree(Document document, DateTime begin, DateTime end)
         {
             var title = new Paragraph
@@ -88,13 +84,14 @@ namespace Gite.Model.Services.Contract
             document.Add(phrase);
         }
 
-        private static void AddLoyer(Document document, Reservation reservation)
+        private static void AddLoyer(Document document, ReservationAggregate reservation)
         {
-            var duration = (reservation.LastWeek.AddDays(7) - reservation.FirstWeek).Days;
-            var taxeSejour = duration * 0.80 * reservation.People.Adults; // Taxe de séjour
-            var overpopulation = reservation.People.Adults + reservation.People.Children + reservation.People.Babies - 6;
+            // TODO.
+            //var duration = (reservation.LastWeek.AddDays(7) - reservation.FirstWeek).Days;
+            //var taxeSejour = duration * 0.80 * reservation.People.Adults; // Taxe de séjour
+            //var overpopulation = reservation.People.Adults + reservation.People.Children + reservation.People.Babies - 6;
 
-            var totalPrice = reservation.FinalPrice + taxeSejour + overpopulation*30;
+            //var totalPrice = reservation.FinalPrice + taxeSejour + overpopulation*30;
 
             var title = new Paragraph
             {
