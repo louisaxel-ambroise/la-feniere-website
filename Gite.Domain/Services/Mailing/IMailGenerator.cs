@@ -6,5 +6,6 @@ namespace Gite.Model.Services.Mailing
     public interface IMailGenerator
     {
         Mail GenerateAdvancePaymentReceived(ReservationAggregate reservation);
+        Mail GenerateReservationCreated(ReservationAggregate reservation);
     }
 }

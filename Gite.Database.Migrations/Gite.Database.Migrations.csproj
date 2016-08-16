@@ -40,8 +40,9 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="M001_Create_Reservation_Table.cs" />
-    <Compile Include="M002_Update_Reservation_Table.cs" />
+    <Compile Include="M002_Create_ReservationView_Table.cs" />
+    <Compile Include="M001_Create_Table_Event.cs" />
+    <Compile Include="M003_Create_BookedWeekView_Table.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

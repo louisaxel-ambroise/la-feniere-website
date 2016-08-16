@@ -43,9 +43,15 @@
     <Compile Include="Commands\CancelReservation.cs" />
     <Compile Include="Commands\CreateReservation.cs" />
     <Compile Include="Commands\DeclareAdvancePaymentDone.cs" />
+    <Compile Include="Commands\DeclarePaymentDone.cs" />
+    <Compile Include="Commands\ExtendExpiration.cs" />
     <Compile Include="Commands\ReceiveAdvancePayment.cs" />
+    <Compile Include="Commands\ReceivePayment.cs" />
     <Compile Include="Events\AdvancePaymentDeclared.cs" />
+    <Compile Include="Events\AdvancePaymentDelayExtended.cs" />
     <Compile Include="Events\AdvancePaymentReceived.cs" />
+    <Compile Include="Events\PaymentDeclared.cs" />
+    <Compile Include="Events\PaymentReceived.cs" />
     <Compile Include="Events\ReservationCancelled.cs" />
     <Compile Include="Events\ReservationCreated.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

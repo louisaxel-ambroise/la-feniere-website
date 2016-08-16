@@ -1,6 +1,6 @@
 ﻿using System;
+using Gite.Cqrs.Aggregates;
 using Gite.Cqrs.Commands;
-using Gite.Cqrs.Persistance;
 using Gite.Messaging.Commands;
 using Gite.Messaging.Events;
 using Gite.Model.Aggregates;
@@ -32,7 +32,8 @@ namespace Gite.Model.Handlers.Commands
 
         private static bool CanHandle(ReservationAggregate reservation)
         {
-            return reservation != null && !reservation.IsCancelled && !reservation.AdvancePaymentDeclared && !reservation.AdvancePaymentReceived;
+            // Declare only once and max 5 days after booking.
+            return !reservation.IsCancelled && reservation.BookedOn.AddDays(5) >= DateTime.Now && !reservation.AdvancePaymentDeclared && !reservation.AdvancePaymentReceived;
         }
     }
 }

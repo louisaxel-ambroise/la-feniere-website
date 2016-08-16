@@ -1,0 +1,15 @@
+﻿@model IEnumerable<Gite.WebSite.Models.Admin.EventHistory>
+
+@{
+    Layout = null;
+}
+
+<div id="history" class="ui-body-d ui-content">
+    <h3>Historique</h3>
+    <ul data-role="listview">
+        @foreach (var history in Model)
+        {
+            <li><strong>@history.OccuredOn.ToString("dd/MM/yyyy") à @history.OccuredOn.ToString("HH:mm") :</strong> @history.Description</li>
+        }
+    </ul>
+</div>

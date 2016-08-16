@@ -44,6 +44,9 @@
     <Reference Include="Ninject">
       <HintPath>..\packages\Ninject.3.2.0.0\lib\net45-full\Ninject.dll</HintPath>
     </Reference>
+    <Reference Include="Ninject.Extensions.Conventions">
+      <HintPath>..\packages\Ninject.Extensions.Conventions.3.2.0.0\lib\net45-full\Ninject.Extensions.Conventions.dll</HintPath>
+    </Reference>
     <Reference Include="Ninject.Extensions.UnitOfWork">
       <HintPath>..\packages\Ninject.Extensions.UnitOfWork.1.0.1\lib\net45\Ninject.Extensions.UnitOfWork.dll</HintPath>
     </Reference>
@@ -51,6 +54,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CqrsModule.cs" />
     <Compile Include="DatabaseModule.cs" />
     <Compile Include="DomainModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -60,13 +64,21 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Gite.Data\Gite.Data.csproj">
+    <ProjectReference Include="..\Gite.Cqrs\Gite.Cqrs.csproj">
+      <Project>{C3D95D43-948B-433C-BCF3-5302E53B8807}</Project>
+      <Name>Gite.Cqrs</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Gite.Data\Gite.Database.csproj">
       <Project>{A78C8DA6-92AF-40AA-98B9-BC10DBEC7173}</Project>
-      <Name>Gite.Data</Name>
+      <Name>Gite.Database</Name>
     </ProjectReference>
     <ProjectReference Include="..\Gite.Domain\Gite.Domain.csproj">
       <Project>{46D91EA3-1241-4015-BCDA-8745893BFFCA}</Project>
       <Name>Gite.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Gite.Messaging\Gite.Messaging.csproj">
+      <Project>{D6402BB4-D8B7-432C-86BB-3FAE9F4EA7B0}</Project>
+      <Name>Gite.Messaging</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

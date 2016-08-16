@@ -1,13 +1,25 @@
 using System;
 using Gite.Model.Model;
 
-namespace Gite.Model.Services.Calendar
+namespace Gite.Model.Services.Pricing
 {
     public class PriceCalculator : IPriceCalculator
     {
         public double ComputeForWeek(DateTime start)
         {
-            return 330;
+            switch (start.Month)
+            {
+                case 7:
+                    return 590;
+                case 8:
+                    return (start.AddDays(7).Month > 8) ? 420 : 590;
+                case 5:
+                case 6:
+                case 9:
+                    return 420;
+                default:
+                    return 330;
+            }
         }
 
         public Price ComputeForInterval(DateTime firstWeek, DateTime lastWeek)
@@ -23,11 +35,11 @@ namespace Gite.Model.Services.Calendar
             {
                 Original = price,
                 Reduction = reduction,
-                Final = price - (price*reduction / 100)
+                Final = Math.Ceiling(price - (price*reduction / 100))
             };
         }
 
-        private int ComputeReductionForInterval(DateTime firstWeek, DateTime lastWeek)
+        private static int ComputeReductionForInterval(DateTime firstWeek, DateTime lastWeek)
         {
             var numberOfWeeks = (lastWeek.AddDays(7) - firstWeek).Days/7;
 

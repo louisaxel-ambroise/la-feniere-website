@@ -1,6 +1,6 @@
 ﻿using System;
+using Gite.Cqrs.Aggregates;
 using Gite.Cqrs.Commands;
-using Gite.Cqrs.Persistance;
 using Gite.Messaging.Commands;
 using Gite.Messaging.Events;
 using Gite.Model.Aggregates;

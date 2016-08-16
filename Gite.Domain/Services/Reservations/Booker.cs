@@ -2,34 +2,56 @@ using System;
 using Gite.Cqrs.Commands;
 using Gite.Messaging.Commands;
 using Gite.Model.Interceptors;
-using Gite.Model.Model;
+using Gite.Model.Services.Pricing;
+using Gite.Model.Views;
 
 namespace Gite.Model.Services.Reservations
 {
     public class Booker : IBooker
     {
         private readonly ICommandDispatcher _commandDispatcher;
+        private readonly IPriceCalculator _priceCalculator;
 
-        public Booker(ICommandDispatcher commandDispatcher)
+        public Booker(ICommandDispatcher commandDispatcher, IPriceCalculator priceCalculator)
         {
             if (commandDispatcher == null) throw new ArgumentNullException("commandDispatcher");
+            if (priceCalculator == null) throw new ArgumentNullException("priceCalculator");
 
             _commandDispatcher = commandDispatcher;
+            _priceCalculator = priceCalculator;
         }
 
         [CommitTransaction]
-        public Guid Book(DateTime firstWeek, DateTime lastWeek, ReservationDetails reservationDetails)
+        public Guid Book(DateTime firstWeek, DateTime lastWeek, double expectedPrice, Contact contact, People people)
         {
-            var reservationId = Guid.NewGuid();
-
-            _commandDispatcher.Dispatch(new CreateReservation
+            var price = _priceCalculator.ComputeForInterval(firstWeek, lastWeek);
+            if (Math.Abs(price.Final - expectedPrice) > 0.1)
             {
-                AggregateId = reservationId,
-                FirstWeek = firstWeek,
-                LastWeek = lastWeek
-            });
+                throw new Exception(string.Format("Price has changed. Expected {0} but was {1}", expectedPrice, price.Final));
+            }
 
-            return reservationId;
+            var command = new CreateReservation
+            {
+                AggregateId = Guid.NewGuid(),
+                FirstWeek = firstWeek,
+                LastWeek = lastWeek,
+                Address = contact.Address,
+                Mail = contact.Mail,
+                Phone = contact.Phone,
+                Name = contact.Name,
+                AdultsCount = people.Adults,
+                ChildrenCount = people.Children,
+                BabiesCount = people.Babies,
+                AnimalsCount = people.Animals,
+                AnimalsType = people.AnimalsDescription,
+                FinalPrice = price.Final,
+                OriginalPrice = price.Original,
+                Reduction = price.Reduction
+            };
+
+            _commandDispatcher.Dispatch(command);
+
+            return command.AggregateId;
         }
     }
 }

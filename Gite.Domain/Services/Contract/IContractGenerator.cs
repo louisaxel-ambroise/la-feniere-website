@@ -1,11 +1,10 @@
-﻿namespace Gite.Model.Services.Contract
+﻿using System.IO;
+using Gite.Model.Aggregates;
+
+namespace Gite.Model.Services.Contract
 {
     public interface IContractGenerator
     {
-         
-    }
-
-    public class ContractGenerator : IContractGenerator
-    {
+        Stream GenerateForReservation(ReservationAggregate reservation);
     }
 }

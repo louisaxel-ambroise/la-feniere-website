@@ -1,6 +1,7 @@
 using System;
 using Gite.Cqrs.Commands;
 using Gite.Messaging.Commands;
+using Gite.Model.Interceptors;
 
 namespace Gite.Model.Services.Reservations
 {
@@ -15,6 +16,7 @@ namespace Gite.Model.Services.Reservations
             _commandDispatcher = commandDispatcher;
         }
 
+        [CommitTransaction]
         public void DeclareAdvancePaymentDone(Guid id)
         {
             _commandDispatcher.Dispatch(new DeclareAdvancePaymentDone
@@ -23,6 +25,7 @@ namespace Gite.Model.Services.Reservations
             });
         }
 
+        [CommitTransaction]
         public void DeclareAdvanceReceived(Guid id, double amount)
         {
             _commandDispatcher.Dispatch(new ReceiveAdvancePayment
@@ -32,14 +35,33 @@ namespace Gite.Model.Services.Reservations
             });
         }
 
+        [CommitTransaction]
         public void DeclarePaymentDone(Guid id)
         {
-            throw new NotImplementedException();
+            _commandDispatcher.Dispatch(new DeclarePaymentDone
+            {
+                AggregateId = id
+            });
         }
 
+        [CommitTransaction]
         public void DeclarePaymentReceived(Guid id, double amount)
         {
-            throw new NotImplementedException();
+            _commandDispatcher.Dispatch(new ReceivePayment
+            {
+                AggregateId = id,
+                Amount = amount
+            });
+        }
+
+        [CommitTransaction]
+        public void ExtendExpiration(Guid id, int days)
+        {
+            _commandDispatcher.Dispatch(new ExtendAdvancePaymentDelay
+            {
+                AggregateId = id,
+                Days = days
+            });
         }
     }
 }

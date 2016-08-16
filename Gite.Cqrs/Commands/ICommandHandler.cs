@@ -9,7 +9,7 @@ namespace Gite.Cqrs.Commands
 
     public interface ICommandHandler<in T> : ICommandHandler
     {
-        IEnumerable<IEvent> Events { get; }
+        IEnumerable<Event> Events { get; }
         void Handle(T command);
     }
 }

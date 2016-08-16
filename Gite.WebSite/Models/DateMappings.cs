@@ -1,6 +1,6 @@
-﻿using Gite.Model.Model;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using Gite.Model.Model;
 
 namespace Gite.WebSite.Models
 {

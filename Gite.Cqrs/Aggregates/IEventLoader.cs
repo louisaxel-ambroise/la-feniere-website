@@ -1,10 +1,10 @@
 ﻿using System;
-using Gite.Cqrs.Events;
+using System.Collections.Generic;
 
 namespace Gite.Cqrs.Aggregates
 {
     public interface IEventLoader
     {
-        IEvent[] LoadForAggregate(Guid aggregateId);
+        IEnumerable<EventEnvelop> LoadForAggregate(Guid aggregateId);
     }
 }

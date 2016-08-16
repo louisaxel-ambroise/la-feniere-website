@@ -1,25 +1,10 @@
-﻿using Gite.Model.Model;
+﻿using Gite.Model.Aggregates;
 
 namespace Gite.WebSite.Models
 {
     public static class ReservationMappings
     {
-        public static ReservationModel MapToReservationModel(this Reservation reservation, string ip = null)
-        {
-            return new ReservationModel
-            {
-                StartsOn = reservation.FirstWeek,
-                EndsOn = reservation.LastWeek.AddDays(7),
-                LastWeek = reservation.LastWeek,
-                FinalPrice = reservation.FinalPrice,
-                OriginalPrice = reservation.DefaultPrice,
-                // Reduction = reservation.ComputeDiscount(),
-                Caution = 280,
-                Ip = ip
-            };
-        }
-
-        public static ReservationOverview MapToOverview(this Reservation reservation)
+        public static ReservationOverview MapToOverview(this ReservationAggregate reservation)
         {
             return new ReservationOverview
             {
@@ -28,7 +13,6 @@ namespace Gite.WebSite.Models
                 StartsOn = reservation.FirstWeek,
                 EndsOn = reservation.LastWeek.AddDays(7),
                 LastWeek = reservation.LastWeek,
-                OriginalPrice = reservation.DefaultPrice,
                 FinalPrice = reservation.FinalPrice,
                 Caution = 280,
                 Cancelled = reservation.IsCancelled,

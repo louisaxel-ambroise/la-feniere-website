@@ -1,0 +1,28 @@
+﻿@model Gite.WebSite.Models.Admin.ReservationModel[]
+
+@{
+    Layout = "~/Views/Admin/Shared/_Layout.cshtml";
+}
+
+<div id="expiredAlerts" data-role="page" data-dom-cache="false">
+    <div data-role="header" data-position="fixed">
+        <a href="/alerts" data-role="button" data-mini="true" data-transition="slide" data-direction="reverse">Retour</a>
+        <a onclick="window.location.reload();" id="refresh" class="ui-btn ui-btn-right ui-corner-all ui-icon-refresh ui-btn-icon-notext">MàJ</a>
+        <h1>Expirations</h1>
+    </div>
+    <form class="ui-filterable">
+        <input id="all-input" data-type="search">
+    </form>
+    <ul data-role="listview" data-filter="true" data-input="#all-input">
+        @foreach (var reservation in Model)
+        {
+            <li class="ul-not-bold">
+                <a href="/reservations/details/@reservation.Id.ToString("D")?from=@Request.Path">
+                    <h2>Réservé le : @reservation.BookedOn.ToString("dd/MM/yyyy HH:mm")</h2>
+                    Du @reservation.FirstWeek.ToString("dd/MM/yyyy") au @reservation.LastWeek.AddDays(7).ToString("dd/MM/yyyy")<br />
+                    @reservation.Name
+                </a>
+            </li>
+        }
+    </ul>
+</div>

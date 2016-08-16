@@ -1,6 +1,6 @@
-﻿using Gite.Model.Model;
+﻿using Gite.Model.Views;
 
-namespace Gite.Model.Repositories
+namespace Gite.Model.Readers
 {
     public interface IBookedWeekRepository
     {

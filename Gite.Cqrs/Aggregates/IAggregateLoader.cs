@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Gite.Cqrs.Persistance
+namespace Gite.Cqrs.Aggregates
 {
     public interface IAggregateLoader
     {

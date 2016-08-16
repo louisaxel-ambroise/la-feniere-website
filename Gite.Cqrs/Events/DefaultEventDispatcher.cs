@@ -1,6 +1,6 @@
 ﻿using System;
+using Gite.Cqrs.Aggregates;
 using Gite.Cqrs.Extensions;
-using Gite.Cqrs.Persistance;
 using ReflectionMagic;
 
 namespace Gite.Cqrs.Events
@@ -19,13 +19,12 @@ namespace Gite.Cqrs.Events
             _handlers = handlers;
         }
 
-        public void Dispatch<T>(T @event) where T : IEvent
+        public void Dispatch<T>(T @event) where T : Event
         {
-            var handlers = _handlers.ForType<T>();
+            _eventStore.Store(@event);
+            var handlers = _handlers.ForType(@event.GetType());
 
             foreach (var eventHandler in handlers) eventHandler.AsDynamic().Handle(@event);
-
-            _eventStore.Store(@event);
         }
     }
 }

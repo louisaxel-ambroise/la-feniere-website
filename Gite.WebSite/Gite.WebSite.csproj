@@ -209,6 +209,9 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Attributes\FromParamAttribute.cs" />
+    <Compile Include="Attributes\FromParamParameterBinding.cs" />
+    <Compile Include="Attributes\NotNullIfFilledAttribute.cs" />
     <Compile Include="Attributes\PeopleNumberAttribute.cs" />
     <Compile Include="Controllers\Admin\AccountancyController.cs" />
     <Compile Include="Controllers\Admin\AccountController.cs" />
@@ -219,6 +222,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\OverviewController.cs" />
     <Compile Include="Controllers\ReservationController.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -226,6 +230,7 @@
     <Compile Include="Controllers\Admin\AlertsController.cs" />
     <Compile Include="Models\Admin\AlertsModel.cs" />
     <Compile Include="Models\Admin\Credentials.cs" />
+    <Compile Include="Models\Admin\EventHistory.cs" />
     <Compile Include="Models\Admin\HomeModel.cs" />
     <Compile Include="Models\Admin\ReservationModel.cs" />
     <Compile Include="Models\Admin\ReservationMappings.cs" />
@@ -322,10 +327,10 @@
     <Content Include="Views\Admin\Alerts\Payments.cshtml" />
     <Content Include="Views\Admin\Account\Index.cshtml" />
     <Content Include="Views\Admin\Reservations\PendingPayment.cshtml" />
+    <Content Include="Views\Admin\Reservations\History.cshtml" />
+    <Content Include="Views\Admin\Alerts\Expired.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Data\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
@@ -334,9 +339,9 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Gite.Data\Gite.Data.csproj">
-      <Project>{A78C8DA6-92AF-40AA-98B9-BC10DBEC7173}</Project>
-      <Name>Gite.Data</Name>
+    <ProjectReference Include="..\Gite.Cqrs\Gite.Cqrs.csproj">
+      <Project>{C3D95D43-948B-433C-BCF3-5302E53B8807}</Project>
+      <Name>Gite.Cqrs</Name>
     </ProjectReference>
     <ProjectReference Include="..\Gite.Domain\Gite.Domain.csproj">
       <Project>{46D91EA3-1241-4015-BCDA-8745893BFFCA}</Project>

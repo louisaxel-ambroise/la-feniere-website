@@ -1,24 +1,25 @@
-﻿using Gite.Model.Repositories;
-using Gite.WebSite.Models;
-using System;
+﻿using System;
 using System.Web.Mvc;
+using Gite.Cqrs.Aggregates;
+using Gite.Model.Aggregates;
 using Gite.Model.Services.Reservations;
+using Gite.WebSite.Models;
 
 namespace Gite.WebSite.Controllers
 {
     public class OverviewController : Controller
     {
-        private readonly IReservationRepository _reservationRepository;
+        private readonly IAggregateLoader _aggregateLoader;
         private readonly IReservationCanceller _reservationCanceller;
         private readonly IPaymentManager _paymentManager;
 
-        public OverviewController(IReservationRepository reservationRepository, IReservationCanceller reservationCanceller, IPaymentManager paymentManager)
+        public OverviewController(IAggregateLoader aggregateLoader, IReservationCanceller reservationCanceller, IPaymentManager paymentManager)
         {
-            if (reservationRepository == null) throw new ArgumentNullException("reservationRepository");
+            if (aggregateLoader == null) throw new ArgumentNullException("aggregateLoader");
             if (reservationCanceller == null) throw new ArgumentNullException("reservationCanceller");
             if (paymentManager == null) throw new ArgumentNullException("paymentManager");
 
-            _reservationRepository = reservationRepository;
+            _aggregateLoader = aggregateLoader;
             _reservationCanceller = reservationCanceller;
             _paymentManager = paymentManager;
         }
@@ -26,7 +27,7 @@ namespace Gite.WebSite.Controllers
         [HttpGet]
         public ActionResult Details(Guid id)
         {
-            var reservation = _reservationRepository.Load(id);
+            var reservation = _aggregateLoader.Load<ReservationAggregate>(id);
 
             return View(reservation.MapToOverview());
         }
@@ -36,7 +37,7 @@ namespace Gite.WebSite.Controllers
         {
             _paymentManager.DeclareAdvancePaymentDone(id);
 
-            return RedirectToAction("Details", new { id = id });
+            return RedirectToAction("Details", new { id });
         }
 
         [HttpGet]
@@ -44,7 +45,7 @@ namespace Gite.WebSite.Controllers
         {
             _paymentManager.DeclarePaymentDone(id);
 
-            return RedirectToAction("Details", new { id = id });
+            return RedirectToAction("Details", new { id });
         }
 
         [HttpGet]
@@ -52,7 +53,7 @@ namespace Gite.WebSite.Controllers
         {
             _reservationCanceller.CancelReservation(id, "annulé par l'utilisateur");
 
-            return RedirectToAction("Details", new { id = id });
+            return RedirectToAction("Details", new { id });
         }
     }
 }

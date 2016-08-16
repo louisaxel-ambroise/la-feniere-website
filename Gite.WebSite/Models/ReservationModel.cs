@@ -1,6 +1,6 @@
-﻿using Gite.WebSite.Attributes;
-using System;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
+using Gite.WebSite.Attributes;
 
 namespace Gite.WebSite.Models
 {

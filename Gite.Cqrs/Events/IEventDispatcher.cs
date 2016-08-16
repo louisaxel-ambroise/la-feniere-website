@@ -2,6 +2,6 @@
 {
     public interface IEventDispatcher
     {
-        void Dispatch<T>(T @event) where T : IEvent;
+        void Dispatch<T>(T @event) where T : Event;
     }
 }

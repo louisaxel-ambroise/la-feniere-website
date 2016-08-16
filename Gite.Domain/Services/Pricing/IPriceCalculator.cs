@@ -1,7 +1,7 @@
 using System;
 using Gite.Model.Model;
 
-namespace Gite.Model.Services.Calendar
+namespace Gite.Model.Services.Pricing
 {
     public interface IPriceCalculator
     {

@@ -18,12 +18,8 @@ namespace Gite.WebSite.Models.Admin
         public string AnimalsType { get; internal set; }
         public int Animals { get; internal set; }
         public bool AdvancedReceived { get; internal set; }
-        public DateTime? AdvancedReceptionDate { get; internal set; }
-        public DateTime? AdvancedDeclarationDate { get; internal set; }
         public double? AdvancedValue { get; internal set; }
         public bool PaymentReceived { get; internal set; }
-        public DateTime? PaymentReceptionDate { get; internal set; }
-        public DateTime? PaymentDeclarationDate { get; internal set; }
         public double? PaymentValue { get; internal set; }
 
         public double Reduction { get; set; }

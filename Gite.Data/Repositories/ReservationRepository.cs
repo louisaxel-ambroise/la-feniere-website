@@ -1,17 +1,17 @@
-﻿using System.Linq;
-using Gite.Model.Model;
-using Gite.Model.Repositories;
+﻿using System;
+using System.Linq;
+using Gite.Model.Readers;
+using Gite.Model.Views;
 using NHibernate;
 using NHibernate.Linq;
-using System;
 
 namespace Gite.Database.Repositories
 {
-    public class ReservationRepository : IReservationRepository
+    public class ReservationReader : IReservationReader
     {
         private readonly ISession _session;
 
-        public ReservationRepository(ISession session)
+        public ReservationReader(ISession session)
         {
             _session = session;
         }
@@ -24,6 +24,11 @@ namespace Gite.Database.Repositories
         public IQueryable<Reservation> Query()
         {
             return _session.Query<Reservation>();
+        }
+
+        public IQueryable<Reservation> QueryValids()
+        {
+            return Query().Where(x => !x.IsCancelled && (x.AdvancePaymentReceived || x.BookedOn < DateTime.Now.AddDays(-5)));
         }
 
         public void Insert(Reservation reservation)

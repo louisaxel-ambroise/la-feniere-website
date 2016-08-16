@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Linq;
-using Gite.Model.Model;
+using Gite.Model.Views;
 
-namespace Gite.Model.Repositories
+namespace Gite.Model.Readers
 {
     public interface IBookedWeekReader
     {
-        IQueryable<BookedWeek> QueryForReservation(Guid reservationId);
         IQueryable<BookedWeek> Query();
+        IQueryable<BookedWeek> QueryValids();
+        IQueryable<BookedWeek> QueryForReservation(Guid reservationId);
     }
 }

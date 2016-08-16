@@ -2,7 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Gite.Model.Model;
-using Gite.Model.Repositories;
+using Gite.Model.Readers;
+using Gite.Model.Services.Pricing;
 
 namespace Gite.Model.Services.Calendar
 {
@@ -25,7 +26,7 @@ namespace Gite.Model.Services.Calendar
             var result = new List<Week>();
             var start = FindFirstSaturday(year, month);
 
-            var bookedWeeks = _bookedWeekReader.Query().Where(x => x.IsValid() && x.Week >= start && x.Week < new DateTime(year, month, 1).AddMonths(1)).ToList();
+            var bookedWeeks = _bookedWeekReader.QueryValids().Where(x => x.Week >= start && x.Week < new DateTime(year, month, 1).AddMonths(1)).ToList();
 
             while (start.Month == month)
             {
@@ -34,7 +35,7 @@ namespace Gite.Model.Services.Calendar
                 result.Add(new Week
                 {
                     Start = start,
-                    IsReserved = bookedWeeks.Any(x => x.Week == start),
+                    IsReserved = start <= DateTime.Now || bookedWeeks.Any(x => x.Week == start),
                     Price = price
                 });
 

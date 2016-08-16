@@ -1,6 +1,7 @@
 ﻿using System;
 using Gite.Cqrs.Commands;
 using Gite.Messaging.Commands;
+using Gite.Model.Interceptors;
 
 namespace Gite.Model.Services.Reservations
 {
@@ -15,6 +16,7 @@ namespace Gite.Model.Services.Reservations
             _commandDispatcher = commandDispatcher;
         }
 
+        [CommitTransaction]
         public void CancelReservation(Guid id, string reason)
         {
             _commandDispatcher.Dispatch(new CancelReservation

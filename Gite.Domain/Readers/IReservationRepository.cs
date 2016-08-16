@@ -1,13 +1,14 @@
-﻿using System.Linq;
-using Gite.Model.Model;
-using System;
+﻿using System;
+using System.Linq;
+using Gite.Model.Views;
 
-namespace Gite.Model.Repositories
+namespace Gite.Model.Readers
 {
-    public interface IReservationRepository
+    public interface IReservationReader
     {
         Reservation Load(Guid reservationId);
         void Insert(Reservation reservation);
         IQueryable<Reservation> Query();
+        IQueryable<Reservation> QueryValids();
     }
 }

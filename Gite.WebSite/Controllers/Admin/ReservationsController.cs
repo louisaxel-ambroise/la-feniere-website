@@ -1,33 +1,38 @@
-﻿using Gite.Model.Repositories;
-using Gite.WebSite.Models.Admin;
-using System;
+﻿using System;
 using System.Linq;
 using System.Web.Mvc;
+using Gite.Cqrs.Aggregates;
+using Gite.Model.Aggregates;
+using Gite.Model.Readers;
 using Gite.Model.Services.Reservations;
+using Gite.WebSite.Models.Admin;
 
 namespace Gite.WebSite.Controllers.Admin
 {
     public class ReservationsController : AuthorizeController
     {
-        private readonly IReservationRepository _reservationRepository;
+        private readonly IReservationReader _reservationReader;
         private readonly IPaymentManager _paymentManager;
+        private readonly IAggregateLoader _aggregateLoader;
 
-        public ReservationsController(IReservationRepository reservationRepository, IPaymentManager paymentManager)
+        public ReservationsController(IReservationReader reservationReader, IPaymentManager paymentManager, IAggregateLoader aggregateLoader)
         {
-            if (reservationRepository == null) throw new ArgumentNullException("reservationRepository");
+            if (reservationReader == null) throw new ArgumentNullException("reservationReader");
             if (paymentManager == null) throw new ArgumentNullException("paymentManager");
+            if (aggregateLoader == null) throw new ArgumentNullException("aggregateLoader");
 
-            _reservationRepository = reservationRepository;
+            _reservationReader = reservationReader;
             _paymentManager = paymentManager;
+            _aggregateLoader = aggregateLoader;
         }
 
         public ActionResult Index()
         {
-            var valids = _reservationRepository.Query().Where(x => !x.IsCancelled && x.FirstWeek >= DateTime.Now).ToList();
+            var valids = _reservationReader.QueryValids().Where(x => x.FirstWeek >= DateTime.Now).ToList();
 
             var newReservations = valids.Count(x => !x.AdvancePaymentDeclared && !x.AdvancePaymentReceived);
             var pendingAdvance = valids.Count(x => x.AdvancePaymentDeclared && !x.AdvancePaymentReceived);
-            var pendingPayment = valids.Count(x => !x.PaymentDeclared && !x.PaymentReceived);
+            var pendingPayment = valids.Count(x => x.PaymentDeclared && !x.PaymentReceived);
             var incomingReservations = valids.Count(x => x.FirstWeek <= DateTime.Now.AddMonths(2));
 
             var model = new ReservationsOverview
@@ -43,7 +48,7 @@ namespace Gite.WebSite.Controllers.Admin
 
         public ActionResult New()
         {
-            var reservations = _reservationRepository.Query().Where(x => !x.IsCancelled && !x.AdvancePaymentDeclared && !x.AdvancePaymentReceived).OrderBy(x => x.BookedOn).ToList();
+            var reservations = _reservationReader.QueryValids().Where(x => !x.AdvancePaymentDeclared && !x.AdvancePaymentReceived).OrderBy(x => x.BookedOn).ToList();
             var model = reservations.Select(x => x.MapToReservationModel()).ToArray();
 
             return View("~/Views/Admin/Reservations/New.cshtml", model);
@@ -51,7 +56,7 @@ namespace Gite.WebSite.Controllers.Admin
 
         public ActionResult PendingAdvance()
         {
-            var reservations = _reservationRepository.Query().Where(x => !x.IsCancelled && x.AdvancePaymentDeclared && !x.AdvancePaymentReceived).OrderBy(x => x.BookedOn).ToList();
+            var reservations = _reservationReader.Query().Where(x => x.AdvancePaymentDeclared && !x.AdvancePaymentReceived).OrderBy(x => x.BookedOn).ToList();
             var model = reservations.Select(x => x.MapToReservationModel()).ToArray();
 
             return View("~/Views/Admin/Reservations/PendingAdvance.cshtml", model);
@@ -59,7 +64,7 @@ namespace Gite.WebSite.Controllers.Admin
 
         public ActionResult PendingPayment()
         {
-            var reservations = _reservationRepository.Query().Where(x => !x.IsCancelled && x.PaymentDeclared && !x.PaymentReceived).OrderBy(x => x.FirstWeek).ToList();
+            var reservations = _reservationReader.QueryValids().Where(x => x.PaymentDeclared && !x.PaymentReceived).OrderBy(x => x.FirstWeek).ToList();
             var model = reservations.Select(x => x.MapToReservationModel()).ToArray();
 
             return View("~/Views/Admin/Reservations/PendingPayment.cshtml", model);
@@ -67,7 +72,7 @@ namespace Gite.WebSite.Controllers.Admin
 
         public ActionResult Incoming()
         {
-            var reservations = _reservationRepository.Query().Where(x => !x.IsCancelled && x.FirstWeek <= DateTime.Now.AddMonths(2)).OrderBy(x => x.FirstWeek).ToList();
+            var reservations = _reservationReader.QueryValids().Where(x => x.FirstWeek <= DateTime.Now.AddMonths(2)).OrderBy(x => x.FirstWeek).ToList();
             var model = reservations.Select(x => x.MapToReservationModel()).ToArray();
 
             return View("~/Views/Admin/Reservations/Incoming.cshtml", model);
@@ -75,7 +80,7 @@ namespace Gite.WebSite.Controllers.Admin
 
         public ActionResult All()
         {
-            var reservations = _reservationRepository.Query().Where(x => !x.IsCancelled && x.FirstWeek >= DateTime.Now).OrderBy(x => x.FirstWeek).ToList();
+            var reservations = _reservationReader.QueryValids().Where(x => x.FirstWeek >= DateTime.Now).OrderBy(x => x.FirstWeek).ToList();
             var model = reservations.Select(x => x.MapToReservationModel()).ToArray();
 
             return View("~/Views/Admin/Reservations/All.cshtml", model);
@@ -83,25 +88,41 @@ namespace Gite.WebSite.Controllers.Admin
 
         public ActionResult Details(Guid id)
         {
-            var reservation = _reservationRepository.Load(id);
+            var reservation = _aggregateLoader.Load<ReservationAggregate>(id);
             var model = reservation.MapToReservationModel();
 
             ViewBag.Previous = Request.QueryString["from"] ?? "/admin/reservations";
             return View("~/Views/Admin/Reservations/Details.cshtml", model);
         }
 
-        [HttpPost]
-        public ActionResult AdvanceReceived(Guid id)
+        public ActionResult History(Guid id)
         {
-            _paymentManager.DeclareAdvanceReceived(id, 0); // TODO: add amount
+            var reservation = _aggregateLoader.Load<ReservationAggregate>(id);
+            var model = reservation.MapToEventHistory();
+
+            return View("~/Views/Admin/Reservations/History.cshtml", model);
+        }
+
+        [HttpPost]
+        public ActionResult AdvanceReceived(Guid id, FormCollection form)
+        {
+            _paymentManager.DeclareAdvanceReceived(id, double.Parse(form.Get("acompte")));
 
             return RedirectToAction("Index");
         }
 
         [HttpPost]
-        public ActionResult PaymentReceived(Guid id)
+        public ActionResult ExtendExpiration(Guid id)
         {
-            _paymentManager.DeclarePaymentReceived(id, 0); // TODO: add amount
+            _paymentManager.ExtendExpiration(id, 2);
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public ActionResult PaymentReceived(Guid id, FormCollection form)
+        {
+            _paymentManager.DeclarePaymentReceived(id, double.Parse(form.Get("paiement")));
 
             return RedirectToAction("Index");
         }

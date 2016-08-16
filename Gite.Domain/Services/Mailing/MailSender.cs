@@ -1,4 +1,8 @@
 ﻿using System;
+using System.Linq;
+using System.Net;
+using System.Net.Mail;
+using System.Net.Mime;
 using Gite.Model.Model;
 
 namespace Gite.Model.Services.Mailing
@@ -17,9 +21,29 @@ namespace Gite.Model.Services.Mailing
             _password = password;
         }
 
-        public void Send(string address, Mail mail)
+        public void SendMail(Mail message, string address)
         {
-            throw new System.NotImplementedException();
+            var credentials = new NetworkCredential(_from, _password);
+
+            using (var mailMessage = new MailMessage(_from, address) { Subject = message.Subject, Body = message.Content.Content, IsBodyHtml = message.Content.IsHtml })
+            using (var smtp = new SmtpClient { Host = "smtp.gmail.com", EnableSsl = true, UseDefaultCredentials = true, Credentials = credentials, Port = 25 })
+            {
+                AddAttachments(mailMessage, message.Content.Attachments.ToArray());
+
+                smtp.Send(mailMessage);
+            }
+        }
+
+        private static void AddAttachments(MailMessage mailMessage, MailAttachment[] attachments)
+        {
+            foreach (var attachment in attachments)
+            {
+                var contentType = new ContentType(MediaTypeNames.Application.Pdf);
+                var attach = new Attachment(attachment.Data, contentType);
+                attach.ContentDisposition.FileName = attachment.Name;
+
+                mailMessage.Attachments.Add(attach);
+            }
         }
     }
 }

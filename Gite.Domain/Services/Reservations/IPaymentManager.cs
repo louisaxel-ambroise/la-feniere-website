@@ -8,5 +8,6 @@ namespace Gite.Model.Services.Reservations
         void DeclarePaymentDone(Guid id);
         void DeclareAdvanceReceived(Guid id, double amount);
         void DeclarePaymentReceived(Guid id, double amount);
+        void ExtendExpiration(Guid id, int days);
     }
 }

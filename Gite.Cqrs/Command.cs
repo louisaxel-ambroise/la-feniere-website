@@ -2,7 +2,7 @@
 
 namespace Gite.Cqrs
 {
-    public class Command : ICommand
+    public class Command
     {
         public Guid AggregateId { get; set; } 
     }
