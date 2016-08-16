@@ -14,6 +14,7 @@ namespace Gite.Cqrs.Extensions
 
             var evt = (Event) JsonConvert.DeserializeObject(envelop.Payload, matchingType);
             evt.AggregateId = envelop.AggregateId;
+            evt.OccuredOn = envelop.OccuredOn;
 
             return evt;
         } 

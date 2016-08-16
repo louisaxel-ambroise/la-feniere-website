@@ -12,6 +12,7 @@ namespace Gite.Cqrs.Events
 
         [JsonIgnore]
         public Guid AggregateId { get; set; }
+        [JsonIgnore]
         public DateTime OccuredOn { get; set; }
     }
 }
