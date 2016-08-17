@@ -1,6 +1,6 @@
 ﻿using System;
+using Gite.Model.Model;
 using Gite.Model.Readers;
-using Gite.Model.Views;
 using NHibernate;
 
 namespace Gite.Database.Repositories

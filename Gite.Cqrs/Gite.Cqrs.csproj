@@ -36,6 +36,9 @@
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="Ninject">
+      <HintPath>..\packages\Ninject.3.2.0.0\lib\net45-full\Ninject.dll</HintPath>
+    </Reference>
     <Reference Include="ReflectionMagic">
       <HintPath>..\packages\ReflectionMagic.2.1.0\lib\net40\ReflectionMagic.dll</HintPath>
     </Reference>
@@ -45,12 +48,11 @@
   <ItemGroup>
     <Compile Include="AggregateRoot.cs" />
     <Compile Include="Extensions\EventEnvelopExtensions.cs" />
-    <Compile Include="Aggregates\AggregateLoader.cs" />
+    <Compile Include="Aggregates\AggregateManager.cs" />
     <Compile Include="Aggregates\EventEnvelop.cs" />
-    <Compile Include="Aggregates\IAggregateLoader.cs" />
-    <Compile Include="Aggregates\IEventLoader.cs" />
-    <Compile Include="Command.cs" />
-    <Compile Include="Commands\CommandHandler.cs" />
+    <Compile Include="Aggregates\IAggregateManager.cs" />
+    <Compile Include="Aggregates\IEventManager.cs" />
+    <Compile Include="Commands\Command.cs" />
     <Compile Include="Commands\DefaultCommandDispatcher.cs" />
     <Compile Include="Commands\ICommandDispatcher.cs" />
     <Compile Include="Commands\ICommandHandler.cs" />
@@ -58,9 +60,7 @@
     <Compile Include="Events\Event.cs" />
     <Compile Include="Events\IEventDispatcher.cs" />
     <Compile Include="Events\IEventHandler.cs" />
-    <Compile Include="Aggregates\IEventStore.cs" />
-    <Compile Include="Extensions\CommandHandlerExtensions.cs" />
-    <Compile Include="Extensions\EventHandlerExtension.cs" />
+    <Compile Include="Extensions\TypeExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

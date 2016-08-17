@@ -1,5 +1,5 @@
 ﻿using FluentNHibernate.Mapping;
-using Gite.Model.Views;
+using Gite.Model.Model;
 
 namespace Gite.Database.Mappings
 {

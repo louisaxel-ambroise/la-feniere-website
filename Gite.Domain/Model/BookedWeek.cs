@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Gite.Model.Views
+namespace Gite.Model.Model
 {
     public class BookedWeek
     {

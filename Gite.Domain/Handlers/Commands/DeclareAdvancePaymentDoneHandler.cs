@@ -2,38 +2,27 @@
 using Gite.Cqrs.Aggregates;
 using Gite.Cqrs.Commands;
 using Gite.Messaging.Commands;
-using Gite.Messaging.Events;
 using Gite.Model.Aggregates;
 
 namespace Gite.Model.Handlers.Commands
 {
-    public class DeclareAdvancePaymentDoneHandler : CommandHandler<DeclareAdvancePaymentDone>
+    public class DeclareAdvancePaymentDoneHandler : ICommandHandler<DeclareAdvancePaymentDone>
     {
-        private readonly IAggregateLoader _aggregateLoader;
+        private readonly IAggregateManager<ReservationAggregate> _aggregateManager;
 
-        public DeclareAdvancePaymentDoneHandler(IAggregateLoader aggregateLoader)
+        public DeclareAdvancePaymentDoneHandler(IAggregateManager<ReservationAggregate> aggregateManager)
         {
-            if (aggregateLoader == null) throw new ArgumentNullException("aggregateLoader");
+            if (aggregateManager == null) throw new ArgumentNullException("aggregateManager");
 
-            _aggregateLoader = aggregateLoader;
+            _aggregateManager = aggregateManager;
         }
 
-        public override void Handle(DeclareAdvancePaymentDone command)
+        public void Handle(DeclareAdvancePaymentDone command)
         {
-            var reservation = _aggregateLoader.Load<ReservationAggregate>(command.AggregateId);
-            if(!CanHandle(reservation)) throw new Exception("Advance payment is already received.");
+            var reservation = _aggregateManager.Load(command.AggregateId);
+            reservation.DeclareAdvancePayment();
 
-            RaiseEvent(new AdvancePaymentDeclared
-            {
-                OccuredOn = DateTime.Now,
-                AggregateId = command.AggregateId
-            });
-        }
-
-        private static bool CanHandle(ReservationAggregate reservation)
-        {
-            // Declare only once and max 5 days after booking.
-            return !reservation.IsCancelled && reservation.BookedOn.AddDays(5) >= DateTime.Now && !reservation.AdvancePaymentDeclared && !reservation.AdvancePaymentReceived;
+            _aggregateManager.Save(reservation);
         }
     }
 }

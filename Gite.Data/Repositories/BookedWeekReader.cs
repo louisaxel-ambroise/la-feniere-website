@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
+using Gite.Model.Model;
 using Gite.Model.Readers;
-using Gite.Model.Views;
 using NHibernate;
 using NHibernate.Linq;
 

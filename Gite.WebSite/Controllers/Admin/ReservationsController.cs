@@ -13,17 +13,17 @@ namespace Gite.WebSite.Controllers.Admin
     {
         private readonly IReservationReader _reservationReader;
         private readonly IPaymentManager _paymentManager;
-        private readonly IAggregateLoader _aggregateLoader;
+        private readonly IAggregateManager<ReservationAggregate> _aggregateManager;
 
-        public ReservationsController(IReservationReader reservationReader, IPaymentManager paymentManager, IAggregateLoader aggregateLoader)
+        public ReservationsController(IReservationReader reservationReader, IPaymentManager paymentManager, IAggregateManager<ReservationAggregate> aggregateManager)
         {
             if (reservationReader == null) throw new ArgumentNullException("reservationReader");
             if (paymentManager == null) throw new ArgumentNullException("paymentManager");
-            if (aggregateLoader == null) throw new ArgumentNullException("aggregateLoader");
+            if (aggregateManager == null) throw new ArgumentNullException("aggregateManager");
 
             _reservationReader = reservationReader;
             _paymentManager = paymentManager;
-            _aggregateLoader = aggregateLoader;
+            _aggregateManager = aggregateManager;
         }
 
         public ActionResult Index()
@@ -88,7 +88,7 @@ namespace Gite.WebSite.Controllers.Admin
 
         public ActionResult Details(Guid id)
         {
-            var reservation = _aggregateLoader.Load<ReservationAggregate>(id);
+            var reservation = _aggregateManager.Load(id);
             var model = reservation.MapToReservationModel();
 
             ViewBag.Previous = Request.QueryString["from"] ?? "/admin/reservations";
@@ -97,7 +97,7 @@ namespace Gite.WebSite.Controllers.Admin
 
         public ActionResult History(Guid id)
         {
-            var reservation = _aggregateLoader.Load<ReservationAggregate>(id);
+            var reservation = _aggregateManager.Load(id);
             var model = reservation.MapToEventHistory();
 
             return View("~/Views/Admin/Reservations/History.cshtml", model);

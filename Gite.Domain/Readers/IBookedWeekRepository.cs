@@ -1,4 +1,4 @@
-﻿using Gite.Model.Views;
+﻿using Gite.Model.Model;
 
 namespace Gite.Model.Readers
 {

@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Linq;
 using System.Web.Mvc;
+using Gite.Model.Model;
 using Gite.Model.Services.Calendar;
 using Gite.Model.Services.Pricing;
 using Gite.Model.Services.Reservations;
-using Gite.Model.Views;
 using Gite.WebSite.Models;
 
 namespace Gite.WebSite.Controllers
@@ -50,6 +50,7 @@ namespace Gite.WebSite.Controllers
             {
                 StartsOn = firstWeek,
                 LastWeek = lastWeek,
+                EndsOn = lastWeek.AddDays(7),
                 FinalPrice = price.Final,
                 OriginalPrice = price.Original,
                 Reduction = price.Reduction,

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 using Gite.Model.Aggregates;
-using Gite.Model.Views;
+using Gite.Model.Model;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
 

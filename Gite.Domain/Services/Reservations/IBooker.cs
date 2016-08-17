@@ -1,5 +1,5 @@
 ﻿using System;
-using Gite.Model.Views;
+using Gite.Model.Model;
 
 namespace Gite.Model.Services.Reservations
 {

@@ -9,17 +9,17 @@ namespace Gite.WebSite.Controllers
 {
     public class OverviewController : Controller
     {
-        private readonly IAggregateLoader _aggregateLoader;
+        private readonly IAggregateManager<ReservationAggregate> _aggregateManager;
         private readonly IReservationCanceller _reservationCanceller;
         private readonly IPaymentManager _paymentManager;
 
-        public OverviewController(IAggregateLoader aggregateLoader, IReservationCanceller reservationCanceller, IPaymentManager paymentManager)
+        public OverviewController(IAggregateManager<ReservationAggregate> aggregateManager, IReservationCanceller reservationCanceller, IPaymentManager paymentManager)
         {
-            if (aggregateLoader == null) throw new ArgumentNullException("aggregateLoader");
+            if (aggregateManager == null) throw new ArgumentNullException("aggregateManager");
             if (reservationCanceller == null) throw new ArgumentNullException("reservationCanceller");
             if (paymentManager == null) throw new ArgumentNullException("paymentManager");
 
-            _aggregateLoader = aggregateLoader;
+            _aggregateManager = aggregateManager;
             _reservationCanceller = reservationCanceller;
             _paymentManager = paymentManager;
         }
@@ -27,7 +27,7 @@ namespace Gite.WebSite.Controllers
         [HttpGet]
         public ActionResult Details(Guid id)
         {
-            var reservation = _aggregateLoader.Load<ReservationAggregate>(id);
+            var reservation = _aggregateManager.Load(id);
 
             return View(reservation.MapToOverview());
         }

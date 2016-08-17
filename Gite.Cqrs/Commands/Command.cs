@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Gite.Cqrs
+namespace Gite.Cqrs.Commands
 {
     public class Command
     {

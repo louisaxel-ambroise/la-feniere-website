@@ -1,32 +1,29 @@
 ﻿using System;
-using Gite.Cqrs.Events;
 using Gite.Cqrs.Extensions;
+using Ninject;
+using ReflectionMagic;
 
 namespace Gite.Cqrs.Commands
 {
     public class DefaultCommandDispatcher : ICommandDispatcher
     {
-        private readonly ICommandHandler[] _commandHandlers;
-        private readonly IEventDispatcher _eventDispatcher;
+        private readonly IKernel _kernel;
+        private readonly Type[] _handlerTypes;
 
-        public DefaultCommandDispatcher(IEventDispatcher eventDispatcher, ICommandHandler[] commandHandlers)
+        public DefaultCommandDispatcher(IKernel kernel, Type[] handlerTypes)
         {
-            if (commandHandlers == null) throw new ArgumentNullException("commandHandlers");
-            if (eventDispatcher == null) throw new ArgumentNullException("eventDispatcher");
+            if (kernel == null) throw new ArgumentNullException("kernel");
+            if (handlerTypes == null) throw new ArgumentNullException("handlerTypes");
 
-            _commandHandlers = commandHandlers;
-            _eventDispatcher = eventDispatcher;
+            _kernel = kernel;
+            _handlerTypes = handlerTypes;
         }
 
         public void Dispatch<T>(T command) where T : Command
         {
-            var commandHandler = _commandHandlers.SingleForType<T>();
-            commandHandler.Handle(command);
+            var handlerType = _handlerTypes.SingleForType<T>();
 
-            foreach (var @event in commandHandler.Events)
-            {
-                _eventDispatcher.Dispatch(@event);
-            }
+            _kernel.Get(handlerType).AsDynamic().Handle(command);
         }
     }
 }

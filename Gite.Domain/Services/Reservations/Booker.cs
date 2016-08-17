@@ -2,8 +2,8 @@ using System;
 using Gite.Cqrs.Commands;
 using Gite.Messaging.Commands;
 using Gite.Model.Interceptors;
+using Gite.Model.Model;
 using Gite.Model.Services.Pricing;
-using Gite.Model.Views;
 
 namespace Gite.Model.Services.Reservations
 {

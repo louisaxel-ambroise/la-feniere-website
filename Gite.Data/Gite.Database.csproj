@@ -49,7 +49,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cqrs\SqlEventLoader.cs" />
-    <Compile Include="Cqrs\SqlEventStore.cs" />
     <Compile Include="Mappings\BookedWeekMap.cs" />
     <Compile Include="Mappings\EventEnvelopMap.cs" />
     <Compile Include="Mappings\ReservationMap.cs" />

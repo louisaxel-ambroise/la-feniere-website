@@ -2,8 +2,8 @@
 using System.Linq;
 using Gite.Cqrs.Events;
 using Gite.Messaging.Events;
+using Gite.Model.Model;
 using Gite.Model.Readers;
-using Gite.Model.Views;
 
 namespace Gite.Model.Handlers.Events
 {

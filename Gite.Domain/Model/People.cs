@@ -1,4 +1,4 @@
-namespace Gite.Model.Views
+namespace Gite.Model.Model
 {
     public class People
     {

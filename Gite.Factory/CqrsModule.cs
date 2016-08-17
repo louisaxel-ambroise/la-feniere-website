@@ -5,7 +5,7 @@ using Gite.Cqrs.Events;
 using Gite.Database.Cqrs;
 using Gite.Messaging.Events;
 using Gite.Model;
-using Ninject.Extensions.Conventions;
+using Ninject.Extensions.UnitOfWork;
 using Ninject.Modules;
 
 namespace Gite.Factory
@@ -15,14 +15,13 @@ namespace Gite.Factory
         public override void Load()
         {
             var eventTypes = typeof (ReservationCreated).Assembly.GetTypes().Where(x => x.IsSubclassOf(typeof (Event)));
-            Bind<IAggregateLoader>().To<AggregateLoader>().WithConstructorArgument("eventTypes", eventTypes.ToArray());
-            Bind<IEventLoader>().To<SqlEventLoader>();
-            Bind<IEventStore>().To<SqlEventStore>();
-            Bind<ICommandDispatcher>().To<DefaultCommandDispatcher>();
-            Bind<IEventDispatcher>().To<DefaultEventDispatcher>();
+            var eventHandlerTypes = typeof(IUnitOfWork).Assembly.GetTypes().Where(x => typeof(IEventHandler).IsAssignableFrom(x)).ToArray();
+            var commandHandlerTypes = typeof(IUnitOfWork).Assembly.GetTypes().Where(x => typeof(ICommandHandler).IsAssignableFrom(x)).ToArray();
 
-            Kernel.Bind(x => x.FromAssemblyContaining<IUnitOfWork>().SelectAllClasses().InheritedFrom(typeof(IEventHandler)).BindAllInterfaces());
-            Kernel.Bind(x => x.FromAssemblyContaining<IUnitOfWork>().SelectAllClasses().InheritedFrom(typeof(ICommandHandler)).BindAllInterfaces());
+            Bind(typeof(IAggregateManager<>)).To(typeof(AggregateManager<>)).InUnitOfWorkScope().WithConstructorArgument("eventTypes", eventTypes.ToArray());
+            Bind<IEventStore>().To<SqlEventStore>().InUnitOfWorkScope();
+            Bind<ICommandDispatcher>().To<DefaultCommandDispatcher>().WithConstructorArgument("handlerTypes", commandHandlerTypes);
+            Bind<IEventDispatcher>().To<DefaultEventDispatcher>().WithConstructorArgument("handlerTypes", eventHandlerTypes);
         }
     }
 }

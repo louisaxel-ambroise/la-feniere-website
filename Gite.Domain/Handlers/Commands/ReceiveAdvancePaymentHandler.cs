@@ -2,37 +2,27 @@
 using Gite.Cqrs.Aggregates;
 using Gite.Cqrs.Commands;
 using Gite.Messaging.Commands;
-using Gite.Messaging.Events;
 using Gite.Model.Aggregates;
 
 namespace Gite.Model.Handlers.Commands
 {
-    public class ReceiveAdvancePaymentHandler : CommandHandler<ReceiveAdvancePayment>
+    public class ReceiveAdvancePaymentHandler : ICommandHandler<ReceiveAdvancePayment>
     {
-        private readonly IAggregateLoader _aggregateLoader;
+        private readonly IAggregateManager<ReservationAggregate> _aggregateManager;
 
-        public ReceiveAdvancePaymentHandler(IAggregateLoader aggregateLoader)
+        public ReceiveAdvancePaymentHandler(IAggregateManager<ReservationAggregate> aggregateManager)
         {
-            if (aggregateLoader == null) throw new ArgumentNullException("aggregateLoader");
+            if (aggregateManager == null) throw new ArgumentNullException("aggregateManager");
 
-            _aggregateLoader = aggregateLoader;
+            _aggregateManager = aggregateManager;
         }
 
-        public override void Handle(ReceiveAdvancePayment command)
+        public void Handle(ReceiveAdvancePayment command)
         {
-            var reservation = _aggregateLoader.Load<ReservationAggregate>(command.AggregateId);
-            if (!CanHandle(reservation)) throw new Exception("Advance payment is already received.");
+            var reservation = _aggregateManager.Load(command.AggregateId);
+            reservation.ReceiveAdvancePayment(command.Amount);
 
-            RaiseEvent(new AdvancePaymentReceived
-            {
-                AggregateId = command.AggregateId,
-                Amount = command.Amount
-            });
-        }
-
-        private static bool CanHandle(ReservationAggregate reservation)
-        {
-            return reservation != null && !reservation.IsCancelled && !reservation.AdvancePaymentReceived;
+            _aggregateManager.Save(reservation);
         }
     }
 }

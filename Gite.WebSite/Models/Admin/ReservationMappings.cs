@@ -1,5 +1,5 @@
 ﻿using Gite.Model.Aggregates;
-using Gite.Model.Views;
+using Gite.Model.Model;
 
 namespace Gite.WebSite.Models.Admin
 {

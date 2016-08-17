@@ -1,13 +1,14 @@
 ﻿using System;
-using Gite.Model.Views;
 using Gite.Cqrs;
 using Gite.Messaging.Events;
+using Gite.Model.Model;
 
 namespace Gite.Model.Aggregates
 {
     public class ReservationAggregate : AggregateRoot
     {
         public DateTime BookedOn { get; set; }
+        public DateTime AdvancePaymentLimit { get; set; }
         public bool IsCancelled { get; set; }
         public string CancellationReason { get; set; }
         public bool AdvancePaymentDeclared { get; set; }
@@ -24,43 +25,139 @@ namespace Gite.Model.Aggregates
         public double FinalPrice { get; set; }
         public int Reduction { get; set; }
 
-        public void Apply(ReservationCreated @event)
+        public ReservationAggregate(){ }
+
+        public ReservationAggregate(Guid id, DateTime firstWeek, DateTime lastWeek, Price price, Contact contact, People people)
+        {
+            Apply(new ReservationCreated
+            {
+                AggregateId = id,
+                FirstWeek = firstWeek,
+                LastWeek = lastWeek,
+                FinalPrice = price.Final,
+                OriginalPrice = price.Original,
+                Reduction = price.Reduction,
+                Address = contact.Address,
+                Mail = contact.Mail,
+                Phone = contact.Phone,
+                Name = contact.Name,
+                AdultsCount = people.Adults,
+                ChildrenCount = people.Children,
+                BabiesCount = people.Babies,
+                AnimalsCount = people.Animals,
+                AnimalsType = people.AnimalsDescription
+            });
+        }
+
+        public void DeclareAdvancePayment()
+        {
+            if (IsCancelled || BookedOn.AddDays(5) < DateTime.UtcNow) throw new Exception("Cannot perform any action when reservation is cancelled.");
+            if(AdvancePaymentDeclared || AdvancePaymentReceived) throw new Exception("Advance Payment is already declared or received");
+
+            Apply(new AdvancePaymentDeclared
+            {
+                AggregateId = Id
+            });
+        }
+
+        public void ReceiveAdvancePayment(double amount)
+        {
+            if(IsCancelled) throw new Exception("Cannot perform any action when reservation is cancelled.");
+            if (AdvancePaymentReceived) throw new Exception("Advance Payment is already received");
+
+            Apply(new AdvancePaymentReceived
+            {
+                AggregateId = Id,
+                Amount = amount
+            });
+        }
+
+        public void DeclarePayment()
+        {
+            if (IsCancelled) throw new Exception("Cannot perform any action when reservation is cancelled.");
+            if (PaymentDeclared || PaymentReceived) throw new Exception("Payment is already declared or received");
+
+            Apply(new PaymentDeclared
+            {
+                AggregateId = Id                
+            });
+        }
+
+        public void ReceivePayment(double amount)
+        {
+            if (IsCancelled) throw new Exception("Cannot perform any action when reservation is cancelled.");
+            if (PaymentReceived) throw new Exception("Payment is already received");
+
+            Apply(new PaymentReceived
+            {
+                AggregateId = Id,
+                Amount = amount
+            });
+        }
+
+        public void ExtendAdvancePaymentDelay(int days)
+        {
+            if(AdvancePaymentDeclared || AdvancePaymentReceived) throw new Exception("Cannot extend advance payment limit if advance is received.");
+
+            Apply(new AdvancePaymentDelayExtended
+            {
+                AggregateId = Id,
+                Days = days
+            });
+        }
+
+        public void Cancel(string reason)
+        {
+            Apply(new ReservationCancelled
+            {
+                AggregateId = Id,
+                Reason = reason
+            });
+        }
+
+        public void Handle(ReservationCreated @event)
         {
             Id = @event.AggregateId;
             BookedOn = @event.OccuredOn;
+            AdvancePaymentLimit = @event.OccuredOn.AddDays(5);
             FirstWeek = @event.FirstWeek;
             LastWeek = @event.LastWeek;
             FinalPrice = @event.FinalPrice;
             DefaultPrice = @event.OriginalPrice;
             Reduction = @event.Reduction;
 
-            Contact = new Contact{ Name = @event.Name, Address = @event.Address, Mail = @event.Mail, Phone = @event.Phone };
-            People = new People{ Adults = @event.AdultsCount, Children = @event.ChildrenCount, Babies = @event.BabiesCount, Animals = @event.AnimalsCount, AnimalsDescription = @event.AnimalsType };
+            Contact = new Contact { Name = @event.Name, Address = @event.Address, Mail = @event.Mail, Phone = @event.Phone };
+            People = new People { Adults = @event.AdultsCount, Children = @event.ChildrenCount, Babies = @event.BabiesCount, Animals = @event.AnimalsCount, AnimalsDescription = @event.AnimalsType };
         }
 
-        public void Apply(ReservationCancelled @event)
+        public void Handle(ReservationCancelled @event)
         {
             IsCancelled = true;
             CancellationReason = @event.Reason;
         }
 
-        public void Apply(AdvancePaymentDeclared @event)
+        public void Handle(AdvancePaymentDelayExtended @event)
+        {
+            AdvancePaymentLimit = AdvancePaymentLimit.AddDays(@event.Days);
+        }
+
+        public void Handle(AdvancePaymentDeclared @event)
         {
             AdvancePaymentDeclared = true;
         }
 
-        public void Apply(AdvancePaymentReceived @event)
+        public void Handle(AdvancePaymentReceived @event)
         {
             AdvancePaymentReceived = true;
             AdvancePaymentValue = @event.Amount;
         }
 
-        public void Apply(PaymentDeclared @event)
+        public void Handle(PaymentDeclared @event)
         {
             PaymentDeclared = true;
         }
 
-        public void Apply(PaymentReceived @event)
+        public void Handle(PaymentReceived @event)
         {
             PaymentReceived = true;
             PaymentValue = @event.Amount;
