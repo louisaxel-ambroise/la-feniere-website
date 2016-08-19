@@ -13,7 +13,8 @@ namespace Gite.Model.Services.Contract
 
         public override void OnParagraph(PdfWriter writer, Document document, float paragraphPosition)
         {
-            _currentCount++;
+            if (IsBordered) _currentCount++;
+            else _currentCount = 0;
             _startPosition = paragraphPosition;
         }
 

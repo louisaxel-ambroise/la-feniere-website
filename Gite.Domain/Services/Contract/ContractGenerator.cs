@@ -54,12 +54,16 @@ namespace Gite.Model.Services.Contract
 
         private void AddDefinitions(Document document, Contact contact)
         {
+            _borderManager.IsBordered = true; // Add border...
+            _borderManager.ParagraphCount = 2;// ... to the next 2 paragraphs.
+
             var title = new Paragraph
             {
                 Alignment = Element.ALIGN_LEFT,
                 Font = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 13, Font.UNDERLINE)
             };
             title.Add("Entre les soussignés");
+            document.Add(title);
             
             var phrase = new Paragraph
             {
@@ -72,15 +76,14 @@ namespace Gite.Model.Services.Contract
             phrase.Add(new Phrase("\r\n"));
             phrase.Add(new Phrase(string.Format("{0} demeurant à {1}\r\n", contact.Name, contact.Address)));
             phrase.Add(new Phrase(string.Format("N° de téléphone : {0} ; ci-après désigné le locataire\r\n", contact.Phone)));
-            phrase.Add(new Phrase("\r\n"));
 
-            _borderManager.IsBordered = true; // Add border...
-            _borderManager.ParagraphCount = 2;// ... to the next 2 paragraphs.
-
-            document.Add(title);
             document.Add(phrase);
 
             _borderManager.IsBordered = false;
+
+            var separation = new Paragraph { Alignment = Element.ALIGN_LEFT, Font = FontFactory.GetFont(FontFactory.HELVETICA, 12) };
+            separation.Add(new Phrase("\r\n"));
+            document.Add(separation);
         }
 
         private static void AddDesignation(Document document)
