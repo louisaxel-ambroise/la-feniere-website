@@ -75,14 +75,14 @@ namespace Gite.Model.Services.Contract
             phrase.Add(new Phrase("N° de téléphone : 0032486/34.99.99 ; ci-après désignés le propriétaire\r\n"));
             phrase.Add(new Phrase("\r\n"));
             phrase.Add(new Phrase(string.Format("{0} demeurant à {1}\r\n", contact.Name, contact.Address)));
-            phrase.Add(new Phrase(string.Format("N° de téléphone : {0} ; ci-après désigné le locataire\r\n", contact.Phone)));
+            phrase.Add(new Phrase(string.Format("N° de téléphone : {0} ; ci-après désigné le locataire", contact.Phone)));
 
             document.Add(phrase);
 
             _borderManager.IsBordered = false;
 
             var separation = new Paragraph { Alignment = Element.ALIGN_LEFT, Font = FontFactory.GetFont(FontFactory.HELVETICA, 12) };
-            separation.Add(new Phrase("\r\n"));
+            separation.Add(new Phrase("\r\n\r\n"));
             document.Add(separation);
         }
 

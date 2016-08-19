@@ -4,7 +4,7 @@ using iTextSharp.text.pdf;
 namespace Gite.Model.Services.Contract
 {
     public class ParagraphBorder : PdfPageEventHelper {
-        private const float Offset = 15;
+        private const float Offset = 10;
         private float _startPosition;
         private int _currentCount = 0;
 
