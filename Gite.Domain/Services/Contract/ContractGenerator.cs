@@ -60,12 +60,13 @@ namespace Gite.Model.Services.Contract
                 Font = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 13, Font.UNDERLINE)
             };
             title.Add("Entre les soussignés");
-
+            
             var phrase = new Paragraph
             {
                 Alignment = Element.ALIGN_LEFT,
                 Font = FontFactory.GetFont(FontFactory.HELVETICA, 12),
             };
+
             phrase.Add(new Phrase("M. BERLEMONT Roland et Mme. DUBY France demeurant à Rue du Longfaux 50, 7133 Buvrinnes (Belgique)\r\n"));
             phrase.Add(new Phrase("N° de téléphone : 0032486/34.99.99 ; ci-après désignés le propriétaire\r\n"));
             phrase.Add(new Phrase("\r\n"));
@@ -73,7 +74,8 @@ namespace Gite.Model.Services.Contract
             phrase.Add(new Phrase(string.Format("N° de téléphone : {0} ; ci-après désigné le locataire\r\n", contact.Phone)));
             phrase.Add(new Phrase("\r\n"));
 
-            _borderManager.IsBordered = true;
+            _borderManager.IsBordered = true; // Add border...
+            _borderManager.ParagraphCount = 2;// ... to the next 2 paragraphs.
 
             document.Add(title);
             document.Add(phrase);
@@ -331,7 +333,7 @@ namespace Gite.Model.Services.Contract
                 Alignment = Element.ALIGN_CENTER,
                 Font = FontFactory.GetFont(FontFactory.HELVETICA, 28)
             };
-            title.Add("Contrat de location\r\n\r\n\r\n");
+            title.Add("Contrat de location\r\n\r\n\r\n\r\n");
 
             var logo = Image.GetInstance(new Uri(imageUrl));
             logo.SetAbsolutePosition(document.PageSize.Width - 25f - 120f, document.PageSize.Height - 20f - 78f);
