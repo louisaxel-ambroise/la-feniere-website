@@ -67,6 +67,7 @@
     <Compile Include="Readers\IBookedWeekReader.cs" />
     <Compile Include="Services\Contract\ContractGenerator.cs" />
     <Compile Include="Services\Contract\IContractGenerator.cs" />
+    <Compile Include="Services\Contract\ParagraphBorder.cs" />
     <Compile Include="Services\Mailing\MailSender.cs" />
     <Compile Include="Services\Pricing\IPriceCalculator.cs" />
     <Compile Include="Services\Calendar\WeekCalendar.cs" />

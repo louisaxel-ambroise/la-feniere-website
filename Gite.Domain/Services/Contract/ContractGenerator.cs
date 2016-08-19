@@ -10,6 +10,7 @@ namespace Gite.Model.Services.Contract
     public class ContractGenerator : IContractGenerator
     {
         private readonly string _baseUrl;
+        private ParagraphBorder _borderManager;
 
         public ContractGenerator(string baseUrl)
         {
@@ -24,8 +25,11 @@ namespace Gite.Model.Services.Contract
             {
                 var document = new Document();
 
-                using (PdfWriter.GetInstance(document, stream))
+                using (var writer = PdfWriter.GetInstance(document, stream))
                 {
+                    _borderManager = new ParagraphBorder();
+                    writer.PageEvent = _borderManager;
+                    
                     document.Open();
                     AddDocumentTitle(document, string.Join("/", _baseUrl, "Content/Images/logo_small.png"));
                     AddDefinitions(document, reservation.Contact);
@@ -48,7 +52,7 @@ namespace Gite.Model.Services.Contract
             }
         }
 
-        private static void AddDefinitions(Document document, Contact contact)
+        private void AddDefinitions(Document document, Contact contact)
         {
             var title = new Paragraph
             {
@@ -69,8 +73,12 @@ namespace Gite.Model.Services.Contract
             phrase.Add(new Phrase(string.Format("N° de téléphone : {0} ; ci-après désigné le locataire\r\n", contact.Phone)));
             phrase.Add(new Phrase("\r\n"));
 
+            _borderManager.IsBordered = true;
+
             document.Add(title);
             document.Add(phrase);
+
+            _borderManager.IsBordered = false;
         }
 
         private static void AddDesignation(Document document)
@@ -89,7 +97,7 @@ namespace Gite.Model.Services.Contract
             };
             phrase.Add(new Phrase("La location est prévue pour 6 personnes maximum et porte sur un meublé situé: Veyrières 07380 Chirols."));
             phrase.Add(new Phrase("\r\n"));
-            phrase.Add(new Phrase("Description de la location : gîte de 90m² comprenant séjour, coin cuisine et salon, sdb, wc, 3 chambres, 2 terrasses. Equipement complet. Forfait électricité 56kw/semaine, dépassement facturé au tarif EDF en vigueur."));
+            phrase.Add(new Phrase("Description de la location : gîte de 90m² comprenant séjour, coin cuisine et salon, sdb, wc, 3 chambres, 2 terrasses. Equipement complet. Forfait électricité 56kw/semaine, dépassement facturé au tarif EDF en vigueur. Forfait granulés pour le poêle : 4 sacs de 15kg de septembre à avril. Au-delà de ces 4 sacs ou de ces mois, tous sacs supplémentaires sera payant."));
             phrase.Add(new Phrase("Vous trouverez la description complète sur le site.\r\n"));
             phrase.Add(new Phrase("\r\n"));
 
@@ -156,8 +164,8 @@ namespace Gite.Model.Services.Contract
                 Alignment = Element.ALIGN_LEFT,
                 Font = FontFactory.GetFont(FontFactory.HELVETICA, 12)
             };
-            phrase.Add(new Phrase(string.Format("Le montant de la location est de {0} euros avec certaines charges non comprises. Les charges non comprises dans le prix sont : forfait électricité (56kw/semaine), le dépassement sera facturé au tarif EDF en vigueur.\r\n", reservation.FinalPrice.ToString("N"))));
-            phrase.Add(new Phrase("Taxe de séjour applicable au résidents âgés de plus de 13 ans.\r\n"));
+            phrase.Add(new Phrase(string.Format("Le montant de la location est de {0} euros avec certaines charges non comprises. Les charges non comprises dans le prix sont : forfait électricité (56kw/semaine), le dépassement sera facturé au tarif EDF en vigueur.  Les sacs de granulés de bois pour le poêle sont au prix de 4euros le sac de 15kg. \r\n", reservation.FinalPrice.ToString("N"))));
+            phrase.Add(new Phrase("Taxe de séjour applicable aux résidents âgés de plus de 13 ans.\r\n"));
             phrase.Add(new Phrase(string.Format("Un acompte sera versé dès réception du contrat, d'un montant de {0} euros représentant 25% du prix de la location. En cas d'annulation par le locataire, le bailleur pourra demander le paiement de l'intégralité du prix de la location.\r\n", (reservation.FinalPrice * 0.25).ToString("N"))));
             phrase.Add(new Phrase("\r\n"));
 
