@@ -97,9 +97,9 @@ namespace Gite.Model.Services.Contract
                 Alignment = Element.ALIGN_LEFT,
                 Font = FontFactory.GetFont(FontFactory.HELVETICA, 12)
             };
-            phrase.Add(new Phrase("La location est prévue pour 6 personnes maximum et porte sur un meublé situé: Veyrières 07380 Chirols."));
+            phrase.Add(new Phrase("La location est prévue pour 6 personnes maximum et porte sur un meublé mitoyen situé: Veyrières 07380 Chirols."));
             phrase.Add(new Phrase("\r\n"));
-            phrase.Add(new Phrase("Description de la location : gîte de 90m² comprenant séjour, coin cuisine et salon, sdb, wc, 3 chambres, 2 terrasses. Equipement complet. Forfait électricité 56kw/semaine, dépassement facturé au tarif EDF en vigueur. Forfait granulés pour le poêle : 4 sacs de 15kg de septembre à avril. Au-delà de ces 4 sacs ou de ces mois, tous sacs supplémentaires sera payant."));
+            phrase.Add(new Phrase("Description de la location : gîte de 90m² comprenant séjour, coin cuisine et salon, sdb, wc, 3 chambres, 2 terrasses. Équipement complet. Forfait électricité 56kw/semaine, dépassement facturé au tarif EDF en vigueur. Forfait granulés pour le poêle : 4 sacs de 15kg de septembre à avril. Au-delà de ces 4 sacs ou de ces mois, tous sacs supplémentaires sera payant."));
             phrase.Add(new Phrase("Vous trouverez la description complète sur le site.\r\n"));
             phrase.Add(new Phrase("\r\n"));
 
@@ -189,7 +189,7 @@ namespace Gite.Model.Services.Contract
                 Alignment = Element.ALIGN_LEFT,
                 Font = FontFactory.GetFont(FontFactory.HELVETICA, 12)
             };
-            phrase.Add(new Phrase("Un dépôt de garantie sera levé le jour de la prise de la possession des lieux d'un montant de 280 euros (chèque bancaire accepté). Il sera restitué le jour du départ ou au plus tard dans les 10 jours. Le dépôt de garantie ne doit pas être considéré par le locataire comme une participation au paiement du loyer. Il sert en cas de dégradations commises par le locataion. Si le montant des pertes excède le montant de ce dépôt, le locataire s'engage à régler le préjudice après l'inventaire de sortie. Le propriétaire s'engage à justifier du montant nécessaire à la remise en état du logement. En cas de non-règlement amiable, c'est le tribunal d'instance du lieu de situation de la location qui est compétent.\r\n"));
+            phrase.Add(new Phrase("Un dépôt de garantie sera levé le jour de la prise de la possession des lieux d'un montant de 280 euros (chèque bancaire accepté). Il sera restitué le jour du départ ou au plus tard dans les 10 jours. Le dépôt de garantie ne doit pas être considéré par le locataire comme une participation au paiement du loyer. Il sert en cas de dégradations commises par le locataire. Si le montant des pertes excède le montant de ce dépôt, le locataire s'engage à régler le préjudice après l'inventaire de sortie. Le propriétaire s'engage à justifier du montant nécessaire à la remise en état du logement. En cas de non-règlement amiable, c'est le tribunal d'instance du lieu de situation de la location qui est compétent.\r\n"));
             phrase.Add(new Phrase("\r\n"));
 
             document.Add(title);
@@ -224,7 +224,7 @@ namespace Gite.Model.Services.Contract
                 Alignment = Element.ALIGN_LEFT,
                 Font = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 13, Font.UNDERLINE)
             };
-            title.Add("8. Etat des lieux et inventaire:");
+            title.Add("7. Etat des lieux et inventaire:");
 
             var phrase = new Paragraph
             {
