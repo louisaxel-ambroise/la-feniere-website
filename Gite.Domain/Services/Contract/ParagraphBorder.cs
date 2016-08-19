@@ -22,7 +22,7 @@ namespace Gite.Model.Services.Contract
             if (!IsBordered || _currentCount != ParagraphCount) return;
 
             var cb = writer.DirectContentUnder;
-            cb.Rectangle(document.Left-10, paragraphPosition, document.Right - document.Left+10, _startPosition - paragraphPosition + Offset);
+            cb.Rectangle(document.Left-10, paragraphPosition + Offset, document.Right - document.Left+10, _startPosition - paragraphPosition - Offset);
             cb.Stroke();
             _currentCount = 0;
         }
