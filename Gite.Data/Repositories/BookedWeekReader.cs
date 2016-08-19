@@ -25,7 +25,7 @@ namespace Gite.Database.Repositories
 
         public IQueryable<BookedWeek> QueryValids()
         {
-            return Query().Where(x => x.CancellationToken == null && (x.DisablesOn == null || x.DisablesOn > DateTime.Now));
+            return Query().Where(x => x.CancellationToken == null && (x.DisablesOn == null || x.DisablesOn > DateTime.UtcNow));
         }
 
         public IQueryable<BookedWeek> QueryForReservation(Guid reservationId)

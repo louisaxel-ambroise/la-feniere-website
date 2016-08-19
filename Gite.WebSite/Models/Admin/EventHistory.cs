@@ -23,7 +23,7 @@ namespace Gite.WebSite.Models.Admin
         {
             return new EventHistory
             {
-                OccuredOn = @event.OccuredOn,
+                OccuredOn = @event.OccuredOn.AddHours(2),
                 Description = GetDescription(@event.GetType())
             };
         }
@@ -38,8 +38,14 @@ namespace Gite.WebSite.Models.Admin
                     return "acompte déclaré payé";
                 case "AdvancePaymentReceived":
                     return "acompte reçu";
+                case "PaymentDeclared":
+                    return "paiement déclaré payé";
+                case "PaymentReceived":
+                    return "paiement reçu";
                 case "ReservationCancelled":
                     return "réservation annulée";
+                case "AdvancePaymentDelayExtended":
+                    return "délai acompte étendu";
                 default:
                     return type.Name;
             }

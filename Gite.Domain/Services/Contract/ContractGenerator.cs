@@ -277,7 +277,9 @@ namespace Gite.Model.Services.Contract
                 Font = FontFactory.GetFont(FontFactory.HELVETICA, 12)
             };
             phrase.Add(new Phrase("Le locataire s'engage à ne pas amener des personnes supplémentaires sans l'autorisation du propriétaire, à ne pas sous louer le logement, à user paisiblement des lieux, à s'assurer contre les risques locatifs.\r\n"));
-            phrase.Add(new Phrase("Draps non fournis. Solde de la location à payer 10 jours au plus tard avant le début de la locations sous peine d'annulation de la location et l'acompte sera gardé. Paiement sur le compte ....\r\n")); // TODO: mettre compte
+            phrase.Add(new Phrase("Draps non fournis.\r\n"));
+            phrase.Add(new Phrase("Solde de la location à payer 10 jours au plus tard avant le début de la locations sous peine d'annulation de la location et l'acompte sera gardé. Paiement sur le compte:\r\n"));
+            phrase.Add(new Phrase("\r\n       M. BERLEMONT Roland\r\n       IBAN : FR2920041010052418245X02640\r\n       BIC : PSSTFRPPLIL\r\n\r\n"));
             phrase.Add(new Phrase("Ce contrat ne peut pas être rectifié sans mettre le nombre de mot et de ligne rayés et contresigné des deux parties.\r\n"));
             phrase.Add(new Phrase("\r\n"));
 
@@ -317,7 +319,7 @@ namespace Gite.Model.Services.Contract
                 Alignment = Element.ALIGN_LEFT,
                 Font = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 12)
             };
-            phraseB.Add(new Phrase("Signature du locataire:                                              Signature du propriétaire:\r\n"));
+            phraseB.Add(new Phrase("Signature du locataire:                                                     Signature du propriétaire:\r\n"));
             var phrase = new Paragraph
             {
                 Alignment = Element.ALIGN_LEFT,

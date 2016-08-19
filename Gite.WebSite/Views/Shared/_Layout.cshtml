@@ -61,7 +61,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p class="text-center">&copy; @DateTime.Now.Year - Mas des Genettes &bull; <a href="https://www.facebook.com/Au-Mas-des-Genettes-1743735295894205" alt="Facebook" title="Facebook"><i class="fa fa-facebook-square"></i>acebook</a></p>
+            <p class="text-center">&copy; @DateTime.UtcNow.Year - Mas des Genettes &bull; <a href="https://www.facebook.com/Au-Mas-des-Genettes-1743735295894205" alt="Facebook" title="Facebook"><i class="fa fa-facebook-square"></i>acebook</a></p>
         </footer>
     </div>
     @RenderSection("scripts", required: false)

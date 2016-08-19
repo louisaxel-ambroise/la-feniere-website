@@ -28,7 +28,7 @@
         <p><strong>Les paiements se font uniquement par virement bancaire.</strong></p>
     </div>
 </div>
-@if (Model.StartsOn >= DateTime.Now.AddYears(2))
+@if (Model.StartsOn >= DateTime.UtcNow.AddYears(2))
 {
     <div class="alert alert-warning">
         <p>Vous vous apprêtez à réserver pour une date lointaine (plus de 2 ans). Êtes-vous sûr d'avoir choisi la bonne date ?</p>

@@ -9,7 +9,7 @@ namespace Gite.WebSite.Models
             return new ReservationOverview
             {
                 Id = reservation.Id,
-                BookedOn = reservation.BookedOn,
+                BookedOn = reservation.BookedOn.AddHours(2),
                 StartsOn = reservation.FirstWeek,
                 EndsOn = reservation.LastWeek.AddDays(7),
                 LastWeek = reservation.LastWeek,

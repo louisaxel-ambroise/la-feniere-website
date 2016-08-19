@@ -7,7 +7,7 @@
 
 <h2>Details de la réservation</h2>
 
-@if (!Model.Cancelled && DateTime.Now >= Model.EndsOn)
+@if (!Model.Cancelled && DateTime.UtcNow >= Model.EndsOn)
 {
     <p>Votre location est à présent terminée ! Nous espérons que vous avez passé un bon séjour.</p>
 }

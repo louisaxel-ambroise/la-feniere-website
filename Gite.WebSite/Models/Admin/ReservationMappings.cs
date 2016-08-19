@@ -10,7 +10,7 @@ namespace Gite.WebSite.Models.Admin
             return new ReservationModel
             {
                 Id = reservation.Id,
-                BookedOn = reservation.BookedOn,
+                BookedOn = reservation.BookedOn.AddHours(2),
                 FirstWeek = reservation.FirstWeek,
                 LastWeek = reservation.LastWeek,
                 Name = reservation.Name,
@@ -24,7 +24,7 @@ namespace Gite.WebSite.Models.Admin
             return new ReservationModel
             {
                 Id = reservation.Id,
-                BookedOn = reservation.BookedOn,
+                BookedOn = reservation.BookedOn.AddHours(2),
                 FirstWeek = reservation.FirstWeek,
                 LastWeek = reservation.LastWeek,
                 Name = reservation.Contact.Name,

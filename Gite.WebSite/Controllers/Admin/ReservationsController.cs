@@ -28,12 +28,12 @@ namespace Gite.WebSite.Controllers.Admin
 
         public ActionResult Index()
         {
-            var valids = _reservationReader.QueryValids().Where(x => x.FirstWeek > DateTime.Now).ToList();
+            var valids = _reservationReader.QueryValids().Where(x => x.FirstWeek > DateTime.UtcNow).ToList();
 
             var newReservations = valids.Count(x => !x.AdvancePaymentDeclared && !x.AdvancePaymentReceived);
             var pendingAdvance = valids.Count(x => x.AdvancePaymentDeclared && !x.AdvancePaymentReceived);
             var pendingPayment = valids.Count(x => x.PaymentDeclared && !x.PaymentReceived);
-            var incomingReservations = valids.Count(x => x.FirstWeek <= DateTime.Now.AddMonths(2));
+            var incomingReservations = valids.Count(x => x.FirstWeek <= DateTime.UtcNow.AddMonths(2));
 
             var model = new ReservationsOverview
             {
@@ -72,7 +72,7 @@ namespace Gite.WebSite.Controllers.Admin
 
         public ActionResult Incoming()
         {
-            var reservations = _reservationReader.QueryValids().Where(x => x.FirstWeek <= DateTime.Now.AddMonths(2)).OrderBy(x => x.FirstWeek).ToList();
+            var reservations = _reservationReader.QueryValids().Where(x => x.FirstWeek <= DateTime.UtcNow.AddMonths(2)).OrderBy(x => x.FirstWeek).ToList();
             var model = reservations.Select(x => x.MapToReservationModel()).ToArray();
 
             return View("~/Views/Admin/Reservations/Incoming.cshtml", model);
@@ -80,7 +80,7 @@ namespace Gite.WebSite.Controllers.Admin
 
         public ActionResult All()
         {
-            var reservations = _reservationReader.QueryValids().Where(x => x.FirstWeek >= DateTime.Now).OrderBy(x => x.FirstWeek).ToList();
+            var reservations = _reservationReader.QueryValids().Where(x => x.FirstWeek >= DateTime.UtcNow).OrderBy(x => x.FirstWeek).ToList();
             var model = reservations.Select(x => x.MapToReservationModel()).ToArray();
 
             return View("~/Views/Admin/Reservations/All.cshtml", model);
@@ -106,9 +106,10 @@ namespace Gite.WebSite.Controllers.Admin
         [HttpPost]
         public ActionResult AdvanceReceived(Guid id, FormCollection form)
         {
-            _paymentManager.DeclareAdvanceReceived(id, double.Parse(form.Get("acompte")));
+            var value = form.Get("acompte");
+            _paymentManager.DeclareAdvanceReceived(id, double.Parse(value));
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Details", new { Id = id });
         }
 
         [HttpPost]
@@ -116,7 +117,7 @@ namespace Gite.WebSite.Controllers.Admin
         {
             _paymentManager.ExtendExpiration(id, 2);
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Details", new { Id = id });
         }
 
         [HttpPost]
@@ -124,7 +125,7 @@ namespace Gite.WebSite.Controllers.Admin
         {
             _paymentManager.DeclarePaymentReceived(id, double.Parse(form.Get("paiement")));
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Details", new { Id = id });
         }
     }
 }

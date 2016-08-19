@@ -35,7 +35,7 @@ namespace Gite.Model.Services.Calendar
                 result.Add(new Week
                 {
                     Start = start,
-                    IsReserved = start <= DateTime.Now || bookedWeeks.Any(x => x.Week == start),
+                    IsReserved = start <= DateTime.UtcNow || bookedWeeks.Any(x => x.Week == start),
                     Price = price
                 });
 

@@ -7,7 +7,7 @@ namespace Gite.Cqrs.Events
     {
         protected Event()
         {
-            OccuredOn = DateTime.Now;
+            OccuredOn = DateTime.UtcNow;
         }
 
         [JsonIgnore]

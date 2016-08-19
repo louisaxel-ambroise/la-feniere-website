@@ -27,7 +27,7 @@ namespace Gite.Model.Handlers.Commands
         {
             var bookedWeeks = _bookedWeekReader.QueryValids().Any(x => x.Week >= command.FirstWeek && x.Week <= command.LastWeek);
             if (command.AdultsCount + command.ChildrenCount > 6) throw new Exception("Maximum 6 people over 2 years are allowed.");
-            if (command.FirstWeek <= DateTime.Now || bookedWeeks) throw new Exception("Week is past or already booked.");
+            if (command.FirstWeek <= DateTime.UtcNow || bookedWeeks) throw new Exception("Week is past or already booked.");
 
             var price = new Price{ Final = command.FinalPrice, Original = command.OriginalPrice, Reduction = command.Reduction };
             var contact = new Contact { Address = command.Address, Mail = command.Mail, Name = command.Name, Phone = command.Phone };
