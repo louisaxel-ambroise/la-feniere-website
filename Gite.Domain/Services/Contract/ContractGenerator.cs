@@ -40,7 +40,7 @@ namespace Gite.Model.Services.Contract
                     AddCaution(document);
                     AddMenage(document);
                     AddEtatDesLieux(document);
-                    AddTaxeSejour(document);
+                    AddTaxeSejour(document, reservation.People, (reservation.LastWeek.AddDays(7) - reservation.FirstWeek).Days);
                     AddConditionGenerales(document);
                     AddPriseEffets(document, reservation.FinalPrice, reservation.BookedOn, reservation.FirstWeek);
                     AddSignatures(document);
@@ -241,8 +241,11 @@ namespace Gite.Model.Services.Contract
             document.Add(phrase);
         }
 
-        private static void AddTaxeSejour(Document document)
+        private static void AddTaxeSejour(Document document, People people, int nbDays)
         {
+            var nbNights = nbDays - 1;
+            var nbPeople = people.Adults;
+
             var title = new Paragraph
             {
                 Alignment = Element.ALIGN_LEFT,
@@ -256,6 +259,7 @@ namespace Gite.Model.Services.Contract
                 Font = FontFactory.GetFont(FontFactory.HELVETICA, 12)
             };
             phrase.Add(new Phrase("Une taxe de séjour de 0.80 euros par jour par personne de 13 ans et plus est d'application.\r\n"));
+            phrase.Add(new Phrase(string.Format("Dans ce cas: [0.80 x {0} (pers.)] x {1} (nuits) = {2} euros à payer le jour de l'arrivée.\r\n", nbPeople, nbNights, (nbPeople*nbNights*0.80).ToString("N"))));
             phrase.Add(new Phrase("\r\n"));
 
             document.Add(title);
@@ -287,8 +291,11 @@ namespace Gite.Model.Services.Contract
             document.Add(phrase);
         }
 
-        private static void AddPriseEffets(Document document, double price, DateTime bookedOn, DateTime firstWeek)
+        private void AddPriseEffets(Document document, double price, DateTime bookedOn, DateTime firstWeek)
         {
+            _borderManager.IsBordered = true; // Add border...
+            _borderManager.ParagraphCount = 2;// ... to the next 2 paragraphs.
+
             var title = new Paragraph
             {
                 Alignment = Element.ALIGN_LEFT,
@@ -310,6 +317,12 @@ namespace Gite.Model.Services.Contract
 
             document.Add(title);
             document.Add(phrase);
+
+            _borderManager.IsBordered = false;
+
+            var separation = new Paragraph { Alignment = Element.ALIGN_LEFT, Font = FontFactory.GetFont(FontFactory.HELVETICA, 12) };
+            separation.Add(new Phrase("\r\n\r\n"));
+            document.Add(separation);
         }
 
         private static void AddSignatures(Document document)
