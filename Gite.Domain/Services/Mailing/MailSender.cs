@@ -21,13 +21,14 @@ namespace Gite.Model.Services.Mailing
             _password = password;
         }
 
-        public void SendMail(Mail message, string address)
+        public void SendMail(Mail message, string address, string bcc = null)
         {
             var credentials = new NetworkCredential(From, _password);
 
             using (var mailMessage = new MailMessage(From, address) { Subject = message.Subject, Body = message.Content.Content, IsBodyHtml = message.Content.IsHtml })
             using (var smtp = new SmtpClient { Host = "smtp.gmail.com", EnableSsl = true, UseDefaultCredentials = true, Credentials = credentials, Port = 25 })
             {
+                if (!string.IsNullOrEmpty(bcc)) mailMessage.Bcc.Add(new MailAddress(bcc));
                 AddAttachments(mailMessage, message.Content.Attachments.ToArray());
 
                 smtp.Send(mailMessage);

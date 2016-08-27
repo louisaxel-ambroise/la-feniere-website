@@ -7,5 +7,10 @@ namespace Gite.Model.Model
         public string Content { get; set; }
         public bool IsHtml { get; set; }
         public IEnumerable<MailAttachment> Attachments { get; set; }
+
+        public MailContent()
+        {
+            Attachments = new List<MailAttachment>();
+        }
     }
 }

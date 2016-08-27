@@ -26,11 +26,6 @@ namespace Gite.Model.Services.Mailing
                 Subject = "Acompte déclaré payé",
                 Content = new MailContent
                 {
-                    Attachments = new[]{ new MailAttachment
-                    {
-                        Data = _contractGenerator.GenerateForReservation(reservation),
-                        Name = "contrat.pdf"
-                    }},
                     IsHtml = true,
                     Content = string.Format(@"<p>L'acompte de la réservation du {0} au {1} a été déclaré payé</p>
 <p>Pour valider la réception de l'acompte, suivre le lien: <a href=""{2}"">{2}</a></p>
