@@ -40,7 +40,7 @@ namespace Gite.Model.Services.Contract
                     AddCaution(document);
                     AddMenage(document);
                     AddEtatDesLieux(document);
-                    AddTaxeSejour(document, reservation.People, (reservation.LastWeek.AddDays(7) - reservation.FirstWeek).Days);
+                    AddTaxeSejour(document, reservation.People.Adults, (reservation.LastWeek.AddDays(7) - reservation.FirstWeek).Days);
                     AddConditionGenerales(document);
                     AddPriseEffets(document, reservation.FinalPrice, reservation.BookedOn, reservation.FirstWeek);
                     AddSignatures(document);
@@ -241,11 +241,8 @@ namespace Gite.Model.Services.Contract
             document.Add(phrase);
         }
 
-        private static void AddTaxeSejour(Document document, People people, int nbDays)
+        private static void AddTaxeSejour(Document document, int nbPeople, int nbNights)
         {
-            var nbNights = nbDays - 1;
-            var nbPeople = people.Adults;
-
             var title = new Paragraph
             {
                 Alignment = Element.ALIGN_LEFT,
@@ -312,8 +309,6 @@ namespace Gite.Model.Services.Contract
             phrase.Add(new Phrase(string.Format("  - Le contrat daté et signé ainsi que l'acompte de {0} euros avant le {1}\r\n", (price * 0.25).ToString("N"), bookedOn.AddDays(5).ToString("dd/MM/yyyy"))));
             phrase.Add(new Phrase(string.Format("  - Le solde de {0} euros réglé avant le {1}\r\n", (price * 0.75).ToString("N"), firstWeek.AddDays(-10).ToString("dd/MM/yyyy"))));
             phrase.Add(new Phrase("\r\n"));
-            phrase.Add(new Phrase(string.Format("Fait à Buvrinnes, le {0}\r\n", bookedOn.ToString("dd/MM/yyyy"))));
-            phrase.Add(new Phrase("\r\n"));
 
             document.Add(title);
             document.Add(phrase);
@@ -321,7 +316,8 @@ namespace Gite.Model.Services.Contract
             _borderManager.IsBordered = false;
 
             var separation = new Paragraph { Alignment = Element.ALIGN_LEFT, Font = FontFactory.GetFont(FontFactory.HELVETICA, 12) };
-            separation.Add(new Phrase("\r\n\r\n"));
+            separation.Add(new Phrase("\r\n\r\n")); phrase.Add(new Phrase("\r\n"));
+            separation.Add(new Phrase(string.Format("Fait à Buvrinnes, le {0}\r\n\r\n", bookedOn.ToString("dd/MM/yyyy"))));
             document.Add(separation);
         }
 
