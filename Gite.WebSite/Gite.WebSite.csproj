@@ -217,6 +217,7 @@
     <Compile Include="Controllers\Admin\AccountController.cs" />
     <Compile Include="Controllers\Admin\AuthorizeController.cs" />
     <Compile Include="Controllers\Admin\AdminController.cs" />
+    <Compile Include="Controllers\Admin\CalendarController.cs" />
     <Compile Include="Controllers\Admin\ReservationsController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -256,6 +257,7 @@
     <Content Include="Content\Images\12590_8.jpg" />
     <Content Include="Content\Images\0801.jpg" />
     <Content Include="Content\Images\check.png" />
+    <Content Include="Content\Images\favicon.ico" />
     <Content Include="Content\Images\flags\de.jpg" />
     <Content Include="Content\Images\flags\en.jpg" />
     <Content Include="Content\Images\flags\fr.jpg" />
@@ -330,7 +332,9 @@
     <Content Include="Views\Admin\Reservations\History.cshtml" />
     <Content Include="Views\Admin\Alerts\Expired.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Views\Calendar\" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />

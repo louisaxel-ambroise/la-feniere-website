@@ -27,9 +27,11 @@ namespace Gite.Model.Handlers.Events
         public void Handle(ReservationCreated @event)
         {
             var reservation = _aggregateLoader.Load(@event.AggregateId);
-            var mail = _mailGenerator.GenerateReservationCreated(reservation);
+            var customerMail = _mailGenerator.GenerateReservationCreated(reservation);
+            var adminMail = _mailGenerator.GenerateNewReservationAdmin(reservation);
 
-            _mailSender.SendMail(mail, reservation.Contact.Mail, _mailSender.From);
+            _mailSender.SendMail(customerMail, reservation.Contact.Mail);
+            _mailSender.SendMail(adminMail, _mailSender.From);
         }
 
         public void Handle(AdvancePaymentDeclared @event)

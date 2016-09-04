@@ -102,7 +102,7 @@ namespace Gite.Model.Services.Contract
             };
             phrase.Add(new Phrase("La location est prévue pour 6 personnes maximum et porte sur un meublé mitoyen situé: Veyrières 07380 Chirols."));
             phrase.Add(new Phrase("\r\n"));
-            phrase.Add(new Phrase("Description de la location : gîte de 90m² comprenant séjour, coin cuisine et salon, sdb, wc, 3 chambres, 2 terrasses. Équipement complet. Forfait électricité 56kw/semaine, dépassement facturé au tarif EDF en vigueur. Forfait granulés pour le poêle : 4 sacs de 15kg de septembre à avril. Au-delà de ces 4 sacs ou de ces mois, tous sacs supplémentaires sera payant."));
+            phrase.Add(new Phrase("Description de la location : gîte de 90m² comprenant séjour, coin cuisine et salon, sdb, wc, 3 chambres, 2 terrasses. Équipement complet. Forfait électricité 56kw/semaine, dépassement facturé au tarif EDF en vigueur. Forfait granulés pour le poêle : 4 sacs de 15kg de septembre à avril. Au-delà de ces 4 sacs ou de ces mois, tous sacs supplémentaires seront payants."));
             phrase.Add(new Phrase("Vous trouverez la description complète sur le site.\r\n"));
             phrase.Add(new Phrase("\r\n"));
 
@@ -169,9 +169,9 @@ namespace Gite.Model.Services.Contract
                 Alignment = Element.ALIGN_LEFT,
                 Font = FontFactory.GetFont(FontFactory.HELVETICA, 12)
             };
-            phrase.Add(new Phrase(string.Format("Le montant de la location est de {0} euros avec certaines charges non comprises. Les charges non comprises dans le prix sont : forfait électricité (56kw/semaine), le dépassement sera facturé au tarif EDF en vigueur.  Les sacs de granulés de bois pour le poêle sont au prix de 4euros le sac de 15kg. \r\n", reservation.FinalPrice.ToString("N"))));
+            phrase.Add(new Phrase(string.Format("Le montant de la location est de {0} euros avec certaines charges non comprises. Les charges non comprises dans le prix sont : forfait électricité (56kw/semaine), le dépassement sera facturé au tarif EDF en vigueur.  Les sacs de granulés de bois pour le poêle sont au prix de 5 euros le sac de 15kg. \r\n", reservation.FinalPrice.ToString("N"))));
             phrase.Add(new Phrase("Taxe de séjour applicable aux résidents âgés de plus de 13 ans.\r\n"));
-            phrase.Add(new Phrase(string.Format("Un acompte sera versé dès réception du contrat, d'un montant de {0} euros représentant 25% du prix de la location. En cas d'annulation par le locataire, le bailleur pourra demander le paiement de l'intégralité du prix de la location.\r\n", (reservation.FinalPrice * 0.25).ToString("N"))));
+            phrase.Add(new Phrase(string.Format("Un acompte sera versé par virement bancaire dès réception du contrat, d'un montant de {0} euros représentant 25% du prix de la location. En cas d'annulation par le locataire, le bailleur pourra demander le paiement de l'intégralité du prix de la location.\r\n", (reservation.FinalPrice * 0.25).ToString("N"))));
             phrase.Add(new Phrase("\r\n"));
 
             document.Add(title);
@@ -227,7 +227,7 @@ namespace Gite.Model.Services.Contract
                 Alignment = Element.ALIGN_LEFT,
                 Font = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 13, Font.UNDERLINE)
             };
-            title.Add("7. Etat des lieux et inventaire:");
+            title.Add("7. État des lieux et inventaire:");
 
             var phrase = new Paragraph
             {
@@ -256,7 +256,7 @@ namespace Gite.Model.Services.Contract
                 Font = FontFactory.GetFont(FontFactory.HELVETICA, 12)
             };
             phrase.Add(new Phrase("Une taxe de séjour de 0.80 euros par jour par personne de 13 ans et plus est d'application.\r\n"));
-            phrase.Add(new Phrase(string.Format("Dans ce cas: [0.80 x {0} (pers.)] x {1} (nuits) = {2} euros à payer le jour de l'arrivée.\r\n", nbPeople, nbNights, (nbPeople*nbNights*0.80).ToString("N"))));
+            phrase.Add(new Phrase(string.Format("Dans ce cas: [0.80 x {0} (pers.)] x {1} (nuits) = {2} euros à payer le jour du départ.\r\n", nbPeople, nbNights, (nbPeople*nbNights*0.80).ToString("N"))));
             phrase.Add(new Phrase("\r\n"));
 
             document.Add(title);
@@ -277,9 +277,9 @@ namespace Gite.Model.Services.Contract
                 Alignment = Element.ALIGN_LEFT,
                 Font = FontFactory.GetFont(FontFactory.HELVETICA, 12)
             };
-            phrase.Add(new Phrase("Le locataire s'engage à ne pas amener des personnes supplémentaires sans l'autorisation du propriétaire, à ne pas sous louer le logement, à user paisiblement des lieux, à s'assurer contre les risques locatifs.\r\n"));
+            phrase.Add(new Phrase("Le locataire s'engage à ne pas amener des personnes supplémentaires sans l'autorisation du propriétaire, à ne pas sous-louer le logement, à user paisiblement des lieux, à s'assurer contre les risques locatifs.\r\n"));
             phrase.Add(new Phrase("Draps non fournis.\r\n"));
-            phrase.Add(new Phrase("Solde de la location à payer 10 jours au plus tard avant le début de la locations sous peine d'annulation de la location et l'acompte sera gardé. Paiement sur le compte:\r\n"));
+            phrase.Add(new Phrase("Solde de la location à payer 10 jours au plus tard avant le début de la location sous peine d'annulation de la location et l'acompte sera gardé. Paiement sur le compte:\r\n"));
             phrase.Add(new Phrase("\r\n       M. BERLEMONT Roland\r\n       IBAN : FR2920041010052418245X02640\r\n       BIC : PSSTFRPPLIL\r\n\r\n"));
             phrase.Add(new Phrase("Ce contrat ne peut pas être rectifié sans mettre le nombre de mot et de ligne rayés et contresigné des deux parties.\r\n"));
             phrase.Add(new Phrase("\r\n"));

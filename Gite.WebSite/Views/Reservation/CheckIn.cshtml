@@ -91,22 +91,22 @@
         <p>Une taxe de séjour de 0,80€/personne/jour est d'application pour chaque adulte (plus de 12 ans).</p>
         <div class="col-md-4">
             <label for="adultsNumber">Adultes (plus de 12 ans):</label>
-            @Html.TextBoxFor(x => x.Adults, new { id = "adultsNumber", @class = "form-control", value = 0, @type = "number" })
+            @Html.TextBoxFor(x => x.Adults, new { id = "adultsNumber", @class = "form-control", value = 1, min = 1, @type = "number" })
         </div>
         <div class="col-md-4">
             <label for="childrenNumber">Enfants de 2 à 12 ans:</label>
-            @Html.TextBoxFor(x => x.Children, new { id = "childrenNumber", @class = "form-control", value = 0, @type = "number" })
+            @Html.TextBoxFor(x => x.Children, new { id = "childrenNumber", @class = "form-control", value = 0, min = 0, @type = "number" })
         </div>
         <div class="col-md-4">
             <label for="babiesNumber">Enfants de moins de 2 ans:</label>
-            @Html.TextBoxFor(x => x.Babies, new { id = "babiesNumber", @class = "form-control", value = 0, @type = "number" })
+            @Html.TextBoxFor(x => x.Babies, new { id = "babiesNumber", @class = "form-control", value = 0, min = 0, @type = "number" })
         </div>
     </div>
     <div class="row margin-bottom-10">
         <h4>Détail des animaux:</h4>
         <div class="col-md-4">
             <label for="animalsNumber">Nombre d'animaux:</label>
-            @Html.TextBoxFor(x => x.AnimalsNumber, new { id = "animalsNumber", @class = "form-control", value = 0, @type = "number" })
+            @Html.TextBoxFor(x => x.AnimalsNumber, new { id = "animalsNumber", @class = "form-control", value = 0, min = 0, @type = "number" })
         </div>
         <div class="col-md-4">
             <label for="animalsType">Description des animaux:</label>

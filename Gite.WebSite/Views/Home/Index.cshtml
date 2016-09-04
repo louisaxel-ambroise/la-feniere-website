@@ -3,33 +3,6 @@
     ViewBag.Color = "#b74506";
 }
 
-<script src="https://maps.googleapis.com/maps/api/js?callback=initMap&key=AIzaSyAryigEx00jY2NBuMhWeeuWWh3ORpK1akM" async defer></script>
-<script type="text/javascript">
-    function initMap() {
-        var gitePosition = { lat: 44.690441, lng: 4.281118 };
-        var mapDiv = document.getElementById('map');
-        var map = new google.maps.Map(mapDiv, {
-            scrollwheel: false,
-            center: gitePosition,
-            mapTypeId: google.maps.MapTypeId.HYBRID,
-            zoom: 7
-        });
-
-        var infowindow = new google.maps.InfoWindow({
-            content: "<h4>Mas des Genettes</h4>Hameau de Veyrières<br />07380 Chirols<br />France"
-        });
-
-        var marker = new google.maps.Marker({
-            position: gitePosition,
-            map: map,
-            title: 'Gîte Mas des Genettes'
-        });
-        marker.addListener('click', function () {
-            window.location = "/home/contact#plan";
-        });
-    }
-</script>
-
 <div class="row">
     <div class="text-center">
         <img src="~/Content/Images/0801.jpg" class="img-thumbnail" alt="Chirols">
@@ -38,8 +11,4 @@
 	<p>Nous avons le plaisir de vous accueillir à Veyrières, petit hameau du village de Chirols accroché à la montagne dominant la vallée de la Fontaulière (affluent de l’Ardèche).</p>
 	<p>Ce lieu a gardé le cachet des hameaux d’autrefois, environnement calme et authentique au milieu des châtaigniers. </p>
 	<p>Ce gîte en pierre conçu pour 6 personnes, est aménagé sur 2 niveaux et possède notamment 3 chambres et 2 terrasses.</p>
-</div>
-<div class="row">
-    <h2>Nous trouver</h2>
-    <div id="map" style="width:100%;height:300px;"></div>
 </div>
