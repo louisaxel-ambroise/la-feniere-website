@@ -7,6 +7,7 @@ namespace Gite.Model.Services.Mailing
     {
         Mail GenerateReservationCreated(ReservationAggregate reservation);
         Mail GenerateNewReservationAdmin(ReservationAggregate reservation);
+        Mail GenerateAdvancePaymentDeclared(ReservationAggregate reservation);
 
         Mail GenerateAdvancePaymentReceived(ReservationAggregate reservation);
         Mail GenerateFinalPaymentReceived(ReservationAggregate reservation);

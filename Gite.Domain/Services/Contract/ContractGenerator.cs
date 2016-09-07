@@ -102,7 +102,7 @@ namespace Gite.Model.Services.Contract
             };
             phrase.Add(new Phrase("La location est prévue pour 6 personnes maximum et porte sur un meublé mitoyen situé: Veyrières 07380 Chirols."));
             phrase.Add(new Phrase("\r\n"));
-            phrase.Add(new Phrase("Description de la location : gîte de 90m² comprenant séjour, coin cuisine et salon, sdb, wc, 3 chambres, 2 terrasses. Équipement complet. Forfait électricité 56kw/semaine, dépassement facturé au tarif EDF en vigueur. Forfait granulés pour le poêle : 4 sacs de 15kg de septembre à avril. Au-delà de ces 4 sacs ou de ces mois, tous sacs supplémentaires seront payants."));
+            phrase.Add(new Phrase("Description de la location : gîte de 90m² comprenant séjour, coin cuisine et salon, sdb, wc, 3 chambres, 2 terrasses, buanderie. Équipement complet. Forfait électricité 56kw/semaine, dépassement facturé au tarif EDF en vigueur. Forfait granulés pour le poêle : 4 sacs de 15kg de septembre à avril. Au-delà de ces 4 sacs ou de ces mois, tous sacs supplémentaires seront payants."));
             phrase.Add(new Phrase("Vous trouverez la description complète sur le site.\r\n"));
             phrase.Add(new Phrase("\r\n"));
 
@@ -255,7 +255,7 @@ namespace Gite.Model.Services.Contract
                 Alignment = Element.ALIGN_LEFT,
                 Font = FontFactory.GetFont(FontFactory.HELVETICA, 12)
             };
-            phrase.Add(new Phrase("Une taxe de séjour de 0.80 euros par jour par personne de 13 ans et plus est d'application.\r\n"));
+            phrase.Add(new Phrase("Une taxe de séjour de 0.80 euros par jour par personne de 12 ans et plus est d'application.\r\n"));
             phrase.Add(new Phrase(string.Format("Dans ce cas: [0.80 x {0} (pers.)] x {1} (nuits) = {2} euros à payer le jour du départ.\r\n", nbPeople, nbNights, (nbPeople*nbNights*0.80).ToString("N"))));
             phrase.Add(new Phrase("\r\n"));
 

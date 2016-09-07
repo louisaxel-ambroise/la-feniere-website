@@ -33,9 +33,10 @@ namespace Gite.WebSite.Models
         [Required(AllowEmptyStrings = false, ErrorMessage = "Veuillez renseigner votre pays")]
         public string Country { get; set; }
 
+        [MaxSumNumber(8, "Adults", "Children", "Babies", ErrorMessage = "Le gîte ne peux accueillir plus de 6 personnes")]
         [Range(1, 6, ErrorMessage = "Au moins un adulte doit être présent")]
         public int Adults { get; set; }
-        [MaxSumNumber(6, "Adults", ErrorMessage = "Le gîte ne peux accueillir plus de 6 personnes")]
+        [MaxSumNumber(6, "Adults", "Children", ErrorMessage = "Le gîte ne peux accueillir plus de 6 personnes")]
         [Range(0, int.MaxValue, ErrorMessage = "Ce nombre ne peut être négatif")]
         public int Children { get; set; }
         [Range(0, int.MaxValue, ErrorMessage = "Ce nombre ne peut être négatif")]

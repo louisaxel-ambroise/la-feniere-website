@@ -8,10 +8,12 @@ namespace Gite.WebSite.Models.Admin
         public DateTime BookedOn { get; set; }
         public DateTime FirstWeek { get; set; }
         public DateTime LastWeek { get; set; }
+        public bool LastMinute { get; set; }
 
         public string Name { get; set; }
         public string Address { get; set; }
         public string Mail { get; set; }
+        public string Phone { get; set; }
         public int Adults { get; internal set; }
         public int Children { get; internal set; }
         public int Babies { get; internal set; }

@@ -25,6 +25,10 @@
                 Durée : @((Model.LastWeek.AddDays(7) - Model.FirstWeek).Days/7) semaine(s)<br />
                 Réservé le : @Model.BookedOn.ToString("dd/MM/yyyy HH:mm")
             </p>
+            @if (Model.LastMinute)
+            {
+                <h3>Réservation de dernière minute !</h3>
+            }
             <p style="margin-left:15px">
                 <strong>Prix total : @Model.FinalPrice €</strong><br />
                 @if (Model.Reduction > 0) {
@@ -38,7 +42,8 @@
         <div id="contact" class="ui-body-d ui-content">
             <h3>@Model.Name</h3>
             <p style="margin-left:15px">Adresse : @Model.Address<br />
-            Mail : @Model.Mail</p>
+            Mail : @Model.Mail<br />
+            Tél : @Model.Phone</p>
             <p style="margin-left:15px">@(Model.Adults + @Model.Children + Model.Babies) personne(s), dont @Model.Children enfant(s) de moins de 12 ans et @Model.Babies bébé(s).</p>
             @if (Model.Animals > 0)
             {

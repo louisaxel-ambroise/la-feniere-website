@@ -4,6 +4,8 @@
     ViewBag.Title = "Réserver le gîte";
     ViewBag.Color = "#0391ce";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var isLastMinute = (DateTime.Now.Date - Model.StartsOn.Date).Days <= 7;
 }
 
 <h2>Réserver du @Model.StartsOn.ToString("dd/MM/yyyy") au @Model.EndsOn.ToString("dd/MM/yyyy")</h2>
@@ -21,7 +23,13 @@
             </ul>
         </p>
         }
-        <p>Un acompte de @((Model.FinalPrice * 0.25).ToString("N2")) € sera à payer dans les 5 jours afin de valider la réservation.</p>
+        @if (isLastMinute)
+        {
+            <p>Vous effectuez une réservation de dernière minute. Dans ces circonstances, nous devons recevoir le montant total de la location ainsi que le contrat au plus tard 48h avant votre arrivée</p>
+        }
+        else {
+            <p>Un acompte de @((Model.FinalPrice * 0.25).ToString("N2")) € sera à payer dans les 5 jours afin de valider la réservation.</p>
+        }
     </div>
     <div class="col-md-6">
         <p>Vous serez prévenus par e-mail lorsque votre réservation aura été validée.</p>
@@ -88,7 +96,8 @@
     </div>
     <div class="row">
         <h4>Détail des personnes:</h4>
-        <p>Une taxe de séjour de 0,80€/personne/jour est d'application pour chaque adulte (plus de 12 ans).</p>
+        <p>Une taxe de séjour de 0,80€/personne/jour est d'application pour chaque adulte (plus de 12 ans).<br />
+        Le gîte est prévu pour un nombre maximum de 6 personnes<a href="#babies-details">*</a>.</p>
         <div class="col-md-4">
             <label for="adultsNumber">Adultes (plus de 12 ans):</label>
             @Html.TextBoxFor(x => x.Adults, new { id = "adultsNumber", @class = "form-control", value = 1, min = 1, @type = "number" })
@@ -100,6 +109,7 @@
         <div class="col-md-4">
             <label for="babiesNumber">Enfants de moins de 2 ans:</label>
             @Html.TextBoxFor(x => x.Babies, new { id = "babiesNumber", @class = "form-control", value = 0, min = 0, @type = "number" })
+            <p id="babies-details">* Possibilité d'accueillir 2 enfants de moins de 2 ans supplémentaires (en plus des 6 personnes) : 30 euros de supplément par semaine et par enfant seront alors demandés</p>
         </div>
     </div>
     <div class="row margin-bottom-10">
