@@ -1,0 +1,41 @@
+﻿@model Gite.WebSite.Models.ReservationOverview
+@{
+    ViewBag.Title = "Annuler la réservation";
+    ViewBag.Color = "#0391ce";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Annuler la réservation</h2>
+
+@if (!Model.Cancelled && DateTime.UtcNow >= Model.EndsOn)
+{
+    <p>Votre location est à présent terminée ! Nous espérons que vous avez passé un bon séjour.</p>
+}
+else if (!Model.Cancelled)
+{
+    <p class="well">
+        Vous vous apprêtez à annuler votre réservation du @Model.StartsOn.ToString("dd/MM/yyyy") au @Model.EndsOn.ToString("dd/MM/yyyy").
+        <br />
+        <br />
+        <strong>Veuillez confirmer ou annuler votre action avec les boutons ci-dessous.</strong>
+    </p>
+    <div class="row">
+        <div class="col-md-3">
+        </div>
+        <div class="col-md-3">
+            <form action="/Overview/CancelReservation/@Model.Id" method="post">
+                <input type="submit" class="btn btn-primary" value="Valider l'annulation" />
+            </form>
+        </div>
+        <div class="col-md-3">
+            <form action="/Overview/Details/@Model.Id" method="get">
+                <input type="submit" class="btn btn-primary" value="J'ai changé d'avis !" />
+            </form>
+        </div>
+    </div>
+}
+else {
+    <p>Votre réservation a déjà été annulée.</p>
+    <p>La raison de l'annulation est: @Model.CancelReason</p>
+    <p>Retourner à la @Html.ActionLink("page des réservations", "Index", "Reservation")</p>
+}

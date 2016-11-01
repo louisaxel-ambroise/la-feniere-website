@@ -18,7 +18,10 @@
         {
             <li class="ul-not-bold">
                 <a href="/reservations/details/@reservation.Id.ToString("D")?from=@Request.Path">
-                    <h2>Du @reservation.FirstWeek.ToString("dd/MM/yyyy") au @reservation.LastWeek.AddDays(7).ToString("dd/MM/yyyy")</h2>
+                    <h2>Du @reservation.FirstWeek.ToString("dd/MM/yyyy") au @reservation.LastWeek.AddDays(7).ToString("dd/MM/yyyy")
+                        @if (reservation.AdvancedReceived) { <span class="advance">A</span> }
+                        @if (reservation.PaymentReceived) {<span class="payment">P</span> }
+                    </h2>
                     Réservé le : @reservation.BookedOn.ToString("dd/MM/yyyy HH:mm")<br />
                     @reservation.Name
                 </a>

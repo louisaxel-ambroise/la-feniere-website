@@ -9,6 +9,7 @@ namespace Gite.Model.Aggregates
     {
         public DateTime BookedOn { get; set; }
         public DateTime AdvancePaymentLimit { get; set; }
+        public bool IsLastMinute { get; set; }
         public bool IsCancelled { get; set; }
         public string CancellationReason { get; set; }
         public bool AdvancePaymentDeclared { get; set; }
@@ -27,13 +28,14 @@ namespace Gite.Model.Aggregates
 
         public ReservationAggregate(){ }
 
-        public ReservationAggregate(Guid id, DateTime firstWeek, DateTime lastWeek, Price price, Contact contact, People people)
+        public ReservationAggregate(Guid id, DateTime firstWeek, DateTime lastWeek, bool isLastMinute, Price price, Contact contact, People people)
         {
             Apply(new ReservationCreated
             {
                 AggregateId = id,
                 FirstWeek = firstWeek,
                 LastWeek = lastWeek,
+                IsLastMinute = isLastMinute,
                 FinalPrice = price.Final,
                 OriginalPrice = price.Original,
                 Reduction = price.Reduction,
@@ -119,6 +121,7 @@ namespace Gite.Model.Aggregates
         {
             Id = @event.AggregateId;
             BookedOn = @event.OccuredOn;
+            IsLastMinute = @event.IsLastMinute;
             AdvancePaymentLimit = @event.OccuredOn.AddDays(5);
             FirstWeek = @event.FirstWeek;
             LastWeek = @event.LastWeek;

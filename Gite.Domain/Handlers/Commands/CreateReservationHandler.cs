@@ -33,7 +33,7 @@ namespace Gite.Model.Handlers.Commands
             var contact = new Contact { Address = command.Address, Mail = command.Mail, Name = command.Name, Phone = command.Phone };
             var people = new People{ Adults = command.AdultsCount, Children = command.ChildrenCount, Babies = command.BabiesCount, Animals = command.AnimalsCount, AnimalsDescription = command.AnimalsType };
 
-            var reservation = new ReservationAggregate(command.AggregateId, command.FirstWeek, command.LastWeek, price, contact, people);
+            var reservation = new ReservationAggregate(command.AggregateId, command.FirstWeek, command.LastWeek, command.IsLastMinute, price, contact, people);
 
             _aggregateManager.Save(reservation);
         }

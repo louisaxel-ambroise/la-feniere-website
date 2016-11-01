@@ -29,7 +29,14 @@ namespace Gite.WebSite.Controllers
         {
             var reservation = _aggregateManager.Load(id);
 
-            return View(reservation.MapToOverview());
+            if (reservation.IsLastMinute)
+            {
+                return View("LastMinute", reservation.MapToOverview());
+            }
+            else
+            {
+                return View(reservation.MapToOverview());
+            }
         }
 
         [HttpGet]
@@ -49,6 +56,14 @@ namespace Gite.WebSite.Controllers
         }
 
         [HttpGet]
+        public ActionResult Cancel(Guid id)
+        {
+            var reservation = _aggregateManager.Load(id);
+
+            return View(reservation.MapToOverview());
+        }
+
+        [HttpPost]
         public ActionResult CancelReservation(Guid id)
         {
             _reservationCanceller.CancelReservation(id, "annulé par l'utilisateur");

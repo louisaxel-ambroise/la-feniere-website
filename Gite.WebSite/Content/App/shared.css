@@ -19,7 +19,6 @@ body{
 h2{
     padding-left:35px;
     min-height:30px;
-    /*background:url("/Content/Images/foin.png") center left no-repeat;*/
 }
 
 .logo {
@@ -30,17 +29,18 @@ h2{
     background-position: center center;
     background-repeat: no-repeat;
     height:120px;
+    display:block;
 }
 header p{
-    height:15px;
-    font-size:15px;
-    line-height:15px;
-    text-align:right;
+    display:none;
 }
 @media (min-width: 768px ) {
     header p{
-        margin-top:102px;
+        width:100%;
+        height:10px;
+        text-align:right;
         letter-spacing:1px;
+        display:block;
     }
 }
 

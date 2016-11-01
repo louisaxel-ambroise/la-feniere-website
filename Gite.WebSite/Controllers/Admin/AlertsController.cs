@@ -51,7 +51,7 @@ namespace Gite.WebSite.Controllers.Admin
 
         public ActionResult Expired()
         {
-            var reservations = _reservationReader.Query().Where(x => !x.IsCancelled && ((x.BookedOn.AddDays(5) < DateTime.UtcNow && !x.AdvancePaymentDeclared) || (x.BookedOn.AddDays(9) < DateTime.UtcNow && !x.AdvancePaymentReceived))).ToList();
+            var reservations = _reservationReader.Query().Where(x => !x.IsCancelled && ((x.BookedOn < DateTime.UtcNow.AddDays(-5) && !x.AdvancePaymentDeclared) || (x.BookedOn < DateTime.UtcNow.AddDays(-9) && !x.AdvancePaymentReceived))).ToList();
             var model = reservations.Select(x => x.MapToReservationModel()).ToArray();
 
             return View("~/Views/Admin/Alerts/Expired.cshtml", model);

@@ -25,7 +25,7 @@ namespace Gite.Model.Services.Reservations
         public Guid Book(DateTime firstWeek, DateTime lastWeek, double expectedPrice, Contact contact, People people)
         {
             var price = _priceCalculator.ComputeForInterval(firstWeek, lastWeek);
-            if (Math.Abs(price.Final - expectedPrice) > 0.1)
+            if (Math.Abs(price.Final - expectedPrice) > 0.01)
             {
                 throw new Exception(string.Format("Price has changed. Expected {0} but was {1}", expectedPrice, price.Final));
             }
@@ -33,6 +33,7 @@ namespace Gite.Model.Services.Reservations
             var command = new CreateReservation
             {
                 AggregateId = Guid.NewGuid(),
+                IsLastMinute = (firstWeek.Date - DateTime.Now).Days <= 7,
                 FirstWeek = firstWeek,
                 LastWeek = lastWeek,
                 Address = contact.Address,

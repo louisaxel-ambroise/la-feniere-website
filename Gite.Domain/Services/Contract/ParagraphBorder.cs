@@ -18,7 +18,7 @@ namespace Gite.Model.Services.Contract
         {
             template = writer.DirectContent.CreateTemplate(100, 100);
             template.BoundingBox = new Rectangle(-20, -20, 100, 100);
-            bf = BaseFont.CreateFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
+            bf = BaseFont.CreateFont(BaseFont.TIMES_ROMAN, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
         }
 
         public override void OnParagraph(PdfWriter writer, Document document, float paragraphPosition)

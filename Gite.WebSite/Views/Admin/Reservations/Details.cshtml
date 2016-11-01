@@ -2,11 +2,13 @@
 
 @{
     Layout = "~/Views/Admin/Shared/_Layout.cshtml";
+
+    var previousLink = string.IsNullOrEmpty(ViewBag.Previous) ? "/reservations/all" : ViewBag.Previous;
 }
 
 <div id="detailReservation" data-role="page" data-dom-cache="false">
     <div data-role="header" data-position="fixed">
-        <a href="@ViewBag.Previous" data-role="button" data-mini="true" data-transition="slide" data-direction="reverse">Retour</a>
+        <a href="@previousLink" data-role="button" data-mini="true" data-transition="slide" data-direction="reverse">Retour</a>
         <a onClick="window.location.reload();" id="refresh" class="ui-btn ui-btn-right ui-corner-all ui-icon-refresh ui-btn-icon-notext">MàJ</a>
         <h1>Détails</h1>
     </div>
@@ -51,13 +53,13 @@
             }
         </div>
         <div id="actions" class="ui-body-d ui-content">
-            @if (!Model.AdvancedReceived)
+            @if (!Model.AdvancedReceived && !Model.LastMinute)
             {
                 <h3>Réception de l'acompte</h3>
                 <form id="receiveAdvancePayment" action="/reservations/advancereceived/@Model.Id" method="post">
                     <div data-role="fieldcontain">
                         <label for="name">Montant:</label>
-                        <input type="number" step="0.01" min="0" name="acompte" id="acompte" value="@((Model.FinalPrice*0.25).ToString("0.##"))" />
+                        <input type="text" name="acompte" id="acompte" value="@((Model.FinalPrice*0.25).ToString("N"))" />
                     </div>	
                     <a href="#confirmAdvancePayment" role="button" class="ui-shadow ui-btn ui-corner-all" data-transition="flip">Déclarer l'acompte reçu</a>
                 </form>
@@ -72,7 +74,7 @@
                 <form id="receivePayment" action="/reservations/paymentreceived/@Model.Id" method="post">
                     <div data-role="fieldcontain">
                         <label for="name">Montant:</label>
-                        <input type="number" name="paiement" id="paiement" value="@((Model.FinalPrice - Model.AdvancedValue.Value).ToString("0.##"))" />
+                        <input type="text" name="paiement" id="paiement" value="@((Model.FinalPrice - Model.AdvancedValue.Value).ToString("N"))" />
                     </div>
                     <a href="#confirmPayment" role="button" class="ui-shadow ui-btn ui-corner-all" data-transition="flip">Déclarer le paiement reçu</a>
                 </form>
@@ -85,7 +87,6 @@
     </div>
 </div>
 <div id="confirmPayment" data-role="page" data-dialog="true">
-
     <div data-role="header" data-theme="b">
         <h1>Confirmer la réception du paiement</h1>
     </div>

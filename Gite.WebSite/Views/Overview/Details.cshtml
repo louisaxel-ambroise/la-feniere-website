@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Details de la réservation</h2>
+<h2>Détails de la réservation</h2>
 
 @if (!Model.Cancelled && DateTime.UtcNow >= Model.EndsOn)
 {
@@ -15,42 +15,44 @@ else if(!Model.Cancelled) {
     <p class="well">
         Nous vous remercions pour votre réservation. Un e-mail de confirmation a été envoyé à votre adresse mail.<br />
         Réservation du @Model.StartsOn.ToString("dd/MM/yyyy") au @Model.EndsOn.ToString("dd/MM/yyyy").
+        <br />
+        <br />
+        <strong>Communication des virements bancaire: "@Model.StartsOn.ToString("dd/MM/yyyy") - @Model.EndsOn.ToString("dd/MM/yyyy")".</strong>
     </p>
     <div class="row">
         @if (Model.AdvancePaymentReceived)
         {
             <ul class="list-group col-md-4">
                 <li class="list-group-item active">Votre acompte a bien été reçu:</li>
-                <li class="list-group-item"><strong>Payé: @Model.AdvanceValue€</strong></li>
+                <li class="list-group-item"><strong>Payé: @Model.AdvanceValue.ToString("N")€</strong></li>
             </ul>
         }
         else
         {
             <ul class="list-group col-md-4">
                 <li class="list-group-item active">Acompte à payer avant le @Model.BookedOn.AddDays(5).ToString("dd/MM/yyyy"):</li>
-                <li class="list-group-item"><strong>Montant minimum: @Model.AdvanceValue€</strong></li>
+                <li class="list-group-item"><strong>Montant minimum: @Model.AdvanceValue.ToString("N")€</strong></li>
             </ul>
         }
         @if (Model.PaymentReceived)
         {
             <ul class="list-group col-md-4">
                 <li class="list-group-item active">Votre paiement a bien été reçu:</li>
-                <li class="list-group-item"><strong>Montant reçu: @(Model.FinalPrice - Model.AdvanceValue)€</strong></li>
+                <li class="list-group-item"><strong>Montant reçu: @(Model.FinalPrice - Model.AdvanceValue).ToString("N")€</strong></li>
             </ul>
         }
         else
         {
             <ul class="list-group col-md-4">
-                <li class="list-group-item active">Paiement a effectuer avant le @Model.StartsOn.AddDays(-10).ToString("dd/MM/yyyy"):</li>
-                <li class="list-group-item"><strong>Montant total: @(Model.FinalPrice - Model.AdvanceValue)€</strong></li>
-                <li class="list-group-item">Détails: @Model.FinalPrice€ (prix total) - @Model.AdvanceValue€ (acompte)</li>
+                <li class="list-group-item active">Paiement à effectuer avant le @Model.StartsOn.AddDays(-10).ToString("dd/MM/yyyy"):</li>
+                <li class="list-group-item"><strong>Montant total: @((Model.FinalPrice - Model.AdvanceValue).ToString("N"))€</strong></li>
+                <li class="list-group-item">Détails: @Model.FinalPrice.ToString("N")€ (prix total) - @Model.AdvanceValue.ToString("N")€ (acompte)</li>
             </ul>
         }
         <ul class="list-group col-md-4">
             <li class="list-group-item active">Coordonnées bancaires:</li>
-            <li class="list-group-item">N&deg; de compte: xxxxx-xxx-xxxx-xxxxx</li>
-            <li class="list-group-item">BIC: xxxxxxx</li>
-            <li class="list-group-item">IBAN: xxxx-xxxxxxx-xxx</li>
+            <li class="list-group-item">IBAN: <strong>FR2920041010052418245X02640</strong></li>
+            <li class="list-group-item">BIC: <strong>PSSTFRPPLIL</strong></li>
         </ul>
     </div>
     <div class="row">
@@ -69,7 +71,7 @@ else if(!Model.Cancelled) {
                 }
                 else
                 {
-                    @Html.ActionLink("Déclarer l'acompte payé", "AdvanceDeclared", "overview", new { id = Model.Id }, new { @class = "btn btn-primary" });
+                    @Html.ActionLink("Déclarer l'acompte payé", "AdvanceDeclared", "overview", new { id = Model.Id }, new { @class = "btn btn-primary" })
                 }
             </div>
         </div>
@@ -92,19 +94,18 @@ else if(!Model.Cancelled) {
                 }
                 else
                 {
-                    @Html.ActionLink("Déclarer la location payée", "PaymentDeclared", "overview", new { id = Model.Id }, new { @class = "btn btn-primary" });
+                    @Html.ActionLink("Déclarer la location payée", "PaymentDeclared", "overview", new { id = Model.Id }, new { @class = "btn btn-primary" })
                 }
             </div>
         </div>
         <div class="col-md-4">
             <div class="pull-right">
-                @Html.ActionLink("Annuler ma réservation", "CancelReservation", "overview", new { id = Model.Id }, new { @class = "btn btn-danger" });
+                @Html.ActionLink("Annuler ma réservation", "Cancel", "overview", new { id = Model.Id }, new { @class = "btn btn-danger" })
             </div>
         </div>
     </div>
 }
 else{
     <p>Votre réservation a été annulée...</p>
-    <p>La raison de l'annulation est: @Model.CancelReason</p>
     <p>Retourner à la @Html.ActionLink("page des réservations", "Index", "Reservation")</p>
 }

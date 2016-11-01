@@ -1,0 +1,15 @@
+﻿@model Gite.WebSite.Models.Admin.AccountancyOverview
+
+@{
+    Layout = "~/Views/Admin/Shared/_Layout.cshtml";
+}
+
+<div id="accountancy" data-role="page" data-dom-cache="false">
+    <div data-role="header" data-position="fixed">
+        <a href="/admin" data-role="button" data-mini="true" data-transition="slide" data-direction="reverse">Retour</a>
+        <a onClick="window.location.reload();" id="refresh" class="ui-btn ui-btn-right ui-corner-all ui-icon-refresh ui-btn-icon-notext">MàJ</a>
+        <h1>Calendrier</h1>
+    </div>
+    <ul data-role="listview" data-inset="true">
+    </ul>
+</div>

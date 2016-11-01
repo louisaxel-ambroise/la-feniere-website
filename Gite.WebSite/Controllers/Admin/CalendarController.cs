@@ -6,7 +6,7 @@ namespace Gite.WebSite.Controllers.Admin
     {
         public ActionResult Index()
         {
-            return View();
+            return View("~/Views/Admin/Calendar/Index.cshtml");
         }
     }
 }

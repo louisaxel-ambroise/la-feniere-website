@@ -19,5 +19,6 @@ namespace Gite.Messaging.Events
         public int BabiesCount { get; set; }
         public int AnimalsCount { get; set; }
         public string AnimalsType { get; set; }
+        public bool IsLastMinute { get; set; }
     }
 }

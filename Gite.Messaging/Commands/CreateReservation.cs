@@ -1,5 +1,4 @@
 ﻿using System;
-using Gite.Cqrs;
 using Gite.Cqrs.Commands;
 
 namespace Gite.Messaging.Commands
@@ -8,6 +7,7 @@ namespace Gite.Messaging.Commands
     {
         public DateTime FirstWeek { get; set; }
         public DateTime LastWeek { get; set; }
+        public bool IsLastMinute { get; set; }
         public double FinalPrice { get; set; }
         public double OriginalPrice { get; set; }
         public int Reduction{ get; set; }

@@ -9,10 +9,11 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Gite.Model</RootNamespace>
     <AssemblyName>Gite.Model</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -67,7 +68,9 @@
     <Compile Include="Model\Week.cs" />
     <Compile Include="Readers\IBookedWeekReader.cs" />
     <Compile Include="Services\Contract\ContractGenerator.cs" />
+    <Compile Include="Services\Contract\FicheDescriptiveGenerator.cs" />
     <Compile Include="Services\Contract\IContractGenerator.cs" />
+    <Compile Include="Services\Contract\IFicheDescriptiveGenerator.cs" />
     <Compile Include="Services\Contract\ParagraphBorder.cs" />
     <Compile Include="Services\Mailing\MailSender.cs" />
     <Compile Include="Services\Pricing\IPriceCalculator.cs" />

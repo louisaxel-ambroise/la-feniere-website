@@ -8,7 +8,8 @@ using Gite.Model.Services.Mailing;
 namespace Gite.Model.Handlers.Events
 {
     public class MailSenderHandler : IEventHandler<ReservationCreated>, IEventHandler<AdvancePaymentDeclared>, 
-        IEventHandler<AdvancePaymentReceived>, IEventHandler<PaymentReceived>
+        IEventHandler<AdvancePaymentReceived>, IEventHandler<PaymentReceived>, IEventHandler<PaymentDeclared>,
+        IEventHandler<ReservationCancelled>
     {
         private readonly IAggregateManager<ReservationAggregate> _aggregateLoader;
         private readonly IMailGenerator _mailGenerator;
@@ -23,6 +24,14 @@ namespace Gite.Model.Handlers.Events
             _aggregateLoader = aggregateLoader;
             _mailGenerator = mailGenerator;
             _mailSender = mailSender;
+        }
+
+        public void Handle(ReservationCancelled @event)
+        {
+            var reservation = _aggregateLoader.Load(@event.AggregateId);
+            var customerMail = _mailGenerator.GenerateReservationCancelled(reservation);
+
+            _mailSender.SendMail(customerMail, reservation.Contact.Mail, _mailSender.From);
         }
 
         public void Handle(AdvancePaymentReceived @event)
@@ -55,6 +64,14 @@ namespace Gite.Model.Handlers.Events
         {
             var reservation = _aggregateLoader.Load(@event.AggregateId);
             var mail = _mailGenerator.GenerateAdvancePaymentDeclared(reservation);
+
+            _mailSender.SendMail(mail, _mailSender.From);
+        }
+
+        public void Handle(PaymentDeclared @event)
+        {
+            var reservation = _aggregateLoader.Load(@event.AggregateId);
+            var mail = _mailGenerator.GeneratePaymentDeclared(reservation);
 
             _mailSender.SendMail(mail, _mailSender.From);
         }

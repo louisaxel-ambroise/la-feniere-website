@@ -17,7 +17,9 @@ namespace Gite.WebSite.Models.Admin
                 Mail = reservation.Mail,
                 Phone = reservation.Phone,
                 FinalPrice = reservation.FinalPrice,
-                LastMinute = (reservation.BookedOn.Date - reservation.FirstWeek).Days <= 7
+                LastMinute = (reservation.FirstWeek - reservation.BookedOn.Date).Days <= 7,
+                PaymentReceived = reservation.PaymentReceived,
+                AdvancedReceived = reservation.AdvancePaymentReceived
             };
         }
 
@@ -29,7 +31,7 @@ namespace Gite.WebSite.Models.Admin
                 BookedOn = reservation.BookedOn.AddHours(2),
                 FirstWeek = reservation.FirstWeek,
                 LastWeek = reservation.LastWeek,
-                LastMinute = (reservation.BookedOn.Date - reservation.FirstWeek).Days <= 7,
+                LastMinute = (reservation.FirstWeek - reservation.BookedOn.Date).Days <= 7,
 
                 Name = reservation.Contact.Name,
                 Address = reservation.Contact.Address,

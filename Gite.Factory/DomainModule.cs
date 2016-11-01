@@ -24,6 +24,7 @@ namespace Gite.Factory
         {
             Bind<IWeekCalendar>().To<WeekCalendar>();
             Bind<IContractGenerator>().To<ContractGenerator>().WithConstructorArgument("baseUrl", _baseUrl);
+            Bind<IFicheDescriptiveGenerator>().To<FicheDescriptiveGenerator>().WithConstructorArgument("baseUrl", _baseUrl);
             Bind<IMailGenerator>().To<MailGenerator>().WithConstructorArgument("baseUrl", _baseUrl);
             Bind<IMailSender>().To<MailSender>().WithConstructorArgument("from", _from).WithConstructorArgument("password", _password);
             Bind<IPriceCalculator>().To<PriceCalculator>();
