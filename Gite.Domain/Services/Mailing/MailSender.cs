@@ -26,7 +26,7 @@ namespace Gite.Model.Services.Mailing
             var credentials = new NetworkCredential(From, _password);
 
             using (var mailMessage = new MailMessage(From, address) { Subject = message.Subject, Body = message.Content.Content, IsBodyHtml = message.Content.IsHtml })
-            using (var smtp = new SmtpClient { Host = "smtp.gmail.com", EnableSsl = true, UseDefaultCredentials = true, Credentials = credentials, Port = 25 })
+            using (var smtp = new SmtpClient { Host = "smtp.gmail.com", DeliveryMethod = SmtpDeliveryMethod.Network, EnableSsl = true, UseDefaultCredentials = true, Credentials = credentials, Port = 587 })
             {
                 if (!string.IsNullOrEmpty(bcc)) mailMessage.Bcc.Add(new MailAddress(bcc));
                 AddAttachments(mailMessage, message.Content.Attachments.ToArray());

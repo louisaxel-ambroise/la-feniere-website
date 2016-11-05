@@ -73,23 +73,28 @@
 				        return false;
 				    });
 				}
+
+				function showImage(element) {
+				    alert(element);
+				}
 				
 				// Affiche l'élément suivant
 				
 				function nextElt(options)
 				{
+				    var that = this;
 					$(obj).find("li.active").fadeOut(options.animationSpeed);
 					
 					if(!$(obj).find("li.active").is(":last-child"))
 					{
-						$(obj).find("li.active").next().addClass("active").prev().removeClass("active");
-						$(obj).find("li.active").fadeIn(options.animationSpeed);
+					    $(obj).find("li.active").next().addClass("active").prev().removeClass("active").unbind("click");
+					    $(obj).find("li.active").click(showImage.bind(that)).fadeIn(options.animationSpeed);
 						
 					}
 					else
 					{
-						$(obj).find("li:first-child").addClass("active").fadeIn(options.animationSpeed);
-						$(obj).find("li:last-child").removeClass("active");
+					    $(obj).find("li:first-child").addClass("active").fadeIn(options.animationSpeed).click(showImage.bind(that));
+						$(obj).find("li:last-child").removeClass("active").unbind("click");
 					}
 				}
 				

@@ -291,8 +291,13 @@
     <Content Include="Content\Images\gite\7.JPG" />
     <Content Include="Content\Images\gite\8.JPG" />
     <Content Include="Content\Images\gite\9.JPG" />
+    <Content Include="Content\Images\lightgallery\loading.gif" />
+    <Content Include="Content\Images\lightgallery\video-play.png" />
+    <Content Include="Content\Images\lightgallery\vimeo-play.png" />
+    <Content Include="Content\Images\lightgallery\youtube-play.png" />
     <Content Include="Content\Images\logo.png" />
     <Content Include="Content\Images\logo_small.png" />
+    <Content Include="Content\lightgallery.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -320,6 +325,7 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\lightgallery.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />

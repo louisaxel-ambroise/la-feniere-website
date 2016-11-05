@@ -9,7 +9,8 @@ namespace Gite.WebSite
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                         "~/Scripts/jquery-{version}.js",
-                        "~/Scripts/jquery.diaporama.js"));
+                        "~/Scripts/jquery.diaporama.js",
+                        "~/Scripts/lightgallery.min.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*"));
@@ -27,6 +28,7 @@ namespace Gite.WebSite
                       "~/Content/bootstrap.css",
                       "~/Content/App/bootstrap.ext.css",
                       "~/Content/site.css",
+                      "~/Content/lightgallery.min.css",
                       "~/Content/font-awesome.css"));
 
             bundles.Add(new StyleBundle("~/Content/laFeniere").Include(
