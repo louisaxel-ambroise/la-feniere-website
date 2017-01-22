@@ -5,5 +5,6 @@ namespace Gite.Model.Readers
     public interface IBookedWeekRepository
     {
         void Add(BookedWeek week);
+        void Delete(BookedWeek week);
     }
 }

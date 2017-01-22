@@ -71,7 +71,7 @@ else if(!Model.Cancelled) {
                 }
                 else
                 {
-                    @Html.ActionLink("Déclarer l'acompte payé", "AdvanceDeclared", "overview", new { id = Model.Id }, new { @class = "btn btn-primary" })
+                    @Html.ActionLink("Déclarer l'acompte payé", "AdvanceDeclared", "Reservation", new { id = Model.Id }, new { @class = "btn btn-primary" })
                 }
             </div>
         </div>
@@ -94,13 +94,13 @@ else if(!Model.Cancelled) {
                 }
                 else
                 {
-                    @Html.ActionLink("Déclarer la location payée", "PaymentDeclared", "overview", new { id = Model.Id }, new { @class = "btn btn-primary" })
+                    @Html.ActionLink("Déclarer la location payée", "PaymentDeclared", "Reservation", new { id = Model.Id }, new { @class = "btn btn-primary" })
                 }
             </div>
         </div>
         <div class="col-md-4">
             <div class="pull-right">
-                @Html.ActionLink("Annuler ma réservation", "Cancel", "overview", new { id = Model.Id }, new { @class = "btn btn-danger" })
+                @Html.ActionLink("Annuler ma réservation", "Cancel", "Reservation", new { id = Model.Id }, new { @class = "btn btn-danger" })
             </div>
         </div>
     </div>

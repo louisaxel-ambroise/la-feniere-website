@@ -6,6 +6,8 @@ using Gite.Model.Services.Calendar;
 using Gite.Model.Services.Pricing;
 using Gite.Model.Services.Reservations;
 using Gite.WebSite.Models;
+using Gite.Cqrs.Aggregates;
+using Gite.Model.Aggregates;
 
 namespace Gite.WebSite.Controllers
 {
@@ -14,16 +16,25 @@ namespace Gite.WebSite.Controllers
         private readonly IBooker _reservationBooker;
         private readonly IWeekCalendar _weekCalendar;
         private readonly IPriceCalculator _priceCalculator;
+        private readonly IAggregateManager<ReservationAggregate> _aggregateManager;
+        private readonly IReservationCanceller _reservationCanceller;
+        private readonly IPaymentManager _paymentManager;
 
-        public ReservationController(IWeekCalendar weekCalendar, IPriceCalculator priceCalculator, IBooker reservationBooker)
+        public ReservationController(IWeekCalendar weekCalendar, IPriceCalculator priceCalculator, IBooker reservationBooker, IAggregateManager<ReservationAggregate> aggregateManager, IReservationCanceller reservationCanceller, IPaymentManager paymentManager)
         {
             if (weekCalendar == null) throw new ArgumentNullException("weekCalendar");
             if (priceCalculator == null) throw new ArgumentNullException("priceCalculator");
             if (reservationBooker == null) throw new ArgumentNullException("reservationBooker");
+            if (aggregateManager == null) throw new ArgumentNullException("aggregateManager");
+            if (reservationCanceller == null) throw new ArgumentNullException("reservationCanceller");
+            if (paymentManager == null) throw new ArgumentNullException("paymentManager");
 
             _weekCalendar = weekCalendar;
             _priceCalculator = priceCalculator;
             _reservationBooker = reservationBooker;
+            _aggregateManager = aggregateManager;
+            _reservationCanceller = reservationCanceller;
+            _paymentManager = paymentManager;
         }
 
         public ActionResult Index()
@@ -65,10 +76,7 @@ namespace Gite.WebSite.Controllers
         {
             EnsureDatesAreSaturday(model.StartsOn, model.LastWeek);
 
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
+            if (!ModelState.IsValid) return View(model);
 
             var contact = new Contact
             {
@@ -88,7 +96,54 @@ namespace Gite.WebSite.Controllers
 
             var reservationId = _reservationBooker.Book(model.StartsOn, model.LastWeek, model.FinalPrice, contact, people);
            
-            return RedirectToAction("Details", "Overview", new { id = reservationId });
+            return RedirectToAction("Details", new { id = reservationId });
+        }
+
+        [HttpGet]
+        public ActionResult Details(Guid id)
+        {
+            var reservation = _aggregateManager.Load(id);
+
+            if (reservation.IsLastMinute)
+            {
+                return View("LastMinute", reservation.MapToOverview());
+            }
+            else
+            {
+                return View(reservation.MapToOverview());
+            }
+        }
+
+        [HttpGet]
+        public ActionResult AdvanceDeclared(Guid id)
+        {
+            _paymentManager.DeclareAdvancePaymentDone(id);
+
+            return RedirectToAction("Details", new { id });
+        }
+
+        [HttpGet]
+        public ActionResult PaymentDeclared(Guid id)
+        {
+            _paymentManager.DeclarePaymentDone(id);
+
+            return RedirectToAction("Details", new { id });
+        }
+
+        [HttpGet]
+        public ActionResult Cancel(Guid id)
+        {
+            var reservation = _aggregateManager.Load(id);
+
+            return View(reservation.MapToOverview());
+        }
+
+        [HttpPost]
+        public ActionResult CancelReservation(Guid id)
+        {
+            _reservationCanceller.CancelReservation(id, "annulé par l'utilisateur");
+
+            return RedirectToAction("Details", new { id });
         }
 
         private static void EnsureDatesAreSaturday(params DateTime[] dates)

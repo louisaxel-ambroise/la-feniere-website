@@ -26,6 +26,16 @@ namespace Gite.Model.Handlers.Events
             _mailSender = mailSender;
         }
 
+        public void Handle(ReservationCreated @event)
+        {
+            var reservation = _aggregateLoader.Load(@event.AggregateId);
+            var customerMail = _mailGenerator.GenerateReservationCreated(reservation);
+            var adminMail = _mailGenerator.GenerateNewReservationAdmin(reservation);
+
+            _mailSender.SendMail(customerMail, reservation.Contact.Mail);
+            _mailSender.SendMail(adminMail, _mailSender.From);
+        }
+
         public void Handle(ReservationCancelled @event)
         {
             var reservation = _aggregateLoader.Load(@event.AggregateId);
@@ -48,16 +58,6 @@ namespace Gite.Model.Handlers.Events
             var customerMail = _mailGenerator.GenerateFinalPaymentReceived(reservation);
 
             _mailSender.SendMail(customerMail, reservation.Contact.Mail);
-        }
-
-        public void Handle(ReservationCreated @event)
-        {
-            var reservation = _aggregateLoader.Load(@event.AggregateId);
-            var customerMail = _mailGenerator.GenerateReservationCreated(reservation);
-            var adminMail = _mailGenerator.GenerateNewReservationAdmin(reservation);
-
-            _mailSender.SendMail(customerMail, reservation.Contact.Mail);
-            _mailSender.SendMail(adminMail, _mailSender.From);
         }
 
         public void Handle(AdvancePaymentDeclared @event)

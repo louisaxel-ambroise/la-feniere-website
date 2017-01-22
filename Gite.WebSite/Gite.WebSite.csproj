@@ -222,7 +222,6 @@
     <Compile Include="Controllers\Admin\ReservationsController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\OverviewController.cs" />
     <Compile Include="Controllers\ReservationController.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Global.asax.cs">
@@ -350,7 +349,6 @@
     <Content Include="Views\Reservation\Index.cshtml" />
     <Content Include="Views\Reservation\CheckIn.cshtml" />
     <Content Include="Views\Reservation\ListWeekForMonth.cshtml" />
-    <Content Include="Views\Overview\Details.cshtml" />
     <Content Include="Views\Admin\Home\Index.cshtml" />
     <Content Include="Views\Admin\Shared\_Layout.cshtml" />
     <Content Include="Views\Admin\Accountancy\Index.cshtml" />
@@ -367,9 +365,10 @@
     <Content Include="Views\Admin\Reservations\PendingPayment.cshtml" />
     <Content Include="Views\Admin\Reservations\History.cshtml" />
     <Content Include="Views\Admin\Alerts\Expired.cshtml" />
-    <Content Include="Views\Overview\LastMinute.cshtml" />
-    <Content Include="Views\Overview\Cancel.cshtml" />
     <Content Include="Views\Admin\Calendar\Index.cshtml" />
+    <Content Include="Views\Reservation\Cancel.cshtml" />
+    <Content Include="Views\Reservation\Details.cshtml" />
+    <Content Include="Views\Reservation\LastMinute.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

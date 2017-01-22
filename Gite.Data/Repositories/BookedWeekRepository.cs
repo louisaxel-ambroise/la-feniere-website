@@ -20,5 +20,10 @@ namespace Gite.Database.Repositories
         {
             _session.Save(week);
         }
+
+        public void Delete(BookedWeek week)
+        {
+            _session.Delete(week);
+        }
     }
 }

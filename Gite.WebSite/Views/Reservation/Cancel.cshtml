@@ -23,12 +23,12 @@ else if (!Model.Cancelled)
         <div class="col-md-3">
         </div>
         <div class="col-md-3">
-            <form action="/Overview/CancelReservation/@Model.Id" method="post">
+            <form action="/Reservation/CancelReservation/@Model.Id" method="post">
                 <input type="submit" class="btn btn-primary" value="Valider l'annulation" />
             </form>
         </div>
         <div class="col-md-3">
-            <form action="/Overview/Details/@Model.Id" method="get">
+            <form action="/Reservation/Details/@Model.Id" method="get">
                 <input type="submit" class="btn btn-primary" value="J'ai changé d'avis !" />
             </form>
         </div>
