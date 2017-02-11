@@ -1,17 +1,16 @@
-﻿using Gite.Model.Aggregates;
-using Gite.Model.Model;
+﻿using Gite.Domain.Model;
 
-namespace Gite.Model.Services.Mailing
+namespace Gite.Domain.Services.Mailing
 {
     public interface IMailGenerator
     {
-        Mail GenerateReservationCreated(ReservationAggregate reservation);
-        Mail GenerateNewReservationAdmin(ReservationAggregate reservation);
-        Mail GenerateAdvancePaymentDeclared(ReservationAggregate reservation);
-        Mail GeneratePaymentDeclared(ReservationAggregate reservation);
-        Mail GenerateReservationCancelled(ReservationAggregate reservation);
+        Mail GenerateReservationCreated(Reservation reservation);
+        Mail GenerateNewReservationAdmin(Reservation reservation);
+        Mail GenerateAdvancePaymentDeclared(Reservation reservation);
+        Mail GeneratePaymentDeclared(Reservation reservation);
+        Mail GenerateReservationCancelled(Reservation reservation);
 
-        Mail GenerateAdvancePaymentReceived(ReservationAggregate reservation);
-        Mail GenerateFinalPaymentReceived(ReservationAggregate reservation);
+        Mail GenerateAdvancePaymentReceived(Reservation reservation);
+        Mail GenerateFinalPaymentReceived(Reservation reservation);
     }
 }

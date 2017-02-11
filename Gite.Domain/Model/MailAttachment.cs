@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace Gite.Model.Model
+namespace Gite.Domain.Model
 {
     public class MailAttachment
     {

@@ -1,9 +1,8 @@
 ﻿using System;
-using Gite.Model.Aggregates;
-using Gite.Model.Model;
-using Gite.Model.Services.Contract;
+using Gite.Domain.Model;
+using Gite.Domain.Services.Contract;
 
-namespace Gite.Model.Services.Mailing
+namespace Gite.Domain.Services.Mailing
 {
     public class MailGenerator : IMailGenerator
     {
@@ -22,7 +21,7 @@ namespace Gite.Model.Services.Mailing
             _baseUrl = baseUrl;
         }
 
-        public Mail GenerateReservationCreated(ReservationAggregate reservation)
+        public Mail GenerateReservationCreated(Reservation reservation)
         {
             var content = "<p>Madame, Monsieur,</p><p>Nous vous remercions pour l'intérêt que vous portez à notre gîte. Ci-joint le contrat de location pré-rempli avec les informations que vous nous avez transmises.</p>";
 
@@ -31,7 +30,7 @@ namespace Gite.Model.Services.Mailing
             else
                 content += string.Format(@"<p>Si vous confirmez votre réservation de dernière minute, veuillez nous faire parvenir au plus tard deux jours avant votre arrivée la totalité de la somme ({0} euros) uniquement par virement bancaire, sur le compte indiqué dans le contrat, avec en communication, les dates de votre réservation ({1}-{2}). Veuillez aussi nous faire parvenir le contrat signé (de préférence par mail à cette adresse, ou par courrier à l'adresse postale suivante : Rue du Longfaux, 50. 7133 Buvrinnes, Belgique) afin que nous puissions confirmer votre réservation.", reservation.FinalPrice.ToString("N"), reservation.FirstWeek.ToString("dd/MM/yyyy"), reservation.LastWeek.AddDays(7).ToString("dd/MM/yyyy"));
 
-            content += string.Format(@"<p>Vous pouvez à tout moment gérer votre réservation sur notre site à l'adresse suivante : <a href=""{0}"">{0}</a></p><p>Nous serons ravis de vous accueillir dans notre chaleureux gîte et restons à votre entière disposition pour toute information supplémentaire par téléphone (+32(0)486/34.99.99 ou +33(0)6 56 74 23 10) ou par mail. Au plaisir de recevoir de vos nouvelles.</p><p>Très cordialement,</p><p>France et Roland Berlemont, propriétaires du gîte ""Au Mas des Genettes""</p>", string.Format("{0}/overview/details/{1}", _baseUrl.TrimEnd('/'), reservation.Id.ToString("D")));
+            content += string.Format(@"<p>Vous pouvez à tout moment gérer votre réservation sur notre site à l'adresse suivante : <a href=""{0}"">{0}</a></p><p>Nous serons ravis de vous accueillir dans notre chaleureux gîte et restons à votre entière disposition pour toute information supplémentaire par téléphone (+32(0)486/34.99.99 ou +33(0)6 56 74 23 10) ou par mail. Au plaisir de recevoir de vos nouvelles.</p><p>Très cordialement,</p><p>France et Roland Berlemont, propriétaires du gîte ""Au Mas des Genettes""</p>", string.Format("{0}/reservation/details/{1}", _baseUrl.TrimEnd('/'), reservation.Id.ToString("D")));
 
             return new Mail
             {
@@ -48,7 +47,7 @@ namespace Gite.Model.Services.Mailing
             };
         }
 
-        public Mail GenerateReservationCancelled(ReservationAggregate reservation)
+        public Mail GenerateReservationCancelled(Reservation reservation)
         {
             return new Mail
             {
@@ -61,7 +60,7 @@ namespace Gite.Model.Services.Mailing
             };
         }
 
-        public Mail GenerateNewReservationAdmin(ReservationAggregate reservation)
+        public Mail GenerateNewReservationAdmin(Reservation reservation)
         {
             var people = string.Format("{0} adultes, {1} enfants, {2} bébés et {3} animaux {4}", reservation.People.Adults, reservation.People.Children, reservation.People.Babies, reservation.People.Animals, reservation.People.Animals > 0 ? string.Format("({0})", reservation.People.AnimalsDescription) : string.Empty);
             return new Mail
@@ -76,7 +75,7 @@ namespace Gite.Model.Services.Mailing
             };
         }
 
-        public Mail GenerateAdvancePaymentDeclared(ReservationAggregate reservation)
+        public Mail GenerateAdvancePaymentDeclared(Reservation reservation)
         {
             return new Mail
             {
@@ -89,7 +88,7 @@ namespace Gite.Model.Services.Mailing
             };
         }
 
-        public Mail GeneratePaymentDeclared(ReservationAggregate reservation)
+        public Mail GeneratePaymentDeclared(Reservation reservation)
         {
             return new Mail
             {
@@ -102,7 +101,7 @@ namespace Gite.Model.Services.Mailing
             };
         }
 
-        public Mail GenerateAdvancePaymentReceived(ReservationAggregate reservation)
+        public Mail GenerateAdvancePaymentReceived(Reservation reservation)
         {
             return new Mail
             {
@@ -110,12 +109,12 @@ namespace Gite.Model.Services.Mailing
                 Content = new MailContent
                 {
                     IsHtml = true,
-                    Content = string.Format(@"<p>Madame, Monsieur,</p><p>Nous vous confirmons la réception du paiement de l'acompte pour votre réservation du {0} au {1}.<br />Nous vous rappelons que vous pouvez à tout moment gérer votre réservation sur notre site à l'adresse suivante : <a href=""{2}"">{2}</a></p><p>Très cordialement,</p><p>France et Roland Berlemont, propriétaires du gîte ""Au Mas des Genettes""", reservation.FirstWeek.ToString("dd/MM/yyyy"), reservation.LastWeek.AddDays(7).ToString("dd/MM/yyyy"), string.Format("{0}/overview/details/{1}", _baseUrl.TrimEnd('/'), reservation.Id.ToString("D")))
+                    Content = string.Format(@"<p>Madame, Monsieur,</p><p>Nous vous confirmons la réception du paiement de l'acompte pour votre réservation du {0} au {1}.<br />Nous vous rappelons que vous pouvez à tout moment gérer votre réservation sur notre site à l'adresse suivante : <a href=""{2}"">{2}</a></p><p>Très cordialement,</p><p>France et Roland Berlemont, propriétaires du gîte ""Au Mas des Genettes""", reservation.FirstWeek.ToString("dd/MM/yyyy"), reservation.LastWeek.AddDays(7).ToString("dd/MM/yyyy"), string.Format("{0}/reservation/details/{1}", _baseUrl.TrimEnd('/'), reservation.Id.ToString("D")))
                 }
             };
         }
 
-        public Mail GenerateFinalPaymentReceived(ReservationAggregate reservation)
+        public Mail GenerateFinalPaymentReceived(Reservation reservation)
         {
             return new Mail
             {
@@ -123,7 +122,7 @@ namespace Gite.Model.Services.Mailing
                 Content = new MailContent
                 {
                     IsHtml = true,
-                    Content = string.Format(@"<p>Madame, Monsieur,</p><p>Nous vous confirmons la réception du paiement de la location pour votre réservation du {0} au {1}.<br />Nous vous souhaitons d'ors et déjà un très bon séjour.</p><p>Très cordialement,</p><p>France et Roland Berlemont, propriétaires du gîte ""Au Mas des Genettes""", reservation.FirstWeek.ToString("dd/MM/yyyy"), reservation.LastWeek.AddDays(7).ToString("dd/MM/yyyy"), string.Format("{0}/overview/details/{1}", _baseUrl.TrimEnd('/'), reservation.Id.ToString("D")))
+                    Content = string.Format(@"<p>Madame, Monsieur,</p><p>Nous vous confirmons la réception du paiement de la location pour votre réservation du {0} au {1}.<br />Nous vous souhaitons d'ors et déjà un très bon séjour.</p><p>Très cordialement,</p><p>France et Roland Berlemont, propriétaires du gîte ""Au Mas des Genettes""", reservation.FirstWeek.ToString("dd/MM/yyyy"), reservation.LastWeek.AddDays(7).ToString("dd/MM/yyyy"), string.Format("{0}/reservation/details/{1}", _baseUrl.TrimEnd('/'), reservation.Id.ToString("D")))
                 }
             };
         }

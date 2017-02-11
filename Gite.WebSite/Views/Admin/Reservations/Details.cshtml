@@ -5,7 +5,7 @@
 
     var previousLink = string.IsNullOrEmpty(ViewBag.Previous) ? "/reservations/all" : ViewBag.Previous;
 }
-
+<!-- Main page -->
 <div id="detailReservation" data-role="page" data-dom-cache="false">
     <div data-role="header" data-position="fixed">
         <a href="@previousLink" data-role="button" data-mini="true" data-transition="slide" data-direction="reverse">Retour</a>
@@ -61,11 +61,11 @@
                         <label for="name">Montant:</label>
                         <input type="text" name="acompte" id="acompte" value="@((Model.FinalPrice*0.25).ToString("N"))" />
                     </div>	
-                    <a href="#confirmAdvancePayment" role="button" class="ui-shadow ui-btn ui-corner-all" data-transition="flip">Déclarer l'acompte reçu</a>
+                    <a href="#confirmAdvancePayment" role="link" class="ui-shadow ui-btn ui-corner-all" data-transition="flip">Déclarer l'acompte reçu</a>
                 </form>
                 <h3>Prolonger le temps d'attente</h3>
                 <form id="extendAdvanceDelay" action="/reservations/extendexpiration/@Model.Id" method="post">
-                    <a href="#confirmAdvanceExtension" role="button" class="ui-shadow ui-btn ui-corner-all" data-transition="flip">Prolonger de 2 jours</a>
+                    <a href="#confirmAdvanceExtension" role="link" class="ui-shadow ui-btn ui-corner-all" data-transition="flip">Prolonger de 2 jours</a>
                 </form>
             }
             else if (!Model.PaymentReceived)
@@ -76,17 +76,23 @@
                         <label for="name">Montant:</label>
                         <input type="text" name="paiement" id="paiement" value="@((Model.FinalPrice - Model.AdvancedValue.Value).ToString("N"))" />
                     </div>
-                    <a href="#confirmPayment" role="button" class="ui-shadow ui-btn ui-corner-all" data-transition="flip">Déclarer le paiement reçu</a>
+                    <a href="#confirmPayment" role="link" class="ui-shadow ui-btn ui-corner-all" data-transition="flip">Déclarer le paiement reçu</a>
                 </form>
             }
             else
             {
-                <h2>Aucune action disponible.</h2>
             }
+            <h2>Annuler la réservation</h2>
+            <form id="cancelReservation" action="/reservations/cancel/@Model.Id" method="post">
+                <a href="#confirmCancelReservation" role="link" class="ui-shadow ui-btn ui-corner-all" data-transition="flip">Annuler la réservation</a>
+            </form>
         </div>
     </div>
 </div>
-<div id="confirmPayment" data-role="page" data-dialog="true">
+
+<!-- CONFIRMATIONS -->
+
+<div id="confirmPayment" data-role="page" data-dialog="true" data-dom-cache="false">
     <div data-role="header" data-theme="b">
         <h1>Confirmer la réception du paiement</h1>
     </div>
@@ -98,8 +104,7 @@
         <a href="#detailReservation" data-rel="back" class="ui-btn ui-shadow ui-corner-all ui-btn-a">Annuler</a>
     </div>
 </div>
-<div id="confirmAdvancePayment" data-role="page" data-dialog="true">
-
+<div id="confirmAdvancePayment" data-role="page" data-dialog="true" data-dom-cache="false">
     <div data-role="header" data-theme="b">
         <h1>Confirmer la réception de l'acompte</h1>
     </div>
@@ -111,8 +116,7 @@
         <a href="#detailReservation" data-rel="back" class="ui-btn ui-shadow ui-corner-all ui-btn-a">Annuler</a>
     </div>
 </div>
-<div id="confirmCancelReservation" data-role="page" data-dialog="true">
-
+<div id="confirmCancelReservation" data-role="page" data-dialog="true" data-dom-cache="false">
     <div data-role="header" data-theme="b">
         <h1>Confirmer l'annulation</h1>
     </div>
@@ -124,8 +128,7 @@
         <a href="#detailReservation" data-rel="back" class="ui-btn ui-shadow ui-corner-all ui-btn-a">Annuler</a>
     </div>
 </div>
-<div id="confirmAdvanceExtension" data-role="page" data-dialog="true">
-
+<div id="confirmAdvanceExtension" data-role="page" data-dialog="true" data-dom-cache="false">
     <div data-role="header" data-theme="b">
         <h1>Confirmer l'extension du paiement de l'acompte</h1>
     </div>
@@ -135,5 +138,17 @@
         <p>Veuillez confirmer l'extension du paiement de l'acompte</p>
         <a href="#" onclick="$('#extendAdvanceDelay').submit();" class="ui-btn ui-shadow ui-corner-all ui-btn-a">Confirmer</a>
         <a href="#detailReservation" data-rel="back" class="ui-btn ui-shadow ui-corner-all ui-btn-a">Annuler</a>
+    </div>
+</div>
+<div id="confirmCancelReservation" data-role="page" data-dialog="true" data-dom-cache="false">
+    <div data-role="header" data-theme="b">
+        <h1>Confirmer l'annulation de la réservation</h1>
+    </div>
+
+    <div role="main" class="ui-content">
+        <h1>Confirmation</h1>
+        <p>Veuillez confirmer l'annulation de la réservation</p>
+        <a href="#" onclick="$('#cancelReservation').submit();" class="ui-btn btn-danger ui-shadow ui-corner-all ui-btn-a">Confirmer</a>
+        <a href="#detailReservation" data-rel="back" class="ui-btn ui-shadow ui-corner-all ui-btn-a">J'ai changé d'avis</a>
     </div>
 </div>

@@ -1,8 +1,7 @@
-﻿using System;
+﻿using Gite.Domain.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using Gite.Cqrs.Events;
-using Gite.Model.Aggregates;
 
 namespace Gite.WebSite.Models.Admin
 {
@@ -14,16 +13,16 @@ namespace Gite.WebSite.Models.Admin
 
     public static class EventHistoryMapping
     {
-        public static IEnumerable<EventHistory> MapToEventHistory(this ReservationAggregate aggregate)
+        public static IEnumerable<EventHistory> MapToEventHistory(this Reservation reservation)
         {
-            return aggregate.Events.Select(Map);
+            return new EventHistory[0]; // TODO: rebuild event history from scratch.
         }
 
-        private static EventHistory Map(Event @event)
+        private static EventHistory Map(object @event)
         {
             return new EventHistory
             {
-                OccuredOn = @event.OccuredOn.AddHours(2),
+                //OccuredOn = @event.OccuredOn.AddHours(2),
                 Description = GetDescription(@event.GetType())
             };
         }

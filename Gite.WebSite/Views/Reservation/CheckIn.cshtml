@@ -5,7 +5,7 @@
     ViewBag.Color = "#0391ce";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
-    var isLastMinute = (Model.StartsOn.Date - DateTime.Now.Date).TotalDays <= 7;
+    var isLastMinute = (Model.StartsOn.Date - DateTime.UtcNow.Date).TotalDays <= 7;
 }
 
 <h2>Réserver du @Model.StartsOn.ToString("dd/MM/yyyy") au @Model.EndsOn.ToString("dd/MM/yyyy")</h2>

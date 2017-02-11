@@ -1,10 +1,10 @@
-﻿using Gite.Model.Aggregates;
+﻿using Gite.Domain.Model;
 using System.IO;
 
-namespace Gite.Model.Services.Contract
+namespace Gite.Domain.Services.Contract
 {
     public interface IFicheDescriptiveGenerator
     {
-        Stream GenerateForReservation(ReservationAggregate reservation);
+        Stream GenerateForReservation(Reservation reservation);
     }
 }

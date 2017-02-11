@@ -2,7 +2,7 @@
 using iTextSharp.text;
 using iTextSharp.text.pdf;
 
-namespace Gite.Model.Services.Contract
+namespace Gite.Domain.Services.Contract
 {
     public class ParagraphBorder : PdfPageEventHelper {
         private const float Offset = 10;

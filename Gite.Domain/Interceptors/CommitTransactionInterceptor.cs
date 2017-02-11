@@ -1,6 +1,6 @@
 ﻿using Ninject.Extensions.Interception;
 
-namespace Gite.Model.Interceptors
+namespace Gite.Domain.Interceptors
 {
     public class CommitTransactionInterceptor : IInterceptor
     {

@@ -1,0 +1,78 @@
+﻿@model Gite.WebSite.Models.ReservationOverview
+@{
+    ViewBag.Title = "Details de la réservation";
+    ViewBag.Color = "#0391ce";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Détails de la réservation</h2>
+
+@if (!Model.Cancelled && DateTime.UtcNow >= Model.EndsOn)
+{
+    <p>Votre location est à présent terminée ! Nous espérons que vous avez passé un bon séjour.</p>
+}
+else if (!Model.Cancelled)
+{
+    <p class="well">
+        Nous vous remercions pour votre réservation. Un e-mail de confirmation a été envoyé à votre adresse mail.<br />
+        Réservation du @Model.StartsOn.ToString("dd/MM/yyyy") au @Model.EndsOn.ToString("dd/MM/yyyy").
+        <br />
+        <br />
+        <strong>Communication des virements bancaire: "@Model.StartsOn.ToString("dd/MM/yyyy") - @Model.EndsOn.ToString("dd/MM/yyyy")".</strong>
+    </p>
+    <div class="row">
+            <ul class="list-group col-md-4">
+            </ul>
+        @if (Model.PaymentReceived)
+        {
+            <ul class="list-group col-md-4">
+                <li class="list-group-item active">Votre paiement a bien été reçu:</li>
+                <li class="list-group-item"><strong>Montant reçu: @(Model.FinalPrice - Model.AdvanceValue)€</strong></li>
+            </ul>
+        }
+        else
+        {
+            <ul class="list-group col-md-4">
+                <li class="list-group-item active">Paiement à effectuer avant le @Model.StartsOn.AddDays(-2).ToString("dd/MM/yyyy"):</li>
+                <li class="list-group-item"><strong>Montant total: @Model.FinalPrice€</strong></li>
+            </ul>
+        }
+        <ul class="list-group col-md-4">
+            <li class="list-group-item active">Coordonnées bancaires:</li>
+            <li class="list-group-item">IBAN: <strong>FR2920041010052418245X02640</strong></li>
+            <li class="list-group-item">BIC: <strong>PSSTFRPPLIL</strong></li>
+        </ul>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+        </div>
+        <div class="col-md-4">
+            <div class="pull-right">
+                @if (Model.PaymentDeclared || Model.PaymentReceived)
+                {
+                    if (Model.PaymentReceived)
+                    {
+                        <button class="btn btn-success" disabled="disabled">Le paiement a bien été reçu</button>
+                    }
+                    else
+                    {
+                        <button class="btn btn-primary" disabled="disabled">Paiement en attente de validation</button>
+                    }
+                }
+                else
+                {
+                    @Html.ActionLink("Déclarer la location payée", "PaymentDeclared", "Reservation", new { id = Model.Id }, new { @class = "btn btn-primary" })
+                }
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="pull-right">
+                @Html.ActionLink("Annuler ma réservation", "Cancel", "Reservation", new { id = Model.Id }, new { @class = "btn btn-danger" })
+            </div>
+        </div>
+    </div>
+}
+else {
+    <p>Votre réservation a été annulée...</p>
+    <p>Retourner à la @Html.ActionLink("page des réservations", "Index", "Reservation")</p>
+}

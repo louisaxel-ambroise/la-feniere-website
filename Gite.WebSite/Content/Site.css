@@ -57,3 +57,38 @@ textarea {
 .validation-summary-valid {
     display: none;
 }
+
+/* Diaporama */
+.diaporama{
+    background-color: #ffffff;
+    border: 1px solid #dddddd;
+    border-radius: 4px;
+    width:100%;
+    padding:3px;
+}
+.diaporama a{ display:inline-block; }
+.diaporama a img{
+    width: 100% !important;
+    height: auto !important;
+}
+.diaporama a img:hover{
+    opacity: 0.8;
+    background:#000;
+}
+.diaporama a.small {
+    width:24%;
+    display:inline-block;
+}
+.diaporama a.small:first-of-type {
+    margin-left:2%;
+}
+.diaporama a.main-thumb{
+    display:block;
+    margin-bottom:5px;
+}
+.diaporama a.main-thumb img {
+    width:100%;
+}
+.diaporama a.hidden{
+    display:none;
+}

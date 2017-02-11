@@ -1,15 +1,46 @@
-﻿@model Gite.WebSite.Models.Admin.AccountancyOverview
+﻿@model IEnumerable<Gite.WebSite.Models.Admin.WeekOverview>
 
 @{
     Layout = "~/Views/Admin/Shared/_Layout.cshtml";
+    int lastMonth = -1;
 }
 
-<div id="accountancy" data-role="page" data-dom-cache="false">
+<li id="accountancy" data-role="page" data-dom-cache="false">
     <div data-role="header" data-position="fixed">
         <a href="/admin" data-role="button" data-mini="true" data-transition="slide" data-direction="reverse">Retour</a>
         <a onClick="window.location.reload();" id="refresh" class="ui-btn ui-btn-right ui-corner-all ui-icon-refresh ui-btn-icon-notext">MàJ</a>
         <h1>Calendrier</h1>
     </div>
-    <ul data-role="listview" data-inset="true">
+    <ul data-role="listview">
+        @foreach (var week in Model)
+        {
+            var style = week.IsReserved ? week.IsValidated ? "border-left:5px solid #028a05;background-color:#d6ffd3" : "border-left:5px solid #cc8a00;background-color:#fff1df" : "";
+            if (week.StartsOn.Month != lastMonth)
+            {
+                lastMonth = week.StartsOn.Month;
+                var str = week.StartsOn.ToString("MMMM yyyy");
+                str = str.First().ToString().ToUpper() + str.Substring(1);
+                <li data-role="list-divider">@str</li>
+            }
+
+            <li style="@style">
+                <h3>Du @week.StartsOn.ToString("dd/MM/yyyy") au @week.StartsOn.AddDays(7).ToString("dd/MM/yyyy")</h3>
+                @if (week.IsReserved)
+                {
+                    if (week.IsValidated)
+                    {
+                        <span class="validated">Réservé et validé (<a href="/reservations/details/@week.ReservationId?from=/calendar" data-role="link" data-mini="true" data-transition="slide">Détails</a>)</span>
+                    }
+                    else
+                    {
+                        <span class="reserved">Réservé en attente de l'acompte (<a href="/reservations/details/@week.ReservationId?from=/calendar" data-role="link" data-mini="true" data-transition="slide">Détails</a>)</span>
+                    }
+                }
+                else
+                {
+                    <span class="free">Libre</span>
+                }
+            </li>
+        }
     </ul>
 </div>

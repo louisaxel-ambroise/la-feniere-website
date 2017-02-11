@@ -1,11 +1,10 @@
 ﻿using System;
 using System.IO;
-using Gite.Model.Aggregates;
-using Gite.Model.Model;
+using Gite.Domain.Model;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
 
-namespace Gite.Model.Services.Contract
+namespace Gite.Domain.Services.Contract
 {
     public class ContractGenerator : IContractGenerator
     {
@@ -23,7 +22,7 @@ namespace Gite.Model.Services.Contract
             _baseUrl = baseUrl;
         }
 
-         public Stream GenerateForReservation(ReservationAggregate reservation)
+         public Stream GenerateForReservation(Reservation reservation)
         {
             using (var stream = new MemoryStream())
             {
@@ -106,7 +105,7 @@ namespace Gite.Model.Services.Contract
             };
             phrase.Add(new Phrase("La location est prévue pour 6 personnes maximum et porte sur un meublé mitoyen situé: Veyrières 07380 Chirols."));
             phrase.Add(new Phrase("\r\n"));
-            phrase.Add(new Phrase("Description de la location : gîte de 90m² comprenant séjour, coin cuisine et salon, salle d'eau, wc, 3 chambres, 2 terrasses et une buanderie.\r\nÉquipement complet. Forfait électricité 56kw/semaine, dépassement facturé au tarif EDF en vigueur. Forfait granulés pour le poêle : 4 sacs de 15kg de septembre à avril. Au-delà de ces 4 sacs ou de ces mois, tous sacs supplémentaires seront payants."));
+            phrase.Add(new Phrase("Description de la location : gîte de 90m² comprenant séjour, coin cuisine et salon, salle d'eau, wc, 3 chambres, 2 terrasses et une buanderie.\r\nÉquipement complet. Draps non fournis.\r\n Forfait électricité 56kw/semaine, dépassement facturé au tarif EDF en vigueur. Forfait granulés pour le poêle : 4 sacs de 15kg de septembre à avril. Au-delà de ces 4 sacs ou de ces mois, tous sacs supplémentaires seront payants."));
             phrase.Add(new Phrase("Vous trouverez la description complète en deuxième pièce jointe et pour plus d'informations et de photos, vous pouvez consulter notre site (http://www.mas-des-genettes.fr)\r\n"));
             phrase.Add(new Phrase("\r\n"));
 
@@ -159,7 +158,7 @@ namespace Gite.Model.Services.Contract
             document.Add(phrase);
         }
 
-        private static void AddLoyer(Document document, ReservationAggregate reservation)
+        private static void AddLoyer(Document document, Reservation reservation)
         {
             var title = new Paragraph
             {
@@ -275,7 +274,7 @@ namespace Gite.Model.Services.Contract
             document.Add(phrase);
         }
 
-        private static void AddConditionGenerales(Document document, ReservationAggregate reservation)
+        private static void AddConditionGenerales(Document document, Reservation reservation)
         {
             var title = new Paragraph
             {
@@ -290,7 +289,6 @@ namespace Gite.Model.Services.Contract
                 Font = _textFont
             };
             phrase.Add(new Phrase("Le locataire s'engage à ne pas amener des personnes supplémentaires sans l'autorisation du propriétaire, à ne pas sous-louer le logement, à user paisiblement des lieux, à s'assurer contre les risques locatifs.\r\n"));
-            phrase.Add(new Phrase("Draps non fournis.\r\n"));
 
             if(!reservation.IsLastMinute)
                 phrase.Add(new Phrase("Solde de la location à payer par virement bancaire 10 jours au plus tard avant le début de la location sous peine d'annulation de la location et l'acompte sera gardé. Paiement sur le compte:\r\n"));
@@ -305,7 +303,7 @@ namespace Gite.Model.Services.Contract
             document.Add(phrase);
         }
 
-        private void AddPriseEffets(Document document, ReservationAggregate reservation)
+        private void AddPriseEffets(Document document, Reservation reservation)
         {
             _borderManager.IsBordered = true; // Add border...
             _borderManager.ParagraphCount = 2;// ... to the next 2 paragraphs.
@@ -372,7 +370,7 @@ namespace Gite.Model.Services.Contract
             document.Add(phrase);
         }
 
-        private static void AddDocumentTitle(Document document, ReservationAggregate reservation, string imageUrl)
+        private static void AddDocumentTitle(Document document, Reservation reservation, string imageUrl)
         {
             var title = new Paragraph
             {

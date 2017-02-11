@@ -8,10 +8,8 @@
     <title>Admin - Mas des Genettes</title>
     <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
     <link rel="stylesheet" href="~/Content/App/Admin.css" />
-
     <style type="text/css">
         .ul-not-bold a {font-weight:normal;}​
-
     </style>
 </head>
 <body>
@@ -20,6 +18,7 @@
     <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
 
     <script type="text/javascript">
+        $.ajaxSetup({ cache: false });
         $.widget("ui.tabs", $.ui.tabs, {
 
             _isLocal: function (anchor) {

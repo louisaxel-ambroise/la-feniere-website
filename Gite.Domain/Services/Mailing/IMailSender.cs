@@ -1,10 +1,14 @@
-﻿using Gite.Model.Model;
+﻿using Gite.Domain.Model;
 
-namespace Gite.Model.Services.Mailing
+namespace Gite.Domain.Services.Mailing
 {
     public interface IMailSender
     {
-        string From { get; }
-        void SendMail(Mail message, string address, string bcc = null);
+        void SendReservationCreated(Reservation reservation);
+        void SendAdvancePaymentDeclared(Reservation reservation);
+        void SendPaymentDeclared(Reservation reservation);
+        void SendReservationCancelled(Reservation reservation);
+        void SendAdvancePaymentReceived(Reservation reservation);
+        void SendFinalPaymentReceived(Reservation reservation);
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Gite.Model
+namespace Gite.Domain
 {
     public interface IUnitOfWork : IDisposable
     {

@@ -3,7 +3,7 @@ using Ninject.Extensions.Interception;
 using Ninject.Extensions.Interception.Attributes;
 using Ninject.Extensions.Interception.Request;
 
-namespace Gite.Model.Interceptors
+namespace Gite.Domain.Interceptors
 {
     public class CommitTransactionAttribute : InterceptAttribute
     {

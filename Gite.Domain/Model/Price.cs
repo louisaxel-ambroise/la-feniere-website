@@ -1,4 +1,4 @@
-﻿namespace Gite.Model.Model
+﻿namespace Gite.Domain.Model
 {
     public class Price
     {

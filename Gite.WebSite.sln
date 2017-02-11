@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gite.Database.Migrations", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gite.Factory", "Gite.Factory\Gite.Factory.csproj", "{50E0D53C-E8B4-4AC6-AA0A-EB23FCC6CF98}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2. Domain", "2. Domain", "{839CA217-F1DD-4744-A47F-3C36730241A5}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1. Domain", "1. Domain", "{839CA217-F1DD-4744-A47F-3C36730241A5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gite.Domain", "Gite.Domain\Gite.Domain.csproj", "{46D91EA3-1241-4015-BCDA-8745893BFFCA}"
 EndProject
@@ -22,13 +22,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{D4AC12
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3. Web", "3. Web", "{A1382FAA-BD0E-4AE5-A26D-A5A49720F148}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2. Web", "2. Web", "{A1382FAA-BD0E-4AE5-A26D-A5A49720F148}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gite.WebSite", "Gite.WebSite\Gite.WebSite.csproj", "{4B355E92-91EF-4A34-9A0C-868E385BFF68}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gite.Messaging", "Gite.Messaging\Gite.Messaging.csproj", "{D6402BB4-D8B7-432C-86BB-3FAE9F4EA7B0}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gite.Cqrs", "Gite.Cqrs\Gite.Cqrs.csproj", "{C3D95D43-948B-433C-BCF3-5302E53B8807}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -56,14 +52,6 @@ Global
 		{4B355E92-91EF-4A34-9A0C-868E385BFF68}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4B355E92-91EF-4A34-9A0C-868E385BFF68}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4B355E92-91EF-4A34-9A0C-868E385BFF68}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D6402BB4-D8B7-432C-86BB-3FAE9F4EA7B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D6402BB4-D8B7-432C-86BB-3FAE9F4EA7B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D6402BB4-D8B7-432C-86BB-3FAE9F4EA7B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D6402BB4-D8B7-432C-86BB-3FAE9F4EA7B0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C3D95D43-948B-433C-BCF3-5302E53B8807}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C3D95D43-948B-433C-BCF3-5302E53B8807}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C3D95D43-948B-433C-BCF3-5302E53B8807}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C3D95D43-948B-433C-BCF3-5302E53B8807}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -74,8 +62,6 @@ Global
 		{46D91EA3-1241-4015-BCDA-8745893BFFCA} = {839CA217-F1DD-4744-A47F-3C36730241A5}
 		{A78C8DA6-92AF-40AA-98B9-BC10DBEC7173} = {839CA217-F1DD-4744-A47F-3C36730241A5}
 		{4B355E92-91EF-4A34-9A0C-868E385BFF68} = {A1382FAA-BD0E-4AE5-A26D-A5A49720F148}
-		{D6402BB4-D8B7-432C-86BB-3FAE9F4EA7B0} = {839CA217-F1DD-4744-A47F-3C36730241A5}
-		{C3D95D43-948B-433C-BCF3-5302E53B8807} = {7B7C4D14-FF4A-4EE1-A81C-9AF36E798656}
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = Gite.Database.Migrations\Gite.Database.Migrations.csproj

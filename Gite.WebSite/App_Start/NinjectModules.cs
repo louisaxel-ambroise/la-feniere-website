@@ -17,8 +17,7 @@ namespace Gite.WebSite
 
                 return new NinjectModule[] {
                     new DomainModule(mailAddress, password, baseUrl),
-                    new DatabaseModule(connectionString),
-                    new CqrsModule()
+                    new DatabaseModule(connectionString)
                 };
             }
         }

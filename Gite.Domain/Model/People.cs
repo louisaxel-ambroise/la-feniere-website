@@ -1,11 +1,11 @@
-namespace Gite.Model.Model
+namespace Gite.Domain.Model
 {
     public class People
     {
-        public int Adults { get; set; }
-        public int Children { get; set; }
-        public int Babies { get; set; }
-        public int Animals { get; set; }
-        public string AnimalsDescription { get; set; }
+        public virtual int Adults { get; set; }
+        public virtual int Children { get; set; }
+        public virtual int Babies { get; set; }
+        public virtual int Animals { get; set; }
+        public virtual string AnimalsDescription { get; set; }
     }
 }

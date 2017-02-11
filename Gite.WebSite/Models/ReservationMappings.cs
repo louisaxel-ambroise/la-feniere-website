@@ -1,10 +1,10 @@
-﻿using Gite.Model.Aggregates;
+﻿using Gite.Domain.Model;
 
 namespace Gite.WebSite.Models
 {
     public static class ReservationMappings
     {
-        public static ReservationOverview MapToOverview(this ReservationAggregate reservation)
+        public static ReservationOverview MapToOverview(this Reservation reservation)
         {
             return new ReservationOverview
             {

@@ -1,27 +1,27 @@
 ﻿using System;
 using System.Linq;
 using System.Web.Mvc;
-using Gite.Model.Readers;
+using Gite.Domain.Readers;
 using Gite.WebSite.Models.Admin;
 
 namespace Gite.WebSite.Controllers.Admin
 {
     public class AlertsController : AuthorizeController
     {
-        private readonly IReservationReader _reservationReader;
+        private readonly IReservationRepository _reservationRepository;
 
-        public AlertsController(IReservationReader reservationReader)
+        public AlertsController(IReservationRepository reservationRepository)
         {
-            if (reservationReader == null) throw new ArgumentNullException("reservationReader");
+            if (reservationRepository == null) throw new ArgumentNullException("reservationReader");
 
-            _reservationReader = reservationReader;
+            _reservationRepository = reservationRepository;
         }
 
         public ActionResult Index()
         {
-            var advances = _reservationReader.QueryValids().Count(x => !x.AdvancePaymentReceived && x.BookedOn <= DateTime.UtcNow.Date.AddDays(-4));
-            var payments = _reservationReader.QueryValids().Count(x => !x.PaymentReceived && x.FirstWeek <= DateTime.UtcNow.Date.AddDays(11));
-            var expired = _reservationReader.Query().Count(x => !x.IsCancelled && ((x.BookedOn < DateTime.UtcNow.AddDays(-5) && !x.AdvancePaymentDeclared) || (x.BookedOn < DateTime.UtcNow.AddDays(-9) && !x.AdvancePaymentReceived)));
+            var advances = _reservationRepository.QueryValids().Count(x => !x.AdvancePaymentReceived && x.BookedOn <= DateTime.UtcNow.Date.AddDays(-4));
+            var payments = _reservationRepository.QueryValids().Count(x => !x.PaymentReceived && x.FirstWeek <= DateTime.UtcNow.Date.AddDays(11));
+            var expired = _reservationRepository.Query().Count(x => !x.IsCancelled && ((x.BookedOn < DateTime.UtcNow.AddDays(-5) && !x.AdvancePaymentDeclared) || (x.BookedOn < DateTime.UtcNow.AddDays(-9) && !x.AdvancePaymentReceived)));
             
             var model = new AlertsModel
             {
@@ -35,7 +35,7 @@ namespace Gite.WebSite.Controllers.Admin
 
         public ActionResult Advances()
         {
-            var reservations = _reservationReader.QueryValids().Where(x => !x.AdvancePaymentReceived && x.BookedOn <= DateTime.UtcNow.Date.AddDays(-4)).ToList();
+            var reservations = _reservationRepository.QueryValids().Where(x => !x.AdvancePaymentReceived && x.BookedOn <= DateTime.UtcNow.Date.AddDays(-4)).ToList();
             var model = reservations.Select(x => x.MapToReservationModel()).ToArray();
 
             return View("~/Views/Admin/Alerts/Advances.cshtml", model);
@@ -43,7 +43,7 @@ namespace Gite.WebSite.Controllers.Admin
 
         public ActionResult Payments()
         {
-            var reservations = _reservationReader.QueryValids().Where(x => !x.PaymentReceived && x.FirstWeek <= DateTime.UtcNow.Date.AddDays(11)).ToList();
+            var reservations = _reservationRepository.QueryValids().Where(x => !x.PaymentReceived && x.FirstWeek <= DateTime.UtcNow.Date.AddDays(11)).ToList();
             var model = reservations.Select(x => x.MapToReservationModel()).ToArray();
 
             return View("~/Views/Admin/Alerts/Payments.cshtml", model);
@@ -51,7 +51,7 @@ namespace Gite.WebSite.Controllers.Admin
 
         public ActionResult Expired()
         {
-            var reservations = _reservationReader.Query().Where(x => !x.IsCancelled && ((x.BookedOn < DateTime.UtcNow.AddDays(-5) && !x.AdvancePaymentDeclared) || (x.BookedOn < DateTime.UtcNow.AddDays(-9) && !x.AdvancePaymentReceived))).ToList();
+            var reservations = _reservationRepository.Query().Where(x => !x.IsCancelled && ((x.BookedOn < DateTime.UtcNow.AddDays(-5) && !x.AdvancePaymentDeclared) || (x.BookedOn < DateTime.UtcNow.AddDays(-9) && !x.AdvancePaymentReceived))).ToList();
             var model = reservations.Select(x => x.MapToReservationModel()).ToArray();
 
             return View("~/Views/Admin/Alerts/Expired.cshtml", model);

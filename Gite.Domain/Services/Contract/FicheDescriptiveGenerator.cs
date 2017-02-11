@@ -1,10 +1,10 @@
 ﻿using System;
 using System.IO;
-using Gite.Model.Aggregates;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
+using Gite.Domain.Model;
 
-namespace Gite.Model.Services.Contract
+namespace Gite.Domain.Services.Contract
 {
     public class FicheDescriptiveGenerator : IFicheDescriptiveGenerator
     {
@@ -21,7 +21,7 @@ namespace Gite.Model.Services.Contract
             _baseUrl = baseUrl;
         }
 
-        public Stream GenerateForReservation(ReservationAggregate reservation)
+        public Stream GenerateForReservation(Reservation reservation)
         {
             using (var stream = new MemoryStream())
             {
@@ -63,7 +63,7 @@ namespace Gite.Model.Services.Contract
             document.Add(phrase);
         }
 
-        private void AddDocumentTitle(Document document, ReservationAggregate reservation, string imageUrl)
+        private void AddDocumentTitle(Document document, Reservation reservation, string imageUrl)
         {
             var title = new Paragraph
             {

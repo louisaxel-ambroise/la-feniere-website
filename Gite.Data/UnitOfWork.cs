@@ -1,5 +1,5 @@
 using System;
-using Gite.Model;
+using Gite.Domain;
 using NHibernate;
 
 namespace Gite.Database

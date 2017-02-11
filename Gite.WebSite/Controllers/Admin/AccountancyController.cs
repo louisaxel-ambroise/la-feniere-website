@@ -1,25 +1,25 @@
 ﻿using System;
 using System.Linq;
 using System.Web.Mvc;
-using Gite.Model.Readers;
+using Gite.Domain.Readers;
 using Gite.WebSite.Models.Admin;
 
 namespace Gite.WebSite.Controllers.Admin
 {
     public class AccountancyController : AuthorizeController
     {
-        private readonly IReservationReader _reservationReader;
+        private readonly IReservationRepository _reservationRepository;
 
-        public AccountancyController(IReservationReader reservationReader)
+        public AccountancyController(IReservationRepository reservationRepository)
         {
-            if (reservationReader == null) throw new ArgumentNullException("reservationReader");
+            if (reservationRepository == null) throw new ArgumentNullException("reservationReader");
 
-            _reservationReader = reservationReader;
+            _reservationRepository = reservationRepository;
         }
 
         public ActionResult Index()
         {
-            var reservations = _reservationReader.QueryValids().Where(x => x.AdvancePaymentReceived).ToList();
+            var reservations = _reservationRepository.QueryValids().Where(x => x.AdvancePaymentReceived).ToList();
 
             var month = reservations.Where(x => x.FirstWeek >= new DateTime(DateTime.UtcNow.Year, DateTime.UtcNow.Month, 01)).ToList();
             var year = reservations.Where(x => x.FirstWeek >= new DateTime(DateTime.UtcNow.Year, 01, 01)).ToList();

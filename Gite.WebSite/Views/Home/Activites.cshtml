@@ -11,43 +11,26 @@
 
 <h3>1. Activités sportives</h3>
 <div class="row">
-    <div class="col-sm-6">
+    <div class="col-sm-7">
         <ul>
             <li>Canyonning</li>
             <li>Escalade</li>
             <li>Spéléologie</li>
             <li>Canoë-kayak dans les gorges de l'Ardèche</li>
-            <li>Randonnée (nombreux chemins de GR à proximité)</li>
+            <li>Randonnée à pied ou à dos d'âne (nombreux chemins de GR à proximité)</li>
             <li>Baignade en rivière</li>
             <li>Pistes de ski à proximité en hiver</li>
             <li>...</li>
         </ul>
-    </div>
-    <div class="col-sm-6">
-        <!-- Photos here -->
-        <a href="~/Content/Images/activites/kayak.jpg"><img src="~/Content/Images/activites/kayak-small.jpg" class="img-thumbnail" alt="Kayak dans les gorges de l'Ardèche" /></a>
-    </div>
-</div>
-
-<h3>2. Activités culturelles</h3>
-<div class="row">
-    <div class="col-sm-6">
+        <h3>2. Activités culturelles</h3>
         <ul>
             <li>Château de Ventadour (visible depuis le gîte)</li>
-            <li><a href="http://www.cavernedupontdarc.fr/" target="_blank">La grotte Chauvet, "La caverne du Pont d'Arc"</a></li>
+            <li>Découverte des reliefs volcaniques et parcours des sucs</li>
+            <li><a href="http://www.cavernedupontdarc.fr/" target="_blank">La grotte Chauvet, "La caverne du Pont d'Arc"</a> et d'<a href="http://www.orgnac.com/" target="_blank">Aven d'Orgnac</a></li>
             <li><a href="http://www.ecomuseechirols.fr/" target="_blank">&Eacute;comusée du moulinage</a></li>
             <li>...</li>
         </ul>
-    </div>
-    <div class="col-sm-6">
-        <!-- Photos here -->
-        <a href="~/Content/Images/activites/chateau-ventadour.jpg"><img src="~/Content/Images/activites/chateau-ventadour-small.jpg" class="img-thumbnail" alt="Le château de Ventadour" /></a>
-    </div>
-</div>
-
-<h3>3. Villages de caractère</h3>
-<div class="row">
-    <div class="col-sm-6">
+        <h3>3. Villages de caractère</h3>
         <ul>
             <li><strong>Labeaume</strong>, et son labyrinthe de calades</li>
             <li><strong>Antraigues</strong>, pays de Jean Ferrat</li>
@@ -59,12 +42,45 @@
             <li>...</li>
         </ul>
     </div>
-    <div class="col-sm-6">
-        <!-- Photos here -->
-        <a href="~/Content/Images/activites/village-labeaume.jpg"><img src="~/Content/Images/activites/village-labeaume-small.jpg" class="img-thumbnail" alt="Le village de Labeaume" /></a>
+    <div class="col-sm-5">
+        <div class="diaporama">
+            <div class="diapo-images">
+                <a href="~/Content/Images/activites/kayak.jpg" class="main-thumb">
+                    <img src="~/Content/Images/activites/kayak.jpg" alt="Kayak dans les gorges de l'Ardèche" />
+                </a>
+                <a href="~/Content/Images/activites/chateau-ventadour.jpg" class="small">
+                    <img src="~/Content/Images/activites/chateau-ventadour-small.jpg" alt="Le château de Ventadour" />
+                </a>
+                <a href="~/Content/Images/activites/village-labeaume.jpg" class="small">
+                    <img src="~/Content/Images/activites/village-labeaume-small.jpg" alt="Le village de Labeaume" />
+                </a>
+                <a href="~/Content/Images/activites/Paiolive.jpg" class="small">
+                    <img src="~/Content/Images/activites/Paiolive.jpg" alt="Bois de Païolive et son ours et lion" />
+                </a>
+                <a href="~/Content/Images/activites/Ski.jpg" class="small">
+                    <img src="~/Content/Images/activites/Ski.jpg" alt="Station de Ski de la Croix de Bauzon" />
+                </a>
+                <a href="~/Content/Images/activites/Lac.jpg" class="hidden">
+                    <img src="~/Content/Images/activites/Lac.jpg" alt="Lac d'Issarles" />
+                </a>
+                <a href="~/Content/Images/activites/Cascade.jpg" class="hidden">
+                    <img src="~/Content/Images/activites/Cascade.jpg" alt="Cascade du Ray Pic" />
+                </a>
+                <a href="~/Content/Images/activites/Grotte.jpg" class="hidden">
+                    <img src="~/Content/Images/activites/Grotte.jpg" alt="Grotte de Saint Marcel" />
+                </a>
+                <a href="~/Content/Images/activites/Chauvet.jpg" class="hidden">
+                    <img src="~/Content/Images/activites/Chauvet.jpg" alt="Grotte Chauvet" />
+                </a>
+            </div>
+            <em>Cliquez pour voir en diaporama (<strong>9 photos</strong>)</em>
+        </div>
     </div>
 </div>
-
 <hr />
-
 <p>Vous pouvez aussi profiter du folklore à travers les nombreux marchés de la région ainsi que les fêtes telles que les castagnades, les fêtes de la myrtille, etc...</p>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".diapo-images").lightGallery();
+    });
+</script>

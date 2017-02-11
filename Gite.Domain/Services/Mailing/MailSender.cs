@@ -3,29 +3,76 @@ using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using System.Net.Mime;
-using Gite.Model.Model;
+using Gite.Domain.Model;
 
-namespace Gite.Model.Services.Mailing
+namespace Gite.Domain.Services.Mailing
 {
     public class MailSender : IMailSender
     {
         private readonly string _password;
-        public string From { get; private set; }
+        private readonly string _from;
+        private readonly IMailGenerator _mailGenerator;
 
-        public MailSender(string from, string password)
+        public MailSender(string from, string password, IMailGenerator mailGenerator)
         {
-            if (@from == null) throw new ArgumentNullException("from");
+            if (from == null) throw new ArgumentNullException("from");
             if (password == null) throw new ArgumentNullException("password");
+            if (mailGenerator == null) throw new ArgumentNullException("mailGenerator");
 
-            From = @from;
+            _from = from;
             _password = password;
+            _mailGenerator = mailGenerator;
         }
 
-        public void SendMail(Mail message, string address, string bcc = null)
+        public void SendReservationCreated(Reservation reservation)
         {
-            var credentials = new NetworkCredential(From, _password);
+            var clientMail = _mailGenerator.GenerateReservationCreated(reservation);
+            var adminMail = _mailGenerator.GenerateReservationCreated(reservation);
 
-            using (var mailMessage = new MailMessage(From, address) { Subject = message.Subject, Body = message.Content.Content, IsBodyHtml = message.Content.IsHtml })
+            SendMail(adminMail, _from);
+            SendMail(clientMail, reservation.Contact.Mail);
+        }
+
+        public void SendAdvancePaymentDeclared(Reservation reservation)
+        {
+            var mail = _mailGenerator.GenerateAdvancePaymentDeclared(reservation);
+
+            SendMail(mail, _from);
+        }
+
+        public void SendPaymentDeclared(Reservation reservation)
+        {
+            var mail = _mailGenerator.GeneratePaymentDeclared(reservation);
+
+            SendMail(mail, _from);
+        }
+
+        public void SendReservationCancelled(Reservation reservation)
+        {
+            var mail = _mailGenerator.GenerateReservationCancelled(reservation);
+
+            SendMail(mail, reservation.Contact.Mail, _from);
+        }
+
+        public void SendAdvancePaymentReceived(Reservation reservation)
+        {
+            var mail = _mailGenerator.GenerateAdvancePaymentReceived(reservation);
+
+            SendMail(mail, reservation.Contact.Mail);
+        }
+
+        public void SendFinalPaymentReceived(Reservation reservation)
+        {
+            var mail = _mailGenerator.GenerateFinalPaymentReceived(reservation);
+
+            SendMail(mail, reservation.Contact.Mail);
+        }
+
+        private void SendMail(Mail message, string address, string bcc = null)
+        {
+            var credentials = new NetworkCredential(_from, _password);
+
+            using (var mailMessage = new MailMessage(_from, address) { Subject = message.Subject, Body = message.Content.Content, IsBodyHtml = message.Content.IsHtml })
             using (var smtp = new SmtpClient { Host = "smtp.gmail.com", DeliveryMethod = SmtpDeliveryMethod.Network, EnableSsl = true, UseDefaultCredentials = true, Credentials = credentials, Port = 587 })
             {
                 if (!string.IsNullOrEmpty(bcc)) mailMessage.Bcc.Add(new MailAddress(bcc));

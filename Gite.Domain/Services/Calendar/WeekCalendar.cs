@@ -1,41 +1,44 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Gite.Model.Model;
-using Gite.Model.Readers;
-using Gite.Model.Services.Pricing;
+using Gite.Domain.Model;
+using Gite.Domain.Readers;
+using Gite.Domain.Services.Pricing;
 
-namespace Gite.Model.Services.Calendar
+namespace Gite.Domain.Services.Calendar
 {
     public class WeekCalendar : IWeekCalendar
     {
-        private readonly IBookedWeekReader _bookedWeekReader;
+        private readonly ICalendarRepository _calendarRepository;
         private readonly IPriceCalculator _priceCalculator;
 
-        public WeekCalendar(IBookedWeekReader bookedWeekReader, IPriceCalculator priceCalculator)
+        public WeekCalendar(ICalendarRepository calendarRepository, IPriceCalculator priceCalculator)
         {
-            if (bookedWeekReader == null) throw new ArgumentNullException("bookedWeekReader");
+            if (calendarRepository == null) throw new ArgumentNullException("bookedWeekReader");
             if (priceCalculator == null) throw new ArgumentNullException("priceCalculator");
 
-            _bookedWeekReader = bookedWeekReader;
+            _calendarRepository = calendarRepository;
             _priceCalculator = priceCalculator;
         }
 
-        public IEnumerable<Week> ListWeeksForMonth(int year, int month)
+        public IEnumerable<Week> ListWeeksBetween(DateTime minDate, DateTime maxDate)
         {
             var result = new List<Week>();
-            var start = FindFirstSaturday(year, month);
+            var start = FindFirstSaturday(minDate);
 
-            var bookedWeeks = _bookedWeekReader.QueryValids().Where(x => x.Week >= start && x.Week < new DateTime(year, month, 1).AddMonths(1)).ToList();
+            var reservationWeeks = _calendarRepository.QueryValids();
+            var bookedWeeks = reservationWeeks.Where(x => (x.FirstWeek <= minDate && x.LastWeek >= minDate) || (x.FirstWeek >= minDate && x.FirstWeek <= maxDate)).ToList();
 
-            while (start.Month == month)
+            while (start <= maxDate)
             {
                 var price = _priceCalculator.ComputeForWeek(start);
-
+                var bookedWeek = bookedWeeks.FirstOrDefault(x => x.FirstWeek <= start && x.LastWeek >= start);
                 result.Add(new Week
                 {
+                    ReservationId = bookedWeek != null ? bookedWeek.Id : default(Guid?),
                     Start = start,
-                    IsReserved = start <= DateTime.UtcNow || bookedWeeks.Any(x => x.Week == start),
+                    IsReserved = start <= DateTime.UtcNow || bookedWeek != null,
+                    IsValidated = bookedWeek != null && (bookedWeek.AdvancePaymentReceived || bookedWeek.PaymentReceived),
                     Price = price
                 });
 
@@ -45,10 +48,14 @@ namespace Gite.Model.Services.Calendar
             return result;
         }
 
-        private DateTime FindFirstSaturday(int year, int month)
+        public IEnumerable<Week> ListWeeksForMonth(int year, int month)
         {
-            var start = new DateTime(year, month, 1);
+            var date = new DateTime(year, month, 1);
+            return ListWeeksBetween(date, date.AddMonths(1));
+        }
 
+        private DateTime FindFirstSaturday(DateTime start)
+        {
             while (start.DayOfWeek != DayOfWeek.Saturday) start = start.AddDays(1);
 
             return start;

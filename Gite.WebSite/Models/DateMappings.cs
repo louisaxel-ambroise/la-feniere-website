@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Gite.Model.Model;
+using Gite.Domain.Model;
 
 namespace Gite.WebSite.Models
 {

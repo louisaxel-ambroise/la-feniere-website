@@ -222,7 +222,6 @@
     <Compile Include="Controllers\Admin\ReservationsController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\OverviewController.cs" />
     <Compile Include="Controllers\ReservationController.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Global.asax.cs">
@@ -235,8 +234,10 @@
     <Compile Include="Models\Admin\EventHistory.cs" />
     <Compile Include="Models\Admin\HomeModel.cs" />
     <Compile Include="Models\Admin\ReservationModel.cs" />
-    <Compile Include="Models\Admin\ReservationMappings.cs" />
+    <Compile Include="Mappings\ReservationMappings.cs" />
     <Compile Include="Models\Admin\ReservationsOverview.cs" />
+    <Compile Include="Models\Admin\WeekOverview.cs" />
+    <Compile Include="Mappings\WeekOverviewMapping.cs" />
     <Compile Include="Models\Date.cs" />
     <Compile Include="Models\DateMappings.cs" />
     <Compile Include="Models\ReservationMappings.cs" />
@@ -258,13 +259,21 @@
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\Images\12590_8.jpg" />
     <Content Include="Content\Images\0801.jpg" />
+    <Content Include="Content\Images\activites\Cascade.jpg" />
     <Content Include="Content\Images\activites\chateau-ventadour-small.jpg" />
     <Content Include="Content\Images\activites\chateau-ventadour.jpg" />
+    <Content Include="Content\Images\activites\Chauvet.jpg" />
+    <Content Include="Content\Images\activites\Grotte.jpg" />
     <Content Include="Content\Images\activites\kayak-small.jpg" />
     <Content Include="Content\Images\activites\kayak.jpg" />
+    <Content Include="Content\Images\activites\Lac.jpg" />
+    <Content Include="Content\Images\activites\Paiolive.jpg" />
+    <Content Include="Content\Images\activites\Ski.jpg" />
     <Content Include="Content\Images\activites\village-labeaume-small.jpg" />
     <Content Include="Content\Images\activites\village-labeaume.jpg" />
     <Content Include="Content\Images\check.png" />
+    <Content Include="Content\Images\familles\Famille_Dosmann.jpg" />
+    <Content Include="Content\Images\familles\Famille_Steyer.jpg" />
     <Content Include="Content\Images\favicon.ico" />
     <Content Include="Content\Images\flags\de.jpg" />
     <Content Include="Content\Images\flags\en.jpg" />
@@ -284,6 +293,9 @@
     <Content Include="Content\Images\gite\19.JPG" />
     <Content Include="Content\Images\gite\2.JPG" />
     <Content Include="Content\Images\gite\20.JPG" />
+    <Content Include="Content\Images\gite\21.JPG" />
+    <Content Include="Content\Images\gite\22.JPG" />
+    <Content Include="Content\Images\gite\23.JPG" />
     <Content Include="Content\Images\gite\3.JPG" />
     <Content Include="Content\Images\gite\4.JPG" />
     <Content Include="Content\Images\gite\5.JPG" />
@@ -330,7 +342,9 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -350,7 +364,6 @@
     <Content Include="Views\Reservation\Index.cshtml" />
     <Content Include="Views\Reservation\CheckIn.cshtml" />
     <Content Include="Views\Reservation\ListWeekForMonth.cshtml" />
-    <Content Include="Views\Overview\Details.cshtml" />
     <Content Include="Views\Admin\Home\Index.cshtml" />
     <Content Include="Views\Admin\Shared\_Layout.cshtml" />
     <Content Include="Views\Admin\Accountancy\Index.cshtml" />
@@ -367,9 +380,10 @@
     <Content Include="Views\Admin\Reservations\PendingPayment.cshtml" />
     <Content Include="Views\Admin\Reservations\History.cshtml" />
     <Content Include="Views\Admin\Alerts\Expired.cshtml" />
-    <Content Include="Views\Overview\LastMinute.cshtml" />
-    <Content Include="Views\Overview\Cancel.cshtml" />
     <Content Include="Views\Admin\Calendar\Index.cshtml" />
+    <Content Include="Views\Reservation\Cancel.cshtml" />
+    <Content Include="Views\Reservation\Details.cshtml" />
+    <Content Include="Views\Reservation\LastMinute.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
@@ -380,10 +394,6 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Gite.Cqrs\Gite.Cqrs.csproj">
-      <Project>{C3D95D43-948B-433C-BCF3-5302E53B8807}</Project>
-      <Name>Gite.Cqrs</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Gite.Domain\Gite.Domain.csproj">
       <Project>{46D91EA3-1241-4015-BCDA-8745893BFFCA}</Project>
       <Name>Gite.Domain</Name>

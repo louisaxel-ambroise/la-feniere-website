@@ -1,7 +1,7 @@
 using System;
-using Gite.Model.Model;
+using Gite.Domain.Model;
 
-namespace Gite.Model.Services.Pricing
+namespace Gite.Domain.Services.Pricing
 {
     public class PriceCalculator : IPriceCalculator
     {

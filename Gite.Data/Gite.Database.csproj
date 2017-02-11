@@ -49,21 +49,14 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Cqrs\SqlEventLoader.cs" />
-    <Compile Include="Mappings\BookedWeekMap.cs" />
-    <Compile Include="Mappings\EventEnvelopMap.cs" />
+    <Compile Include="Mappings\ReservationCalendarMap.cs" />
     <Compile Include="Mappings\ReservationMap.cs" />
-    <Compile Include="Repositories\BookedWeekReader.cs" />
-    <Compile Include="Repositories\BookedWeekRepository.cs" />
+    <Compile Include="Repositories\CalendarRepository.cs" />
     <Compile Include="Repositories\ReservationRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UnitOfWork.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Gite.Cqrs\Gite.Cqrs.csproj">
-      <Project>{C3D95D43-948B-433C-BCF3-5302E53B8807}</Project>
-      <Name>Gite.Cqrs</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Gite.Domain\Gite.Domain.csproj">
       <Project>{46d91ea3-1241-4015-bcda-8745893bffca}</Project>
       <Name>Gite.Domain</Name>

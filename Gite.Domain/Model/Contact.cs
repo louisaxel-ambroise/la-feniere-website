@@ -1,10 +1,10 @@
-namespace Gite.Model.Model
+namespace Gite.Domain.Model
 {
     public class Contact
     {
-        public string Address { get; set; }
-        public string Mail { get; set; }
-        public string Name { get; set; }
-        public string Phone { get; set; }
+        public virtual string Address { get; set; }
+        public virtual string Mail { get; set; }
+        public virtual string Name { get; set; }
+        public virtual string Phone { get; set; }
     }
 }

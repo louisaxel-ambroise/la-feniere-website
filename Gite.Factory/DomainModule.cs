@@ -1,8 +1,8 @@
-﻿using Gite.Model.Services.Calendar;
-using Gite.Model.Services.Contract;
-using Gite.Model.Services.Mailing;
-using Gite.Model.Services.Pricing;
-using Gite.Model.Services.Reservations;
+﻿using Gite.Domain.Services.Calendar;
+using Gite.Domain.Services.Contract;
+using Gite.Domain.Services.Mailing;
+using Gite.Domain.Services.Pricing;
+using Gite.Domain.Services.Reservations;
 using Ninject.Modules;
 
 namespace Gite.Factory
@@ -22,15 +22,13 @@ namespace Gite.Factory
 
         public override void Load()
         {
-            Bind<IWeekCalendar>().To<WeekCalendar>();
             Bind<IContractGenerator>().To<ContractGenerator>().WithConstructorArgument("baseUrl", _baseUrl);
             Bind<IFicheDescriptiveGenerator>().To<FicheDescriptiveGenerator>().WithConstructorArgument("baseUrl", _baseUrl);
             Bind<IMailGenerator>().To<MailGenerator>().WithConstructorArgument("baseUrl", _baseUrl);
             Bind<IMailSender>().To<MailSender>().WithConstructorArgument("from", _from).WithConstructorArgument("password", _password);
             Bind<IPriceCalculator>().To<PriceCalculator>();
-            Bind<IBooker>().To<Booker>();
-            Bind<IReservationCanceller>().To<ReservationCanceller>();
-            Bind<IPaymentManager>().To<PaymentManager>();
+            Bind<IReservationManager>().To<ReservationManager>();
+            Bind<IWeekCalendar>().To<WeekCalendar>();
         }
     }
 }
