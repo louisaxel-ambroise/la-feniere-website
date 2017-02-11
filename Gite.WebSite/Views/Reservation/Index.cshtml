@@ -68,6 +68,8 @@
         }
 
         total += price;
+
+        setHash();
     };
 
     var unselectWeek = function (input, price) {
@@ -91,6 +93,7 @@
 
             total -= price;
         }
+        setHash();
     };
 
     var showWarning = function(text) {
@@ -135,7 +138,7 @@
 
         if (begin != null && end != null) {
             // Display info to user
-            $("#reservationDetails").html("Du " + format(begin) + " au " + format(addDays(end, 7)) + ".<br />Total:<strong> " + total + "€</strong>");
+            $("#reservationDetails").html("Du " + format(begin) + " au " + format(addDays(end, 7)) + ".<br />Total (indicatif):<strong> " + total + "€</strong>");
             $("#validate").click(function () {
                 window.location.href = "/Reservation/CheckIn?f=" + format(begin) + "&l=" + format(end);
             });
@@ -173,9 +176,20 @@
     var currentMonth = new Date().getMonth();
     var currentYear = new Date().getFullYear();
 
+    function setHash() {
+        location.hash = "?date=" + currentYear + "/" + (((currentMonth + 1) < 10) ? '0' + (currentMonth + 1) : currentMonth + 1);
+
+        if (begin != null && end != null) {
+            var weekCount = (Math.round(Math.abs((end.getTime() - begin.getTime()) / (24 * 60 * 60 * 1000))) / 7 + 1);
+            location.hash += "&b=" + format(begin) + "&n=" + weekCount + "&p=" + total;
+        }
+    }
+
     function updateUi() {
         $("#year").html(currentYear);
         $("#month").html(months[currentMonth]);
+
+        setHash();
 
         refreshWeeks();
         return false;
@@ -205,7 +219,33 @@
         updateUi();
     }
 
+    function parseHash() {
+        if (location.hash !== null && location.hash.startsWith("#?date=")) {
+            var hashes = location.hash.split("&")
+            var current = hashes[0].substring(7).split("/");
+            currentYear = parseInt(current[0]);
+            currentMonth = parseInt(current[1]-1);
+
+            if (hashes.length > 1) {
+                var b = parseDate(hashes[1].substring(2));
+                var c = parseInt(hashes[2].substring(2));
+                var p = parseInt(hashes[3].substring(2));
+
+                selectWeek(format(b), p);
+                for (var i = 1; i < c; i++) {
+                    b = addDays(b, 7);
+                    selectWeek(format(b), 0);
+                }
+            }
+        }
+    }
+
     $(document).ready(function () {
+        try {
+            parseHash();
+        } catch (err) {
+            console.log(err);
+        }
         updateUi();
 
         $("#month-prev").click(function (){ updateMonth(-1); });

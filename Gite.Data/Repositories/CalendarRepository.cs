@@ -22,5 +22,10 @@ namespace Gite.Database.Repositories
         {
             return _session.Query<ReservationCalendar>().Where(x => (!x.IsCancelled && x.DisablesOn >= DateTime.UtcNow) || x.AdvancePaymentReceived || x.AdvancePaymentReceived);
         }
+
+        public void Delete(ReservationCalendar week)
+        {
+            _session.Delete(week);
+        }
     }
 }
